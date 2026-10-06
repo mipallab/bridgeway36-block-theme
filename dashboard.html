@@ -1569,14 +1569,34 @@
         left: 0;
         top: 0;
         bottom: 0;
+        height: 100% !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
         transform: translateX(-100%);
         box-shadow: 10px 0 30px rgba(0, 0, 0, 0.18);
         z-index: 1000;
         width: 260px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        background: var(--white) !important;
       }
 
       .app-sidebar.open {
         transform: translateX(0);
+      }
+
+      .sidebar-header {
+        flex-shrink: 0 !important;
+      }
+
+      .sidebar-nav {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 12px 10px !important;
+        gap: 3px !important;
       }
 
       body.sidebar-collapsed .app-sidebar {
@@ -1595,25 +1615,85 @@
         display: inline !important;
       }
 
-      body.sidebar-collapsed .nav-link,
-      .app-sidebar.open .nav-link {
+      body.sidebar-collapsed .sidebar-nav .nav-link,
+      .app-sidebar.open .sidebar-nav .nav-link {
         width: 100% !important;
         justify-content: flex-start !important;
         padding: 10px 14px !important;
         gap: 14px !important;
       }
 
+      /* Mobile 2-Button Bottom Footer for Help & Sign Out */
+      .sidebar-footer,
+      body.sidebar-collapsed .sidebar-footer,
+      .app-sidebar.open .sidebar-footer {
+        flex-shrink: 0 !important;
+        margin-top: auto !important;
+        padding: 10px 12px !important;
+        padding-bottom: max(14px, env(safe-area-inset-bottom)) !important;
+        border-top: 1px solid var(--border-subtle) !important;
+        background: var(--white) !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .sidebar-footer .nav-link,
       body.sidebar-collapsed .sidebar-footer .nav-link,
       .app-sidebar.open .sidebar-footer .nav-link {
         width: 100% !important;
-        justify-content: flex-start !important;
-        padding: 10px 14px !important;
-        gap: 14px !important;
+        height: 42px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 8px 10px !important;
+        gap: 7px !important;
+        border-radius: 9px !important;
+        border: 1px solid #dce6ed !important;
+        background: #f8fafc !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        color: var(--text) !important;
+        box-shadow: 0 1px 3px rgba(11, 58, 99, 0.05) !important;
+        transition: all var(--transition-fast) !important;
+        box-sizing: border-box !important;
       }
 
+      .sidebar-footer .nav-link:hover {
+        background: #eef4f8 !important;
+        border-color: #cbdde8 !important;
+        color: var(--navy) !important;
+      }
+
+      .sidebar-footer .nav-link.sign-out,
+      body.sidebar-collapsed .sidebar-footer .nav-link.sign-out,
+      .app-sidebar.open .sidebar-footer .nav-link.sign-out {
+        background: #fff8f8 !important;
+        border-color: #fbd3d3 !important;
+        color: #dc2626 !important;
+      }
+
+      .sidebar-footer .nav-link.sign-out:hover {
+        background: #fee2e2 !important;
+        border-color: #fca5a5 !important;
+        color: #b91c1c !important;
+      }
+
+      .sidebar-footer .nav-link svg,
+      body.sidebar-collapsed .sidebar-footer .nav-link svg,
+      .app-sidebar.open .sidebar-footer .nav-link svg {
+        width: 16px !important;
+        height: 16px !important;
+        flex-shrink: 0 !important;
+      }
+
+      .sidebar-footer .nav-link span,
       body.sidebar-collapsed .sidebar-footer .nav-link span,
       .app-sidebar.open .sidebar-footer .nav-link span {
         display: inline !important;
+        font-size: 12.5px !important;
+        white-space: nowrap !important;
       }
 
       body.sidebar-collapsed .nav-link::after {
