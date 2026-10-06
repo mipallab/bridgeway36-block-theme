@@ -1,0 +1,4892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eLibrary Dashboard · Bridgeway36</title>
+  <meta name="description"
+    content="Bridgeway36 Digital eLibrary Member Dashboard - Read, discover, and track executive publications and AI frameworks." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & CSS VARIABLES
+       ========================================================================== */
+    :root {
+      --navy: #0b3a63;
+      --navy-dark: #072540;
+      --navy-light: #164e7e;
+      --navy-deep: #051a2d;
+      --gold: #b28a49;
+      --gold-hover: #9c773d;
+      --gold-light: #f6ecdb;
+
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-sidebar: #ffffff;
+      --border-color: #e5edf3;
+      --border-subtle: #f0f4f8;
+
+      --text-main: #132230;
+      --text-muted: #647b8e;
+      --text-light: #8fa4b4;
+
+      --sidebar-width: 250px;
+      --sidebar-collapsed-width: 76px;
+      --header-height: 68px;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-pill: 9999px;
+
+      --shadow-sm: 0 2px 8px rgba(11, 58, 99, 0.04);
+      --shadow-md: 0 6px 18px rgba(11, 58, 99, 0.08);
+      --shadow-lg: 0 16px 36px rgba(11, 58, 99, 0.12);
+
+      --transition: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-smooth: 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+      --transition-fast: 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+      --line: #e2ecf3;
+      --white: #ffffff;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      overflow-x: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       APP LAYOUT (SIDEBAR + MAIN CONTENT)
+       ========================================================================== */
+    .app-sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: width var(--transition-smooth), transform var(--transition-smooth);
+      will-change: width, transform;
+    }
+
+    .sidebar-header {
+      height: var(--header-height);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+      transition: padding var(--transition-smooth);
+    }
+
+    .sidebar-logo {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+      transition: height var(--transition-smooth), margin var(--transition-smooth);
+    }
+
+    .sidebar-brand-text {
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+      transition: opacity 0.2s ease, width var(--transition-smooth);
+    }
+
+    .brand-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.2px;
+      line-height: 1.1;
+    }
+
+    .brand-sub {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Sidebar Navigation Links */
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      transition: padding var(--transition-smooth);
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      background: #f1f6fa;
+      color: var(--navy);
+    }
+
+    .nav-link.active {
+      background: #e9f2f8;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .nav-link svg {
+      width: 19px;
+      height: 19px;
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
+    .sidebar-footer {
+      padding: 16px 12px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: padding var(--transition-smooth);
+    }
+
+    .nav-link.sign-out {
+      color: #e54848;
+    }
+
+    .nav-link.sign-out:hover {
+      background: #fdf2f2;
+      color: #c92a2a;
+    }
+
+    /* Collapsed Sidebar Mode (Desktop & Laptop) */
+    body.sidebar-collapsed .app-sidebar,
+    .app-sidebar.collapsed {
+      width: var(--sidebar-collapsed-width);
+    }
+
+    body.sidebar-collapsed .sidebar-header,
+    .app-sidebar.collapsed .sidebar-header {
+      padding: 0 10px;
+      justify-content: center;
+    }
+
+    body.sidebar-collapsed .sidebar-brand-text,
+    .app-sidebar.collapsed .sidebar-brand-text {
+      display: none !important;
+      opacity: 0;
+      width: 0;
+      pointer-events: none;
+    }
+
+    body.sidebar-collapsed .sidebar-logo,
+    .app-sidebar.collapsed .sidebar-logo {
+      height: 32px;
+      margin: 0 auto;
+    }
+
+    body.sidebar-collapsed .sidebar-nav,
+    .app-sidebar.collapsed .sidebar-nav {
+      padding: 16px 8px;
+      align-items: center;
+    }
+
+    body.sidebar-collapsed .nav-link,
+    .app-sidebar.collapsed .nav-link {
+      width: 48px;
+      height: 44px;
+      justify-content: center;
+      padding: 0;
+      gap: 0;
+      position: relative;
+    }
+
+    body.sidebar-collapsed .nav-link span,
+    .app-sidebar.collapsed .nav-link span {
+      display: none !important;
+    }
+
+    body.sidebar-collapsed .sidebar-footer,
+    .app-sidebar.collapsed .sidebar-footer {
+      padding: 14px 8px;
+      align-items: center;
+    }
+
+    body.sidebar-collapsed .sidebar-footer .nav-link,
+    .app-sidebar.collapsed .sidebar-footer .nav-link {
+      width: 48px;
+      height: 44px;
+      justify-content: center;
+      padding: 0;
+      gap: 0;
+      position: relative;
+    }
+
+    body.sidebar-collapsed .sidebar-footer .nav-link span,
+    .app-sidebar.collapsed .sidebar-footer .nav-link span {
+      display: none !important;
+    }
+
+    /* Tooltip on hover in collapsed mode */
+    body.sidebar-collapsed .nav-link::after,
+    .app-sidebar.collapsed .nav-link::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: calc(100% + 12px);
+      top: 50%;
+      transform: translateY(-50%) translateX(-6px);
+      background: var(--navy-deep);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      z-index: 250;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1), transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.2s;
+    }
+
+    body.sidebar-collapsed .nav-link:hover::after,
+    .app-sidebar.collapsed .nav-link:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    /* Mobile Drawer Backdrop */
+    .sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 37, 64, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 95;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .sidebar-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Main Container */
+    .app-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      min-width: 0;
+      width: 100%;
+      transition: all var(--transition-smooth);
+    }
+
+    /* ==========================================================================
+       TOP APP BAR / HEADER
+       ========================================================================== */
+    .app-header {
+      height: var(--header-height);
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 28px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      gap: 16px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sidebar-toggle-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: var(--border-subtle);
+      border-color: #bcd0e0;
+      color: var(--navy-dark);
+      transform: scale(1.05);
+    }
+
+    .current-page-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      font-family: var(--font-sans);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Header Search Box / Command Trigger */
+    .header-search {
+      position: relative;
+      width: 270px;
+      cursor: pointer;
+    }
+
+    .header-search input {
+      width: 100%;
+      height: 38px;
+      padding: 0 46px 0 36px;
+      background: #f1f5f8;
+      border: 1px solid #e2edf5;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      color: var(--text-main);
+      outline: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: inherit;
+    }
+
+    .header-search:hover input {
+      background: #ffffff;
+      border-color: #bcd0e0;
+      box-shadow: 0 2px 10px rgba(11, 58, 99, 0.08);
+    }
+
+    .header-search svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      color: var(--text-light);
+      pointer-events: none;
+    }
+
+    .search-kbd-hint {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #7b94a6;
+      background: #ffffff;
+      border: 1px solid #d8e5ef;
+      border-radius: 4px;
+      padding: 2px 6px;
+      line-height: 1;
+      pointer-events: none;
+      transition: all var(--transition);
+    }
+
+    .header-search:hover .search-kbd-hint {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    /* Streak Pill */
+    .streak-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fcf4e6;
+      color: #9c6c19;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12.5px;
+      font-weight: 700;
+      border: 1px solid #fae5be;
+      cursor: pointer;
+      transition: transform var(--transition);
+    }
+
+    .streak-badge:hover {
+      transform: scale(1.03);
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      position: relative;
+      transition: all var(--transition);
+    }
+
+    .icon-btn:hover {
+      background: #f1f5f8;
+      color: var(--navy);
+    }
+
+    .notif-dot {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      background: #e54848;
+      border-radius: 50%;
+      border: 2px solid var(--bg-card);
+    }
+
+    .user-avatar-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--gold) 100%);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--bg-card);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       DASHBOARD CONTENT AREA
+       ========================================================================== */
+    .dashboard-body {
+      padding: 24px 28px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 1560px;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       HERO FEATURED BOOK BANNER (Screenshot Exact Match)
+       ========================================================================== */
+    .featured-hero-banner {
+      background: linear-gradient(120deg, #092036 0%, #0d3254 50%, #15456f 100%);
+      border-radius: 20px;
+      padding: 32px 38px;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      box-shadow: 0 14px 34px rgba(7, 37, 64, 0.18);
+      margin-bottom: 6px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .featured-hero-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 30%, rgba(178, 138, 73, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 600px;
+      z-index: 2;
+      min-width: 0;
+    }
+
+    .featured-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #174b78;
+      color: #79c5ff;
+      border: 1px solid rgba(121, 197, 255, 0.3);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .featured-badge span {
+      color: #ffcc00;
+    }
+
+    .hero-title {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: clamp(26px, 2.5vw, 36px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .hero-author {
+      font-size: 13.5px;
+      color: #c0d8ea;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #b0c9dd;
+      margin-bottom: 18px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero-read {
+      background: #ffffff;
+      color: var(--navy-dark);
+      padding: 10px 20px;
+      border-radius: 9px;
+      font-size: 13.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--transition-fast);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-hero-read:hover {
+      background: #f0f4f8;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    }
+
+    .btn-hero-learn {
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 9px;
+      transition: background var(--transition-fast);
+    }
+
+    .btn-hero-learn:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Hero Book Cover 3D Card */
+    .hero-cover-preview {
+      z-index: 2;
+      flex-shrink: 0;
+      width: 140px;
+      height: 185px;
+      border-radius: 12px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      transform: rotate(3deg);
+      transition: transform var(--transition-smooth);
+      background: #0d2842;
+    }
+
+    .hero-cover-preview:hover {
+      transform: rotate(0deg) scale(1.04);
+    }
+
+    .hero-cover-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ==========================================================================
+       CATEGORY FILTER PILLS (Screenshot Match)
+       ========================================================================== */
+    .category-pills-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      max-width: 100%;
+      width: 100%;
+      min-width: 0;
+      padding: 6px 2px 14px;
+      margin-top: 4px;
+      margin-bottom: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: #ccdbe5 transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .category-pills-wrap::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .category-pills-wrap::-webkit-scrollbar-thumb {
+      background: #ccdbe5;
+      border-radius: 4px;
+    }
+
+    .dash-pill {
+      white-space: nowrap;
+      padding: 9px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #4b6478;
+      background: var(--white);
+      border: 1.5px solid #d8e5ee;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .dash-pill:hover {
+      background: #eef5f9;
+      color: var(--navy);
+      border-color: #bcd0de;
+    }
+
+    .dash-pill.active {
+      background: var(--navy);
+      color: #ffffff;
+      font-weight: 700;
+      border-color: var(--navy);
+      box-shadow: 0 4px 14px rgba(11, 58, 99, 0.2);
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT: "EXPLORE LIBRARY"
+       ========================================================================== */
+    .catalog-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+      width: 100%;
+      min-width: 0;
+    }
+
+    .catalog-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.3px;
+    }
+
+    .catalog-counter {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+      background: #f0f5f8;
+      padding: 5px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #dce8ef;
+    }
+
+    /* Books Grid - Seamless Responsive Columns With Zero Horizontal Scroll */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 22px 18px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    @media (max-width: 540px) {
+      .books-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 10px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .books-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+
+    /* Well-Structured, Uniform Book Card */
+    .book-card {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid #e5edf3;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      min-width: 0;
+      box-shadow: 0 4px 16px rgba(11, 58, 99, 0.04);
+      transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+      cursor: pointer;
+      will-change: transform, box-shadow;
+    }
+
+    .book-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 16px 36px rgba(11, 58, 99, 0.12), 0 4px 10px rgba(11, 58, 99, 0.04);
+      border-color: #bad0df;
+    }
+
+    @media (max-width: 780px) {
+      .book-card {
+        padding: 11px;
+        border-radius: 14px;
+      }
+    }
+
+    /* Cover Wrapper with Smooth Hover Zoom and Action Overlay */
+    .card-cover-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: #e9eff4;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 3px 10px rgba(11, 58, 99, 0.06);
+      border: 1px solid rgba(11, 58, 99, 0.06);
+      transition: box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .book-card:hover .card-cover-wrap {
+      box-shadow: 0 8px 24px rgba(11, 58, 99, 0.16);
+    }
+
+    .card-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    .book-card:hover .card-cover-img {
+      transform: scale(1.05);
+    }
+
+    /* Bookmark Top-Right Toggle */
+    .bookmark-btn {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6a8294;
+      z-index: 5;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, color 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .bookmark-btn:hover,
+    .bookmark-btn.saved {
+      color: var(--gold);
+      background: #ffffff;
+      transform: scale(1.14);
+    }
+
+    /* Hover Overlay with Read & Download Buttons */
+    .cover-hover-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(7, 37, 64, 0.72);
+      backdrop-filter: blur(3px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 4;
+      padding: 16px;
+    }
+
+    .book-card:hover .cover-hover-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .overlay-btn {
+      width: 124px;
+      padding: 9px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 12.5px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      transform: translateY(8px);
+      opacity: 0.92;
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .book-card:hover .overlay-btn {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .overlay-btn-read {
+      background: #ffffff;
+      color: var(--navy-dark);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .overlay-btn-read:hover {
+      background: var(--gold);
+      color: #ffffff;
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 6px 16px rgba(178, 138, 73, 0.4);
+    }
+
+    .overlay-btn-download {
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .overlay-btn-download:hover {
+      background: rgba(255, 255, 255, 0.38);
+      transform: translateY(-2px) scale(1.04);
+    }
+
+    /* Card Info Area - Uniform Across All Cards */
+    .card-info {
+      padding: 2px 2px 2px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .card-cat {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #55758f;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+      display: block;
+      margin-bottom: 3px;
+      transition: color 0.25s ease;
+    }
+
+    .book-card:hover .card-title {
+      color: var(--gold-hover);
+    }
+
+    .card-author {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .card-action-footer {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px dashed #e4ecf2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .card-read-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.25s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .book-card:hover .card-read-link {
+      color: var(--gold);
+      transform: translateX(4px);
+    }
+
+    .card-quick-dl {
+      color: #7b94a6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .card-quick-dl:hover {
+      color: var(--navy);
+      background: #eef4f8;
+      transform: scale(1.08);
+    }
+
+    /* Canvas Cover Fallback */
+    .card-cover-canvas {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px 18px;
+      color: #ffffff;
+    }
+
+    .canvas-bg-1 {
+      background: linear-gradient(135deg, #09203f 0%, #537895 100%);
+    }
+
+    .canvas-bg-2 {
+      background: radial-gradient(circle at 80% 20%, #7f53ac 0%, #647dee 100%);
+    }
+
+    .canvas-bg-3 {
+      background: linear-gradient(135deg, #1f2421 0%, #216869 100%);
+    }
+
+    .canvas-bg-4 {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    }
+
+    /* ==========================================================================
+       READER MODAL (Interactive Reading Experience)
+       ========================================================================== */
+    .reader-modal {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      z-index: 5000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .reader-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .reader-header {
+      height: 60px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: #fdfdfd;
+    }
+
+    .reader-title-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reader-book-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .reader-close-btn {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      padding: 6px 14px;
+      border-radius: 6px;
+      background: var(--border-subtle);
+    }
+
+    .reader-close-btn:hover {
+      background: #e2ecf3;
+    }
+
+    .reader-content-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 60px 24px;
+      max-width: 780px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-size: 17px;
+      color: #243544;
+    }
+
+    .reader-content-body h1 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 34px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .reader-content-body h2 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 24px;
+      color: var(--navy);
+      margin: 32px 0 16px;
+    }
+
+    .reader-content-body p {
+      margin-bottom: 20px;
+    }
+
+    /* Toast */
+    .dash-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--navy-deep);
+      color: #ffffff;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      border-left: 4px solid var(--gold);
+      z-index: 9999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .dash-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ==========================================================================
+       SPOTLIGHT SEARCH MODAL (Command Palette Matching Reference Image)
+       ========================================================================== */
+    .spotlight-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 32, 54, 0.62);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 6000;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 60px 16px 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .spotlight-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .spotlight-dialog {
+      background: #ffffff;
+      width: 100%;
+      max-width: 580px;
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(11, 42, 69, 0.25), 0 4px 16px rgba(11, 42, 69, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      transform: scale(0.96) translateY(-10px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .spotlight-overlay.active .spotlight-dialog {
+      transform: scale(1) translateY(0);
+    }
+
+    .spotlight-search-bar {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      gap: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      background: #ffffff;
+      position: relative;
+    }
+
+    .spotlight-search-icon {
+      width: 20px;
+      height: 20px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .spotlight-search-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .spotlight-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 15.5px;
+      font-weight: 500;
+      color: #0f172a;
+      background: transparent;
+      font-family: inherit;
+    }
+
+    .spotlight-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .spotlight-close-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      background: transparent;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      flex-shrink: 0;
+    }
+
+    .spotlight-close-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .spotlight-section-label {
+      padding: 14px 22px 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.2px;
+      font-family: inherit;
+    }
+
+    .spotlight-results {
+      padding: 4px 10px 12px;
+      overflow-y: auto;
+      max-height: 380px;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 transparent;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .spotlight-results::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .spotlight-results::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .spotlight-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      user-select: none;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .spotlight-item:hover,
+    .spotlight-item.active {
+      background: #f1f5f9;
+      border-color: #e2e8f0;
+    }
+
+    .spotlight-thumb {
+      width: 58px;
+      height: 38px;
+      border-radius: 7px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 9px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+      background-color: #171d2b;
+    }
+
+    .spotlight-thumb.theme-brown {
+      background-color: #2b1c15;
+    }
+
+    .spotlight-thumb.theme-navy {
+      background-color: #0f1c2d;
+    }
+
+    .spotlight-thumb.theme-slate {
+      background-color: #18202c;
+    }
+
+    .spotlight-thumb.theme-dark {
+      background-color: #161a22;
+    }
+
+    /* Red/Coral diagonal stripes matching reference screenshot */
+    .spotlight-thumb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        transparent 36%,
+        rgba(225, 29, 72, 0.9) 39%,
+        rgba(225, 29, 72, 0.9) 47%,
+        transparent 50%,
+        rgba(225, 29, 72, 0.9) 53%,
+        rgba(225, 29, 72, 0.9) 61%,
+        transparent 64%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Subtle fine horizontal scanline overlay */
+    .spotlight-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.05) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .spotlight-thumb-code {
+      position: relative;
+      z-index: 3;
+      font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.2px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+      line-height: 1;
+    }
+
+    .spotlight-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+      gap: 2px;
+    }
+
+    .spotlight-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .spotlight-item:hover .spotlight-title,
+    .spotlight-item.active .spotlight-title {
+      color: var(--navy);
+    }
+
+    .spotlight-meta {
+      font-size: 12.5px;
+      color: #64748b;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .spotlight-action-hint {
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      flex-shrink: 0;
+    }
+
+    .spotlight-item:hover .spotlight-action-hint,
+    .spotlight-item.active .spotlight-action-hint {
+      opacity: 1;
+    }
+
+    .spotlight-enter-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .spotlight-empty-state {
+      padding: 32px 18px;
+      text-align: center;
+      color: #64748b;
+      font-size: 13.5px;
+    }
+
+    .spotlight-empty-state h4 {
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .spotlight-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 22px;
+      border-top: 1px solid #f1f5f9;
+      background: #fafbfc;
+      font-size: 12px;
+      color: #94a3b8;
+      font-family: inherit;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .spotlight-hint-keys {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .spotlight-hint-keys .hint-sep {
+      color: #cbd5e1;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .spotlight-overlay {
+        padding: 16px 12px;
+      }
+      .spotlight-dialog {
+        border-radius: 16px;
+      }
+      .spotlight-search-bar {
+        padding: 12px 14px;
+      }
+      .spotlight-input {
+        font-size: 14px;
+      }
+      .spotlight-results {
+        max-height: 52vh;
+        padding: 4px 8px 10px;
+      }
+      .spotlight-item {
+        padding: 8px 10px;
+        gap: 10px;
+      }
+      .spotlight-thumb {
+        width: 48px;
+        height: 34px;
+      }
+      .spotlight-footer {
+        padding: 10px 14px;
+        font-size: 11px;
+      }
+    }
+
+    @media (max-height: 500px) {
+      .spotlight-overlay {
+        padding: 10px 12px;
+      }
+      .spotlight-dialog {
+        max-height: 94vh;
+      }
+      .spotlight-results {
+        max-height: calc(94vh - 110px);
+      }
+    }
+
+    /* Mobile Responsive Rules */
+    @media (max-width: 900px) {
+      .app-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.18);
+        z-index: 1000;
+        width: 260px !important;
+      }
+
+      .app-sidebar.open {
+        transform: translateX(0);
+      }
+
+      body.sidebar-collapsed .app-sidebar {
+        width: 260px !important;
+      }
+
+      body.sidebar-collapsed .sidebar-brand-text,
+      .app-sidebar.open .sidebar-brand-text {
+        display: flex !important;
+        opacity: 1 !important;
+        width: auto !important;
+      }
+
+      body.sidebar-collapsed .nav-link span,
+      .app-sidebar.open .nav-link span {
+        display: inline !important;
+      }
+
+      body.sidebar-collapsed .nav-link,
+      .app-sidebar.open .nav-link {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        padding: 10px 14px !important;
+        gap: 14px !important;
+      }
+
+      body.sidebar-collapsed .sidebar-footer .nav-link,
+      .app-sidebar.open .sidebar-footer .nav-link {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        padding: 10px 14px !important;
+        gap: 14px !important;
+      }
+
+      body.sidebar-collapsed .sidebar-footer .nav-link span,
+      .app-sidebar.open .sidebar-footer .nav-link span {
+        display: inline !important;
+      }
+
+      body.sidebar-collapsed .nav-link::after {
+        display: none !important;
+      }
+
+      .header-search {
+        width: 180px;
+      }
+    }
+
+    /* Floating Action Button (FAB) Search for <= 768px */
+    .mobile-search-fab {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #ffffff;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 24px rgba(11, 58, 99, 0.35), 0 2px 8px rgba(0, 0, 0, 0.12);
+      z-index: 95;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-search-fab:hover {
+      background: var(--navy-dark);
+      transform: scale(1.08);
+      box-shadow: 0 12px 28px rgba(11, 58, 99, 0.45);
+    }
+
+    .mobile-search-fab:active {
+      transform: scale(0.95);
+    }
+
+    .mobile-search-fab svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    @media (max-width: 768px) {
+      .header-search {
+        display: none !important;
+      }
+
+      .mobile-search-fab {
+        display: flex;
+      }
+
+      .featured-hero-banner {
+        padding: 24px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .featured-book-visual {
+        align-self: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .app-header {
+        padding: 10px 14px;
+        gap: 8px;
+      }
+
+      .dashboard-body {
+        padding: 16px 12px 36px;
+        gap: 18px;
+      }
+
+      .streak-badge span:last-child {
+        display: none;
+      }
+
+      .streak-badge {
+        padding: 6px 10px;
+      }
+
+      .card-info {
+        padding: 4px 2px 2px;
+      }
+
+      .card-title {
+        font-size: 14px;
+      }
+
+      .reader-header {
+        padding: 0 14px;
+        height: 52px;
+      }
+
+      .reader-book-name {
+        font-size: 13.5px;
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .reader-close-btn {
+        padding: 5px 10px;
+        font-size: 12.5px;
+      }
+
+      .reader-content-body {
+        padding: 28px 16px;
+        font-size: 15px;
+      }
+
+      .reader-content-body h1 {
+        font-size: 24px;
+      }
+
+      .reader-content-body h2 {
+        font-size: 19px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .app-header {
+        padding: 8px 10px;
+        gap: 6px;
+      }
+      .current-page-title {
+        font-size: 16px;
+      }
+      .header-right {
+        gap: 6px;
+      }
+      .user-avatar-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+      }
+      .icon-btn {
+        width: 32px;
+        height: 32px;
+      }
+      .streak-badge {
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+    }
+
+    /* ==========================================================================
+       TAB VIEWS ARCHITECTURE & THEME STYLES
+       ========================================================================== */
+    .dashboard-tab-view {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      width: 100%;
+      min-width: 0;
+      animation: tabFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes tabFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Common Tab View Header */
+    .view-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 2px;
+    }
+
+    .view-eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      color: var(--navy-light);
+      text-transform: uppercase;
+    }
+
+    .view-title {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: clamp(28px, 3.2vw, 38px);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.4px;
+      line-height: 1.15;
+    }
+
+    .view-desc {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      font-weight: 400;
+      line-height: 1.55;
+      max-width: 680px;
+    }
+
+    .view-section-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.2px;
+      margin-bottom: 14px;
+    }
+
+    /* ==========================================================================
+       1. COLLECTIONS TAB STYLES (Screenshot Exact Match)
+       ========================================================================== */
+    .smart-shelves-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+    }
+
+    @media (max-width: 960px) {
+      .smart-shelves-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .smart-shelves-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .shelf-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(11, 58, 99, 0.04);
+      transition: all var(--transition-smooth);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .shelf-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(11, 58, 99, 0.09);
+      border-color: #bad0df;
+    }
+
+    .shelf-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #eef5fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      margin-bottom: 12px;
+      transition: transform var(--transition-fast), background var(--transition-fast);
+    }
+
+    .shelf-card:hover .shelf-icon-wrap {
+      background: #e1edf5;
+      transform: scale(1.06);
+    }
+
+    .shelf-card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.2px;
+    }
+
+    .shelf-card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .shelf-card-counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy-light);
+      margin-top: 14px;
+    }
+
+    .custom-shelves-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+      padding-top: 10px;
+    }
+
+    .btn-create-shelf {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      color: var(--navy);
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-create-shelf:hover {
+      background: var(--navy);
+      color: #ffffff;
+      border-color: var(--navy);
+    }
+
+    /* Shelf Detail Modal */
+    .shelf-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 37, 64, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 5500;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .shelf-modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .shelf-modal-dialog {
+      background: #ffffff;
+      border-radius: 18px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 24px 60px rgba(11, 58, 99, 0.22);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .shelf-modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fbfcfe;
+    }
+
+    .shelf-modal-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .shelf-modal-body {
+      padding: 22px 24px;
+      max-height: 60vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .shelf-book-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      transition: all var(--transition-fast);
+    }
+
+    .shelf-book-item:hover {
+      background: #ffffff;
+      border-color: #bad0df;
+      box-shadow: 0 4px 12px rgba(11, 58, 99, 0.05);
+    }
+
+    .shelf-book-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shelf-book-thumb {
+      width: 36px;
+      height: 48px;
+      border-radius: 4px;
+      object-fit: cover;
+      background: #0e2942;
+    }
+
+    .shelf-book-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+
+    .shelf-book-author {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       2. MEMBERSHIP TAB STYLES (Screenshot Exact Match)
+       ========================================================================== */
+    .membership-hero {
+      text-align: center;
+      margin: 10px auto 28px;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .membership-hero .view-title {
+      font-size: clamp(30px, 3.5vw, 40px);
+    }
+
+    .sub-status-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 26px 32px;
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto 34px;
+      box-shadow: 0 4px 18px rgba(11, 58, 99, 0.05);
+      text-align: left;
+    }
+
+    .sub-status-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .sub-status-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+    }
+
+    .status-badge.inactive {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
+    }
+
+    .status-badge.active {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .sub-status-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 4px;
+    }
+
+    .sub-status-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Pricing 3-Columns Grid */
+    .membership-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1040px;
+      width: 100%;
+      margin: 0 auto 20px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 880px) {
+      .membership-pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 460px;
+      }
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 34px 26px 28px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 16px rgba(11, 58, 99, 0.04);
+      position: relative;
+      transition: all var(--transition-smooth);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 36px rgba(11, 58, 99, 0.1);
+      border-color: #bad0df;
+    }
+
+    .pricing-card.featured {
+      border: 2px solid var(--navy);
+      box-shadow: 0 12px 34px rgba(11, 58, 99, 0.12);
+    }
+
+    .best-value-pill {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--navy);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      padding: 5px 16px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 4px 12px rgba(11, 58, 99, 0.25);
+      white-space: nowrap;
+    }
+
+    .pricing-tier-tag {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .pricing-plan-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      letter-spacing: -0.2px;
+    }
+
+    .pricing-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .pricing-price-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      letter-spacing: -0.5px;
+    }
+
+    .pricing-price-unit {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .pricing-features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex: 1;
+    }
+
+    .pricing-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+      color: #33485c;
+      line-height: 1.45;
+    }
+
+    .pricing-feature-item svg {
+      width: 17px;
+      height: 17px;
+      color: var(--navy);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pricing-action-btn {
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-align: center;
+    }
+
+    .pricing-action-btn.btn-outline {
+      border: 1.5px solid var(--border-color);
+      color: var(--navy);
+      background: #ffffff;
+    }
+
+    .pricing-action-btn.btn-outline:hover {
+      background: #f1f6fa;
+      border-color: var(--navy);
+      color: var(--navy-dark);
+    }
+
+    .pricing-action-btn.btn-solid {
+      background: var(--navy);
+      color: #ffffff;
+      border: 1.5px solid var(--navy);
+      box-shadow: 0 4px 14px rgba(11, 58, 99, 0.2);
+    }
+
+    .pricing-action-btn.btn-solid:hover {
+      background: var(--navy-dark);
+      border-color: var(--navy-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(11, 58, 99, 0.28);
+    }
+
+    /* ==========================================================================
+       3. ACHIEVEMENTS TAB STYLES (Screenshot Exact Match)
+       ========================================================================== */
+    .achievements-top-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr;
+      gap: 18px;
+      width: 100%;
+    }
+
+    @media (max-width: 860px) {
+      .achievements-top-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .achieve-streak-card {
+      background: linear-gradient(135deg, #092036 0%, #0d3254 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 6px 20px rgba(7, 37, 64, 0.2);
+      cursor: pointer;
+      transition: transform var(--transition-fast);
+    }
+
+    .achieve-streak-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .streak-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .achieve-metric-val {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+
+    .achieve-metric-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #9ebbd0;
+      margin-top: 4px;
+    }
+
+    .achieve-level-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(11, 58, 99, 0.04);
+    }
+
+    .level-head-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .level-progress-track {
+      background: #eef3f7;
+      height: 8px;
+      border-radius: 999px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .level-progress-fill {
+      background: var(--navy);
+      height: 100%;
+      width: 33.3%;
+      border-radius: 999px;
+      transition: width 0.6s ease;
+    }
+
+    .level-xp-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .achieve-badges-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 4px 14px rgba(11, 58, 99, 0.04);
+    }
+
+    .trophy-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #eef5fa;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    /* This Week Progress Card */
+    .week-progress-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 26px 28px;
+      box-shadow: 0 4px 14px rgba(11, 58, 99, 0.04);
+    }
+
+    .week-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .week-days-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .week-day-box {
+      border-radius: 14px;
+      padding: 26px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #f8fafc;
+      border: 1px solid #edf2f7;
+      color: #7b93a5;
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .week-day-box:hover {
+      background: #edf4fa;
+      border-color: #bad0df;
+    }
+
+    .week-day-name {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .week-day-box.active {
+      background: var(--navy);
+      color: #ffffff;
+      border-color: var(--navy);
+      box-shadow: 0 8px 22px rgba(11, 58, 99, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .week-day-box.active .week-day-name {
+      color: #ffffff;
+    }
+
+    /* Badge Wall Grid */
+    .badge-wall-container {
+      margin-top: 6px;
+    }
+
+    .badge-wall-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .badge-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      box-shadow: 0 3px 12px rgba(11, 58, 99, 0.03);
+      transition: all var(--transition-smooth);
+    }
+
+    .badge-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(11, 58, 99, 0.08);
+    }
+
+    .badge-card.unlocked {
+      border-color: #bad0df;
+      background: #ffffff;
+    }
+
+    .badge-card.locked {
+      opacity: 0.62;
+      background: #fbfcfe;
+    }
+
+    .badge-icon-bubble {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .badge-card.unlocked .badge-icon-bubble {
+      background: #e6f1f8;
+      color: var(--navy);
+    }
+
+    .badge-card.locked .badge-icon-bubble {
+      background: #edf2f6;
+      color: #94a3b8;
+    }
+
+    .badge-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+
+    .badge-card.locked .badge-title {
+      color: #64748b;
+    }
+
+    .badge-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* ==========================================================================
+       4. SETTINGS TAB STYLES (Current Theme & Typography)
+       ========================================================================== */
+    .settings-sections-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      max-width: 900px;
+    }
+
+    .settings-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 26px 30px;
+      box-shadow: 0 4px 16px rgba(11, 58, 99, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .settings-card-header {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .settings-card-title {
+      font-size: 17.5px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.2px;
+    }
+
+    .settings-card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .settings-grid-2col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 640px) {
+      .settings-grid-2col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .settings-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .settings-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .settings-input {
+      height: 42px;
+      padding: 0 14px;
+      background: #ffffff;
+      border: 1.5px solid #d8e5ee;
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: var(--text-main);
+      outline: none;
+      transition: all var(--transition-fast);
+      font-family: inherit;
+    }
+
+    .settings-input:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(11, 58, 99, 0.12);
+    }
+
+    .settings-input:read-only {
+      background: #f8fafc;
+      color: #64748b;
+      cursor: not-allowed;
+    }
+
+    /* Toggle rows */
+    .settings-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .settings-toggle-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .toggle-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toggle-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .toggle-hint {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    /* Toggle Switch */
+    .switch-label {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .switch-label input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #cbd5e1;
+      transition: .24s;
+      border-radius: 999px;
+    }
+
+    .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .24s;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    input:checked + .switch-slider {
+      background-color: var(--navy);
+    }
+
+    input:checked + .switch-slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Theme Option Radio Cards */
+    .theme-cards-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .theme-cards-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .theme-card-btn {
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-align: left;
+    }
+
+    .theme-card-btn:hover {
+      border-color: #bad0df;
+    }
+
+    .theme-card-btn.active {
+      border-color: var(--navy);
+      background: #f1f6fa;
+      box-shadow: 0 4px 12px rgba(11, 58, 99, 0.08);
+    }
+
+    .theme-swatch {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    /* Settings Action Bar */
+    .settings-bottom-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .btn-save-settings {
+      background: var(--navy);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: 0 4px 14px rgba(11, 58, 99, 0.2);
+    }
+
+    .btn-save-settings:hover {
+      background: var(--navy-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-cancel-settings {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-cancel-settings:hover {
+      background: #f8fafc;
+      color: var(--navy);
+    }
+
+    /* ==========================================================================
+       5. DISCOVER & READING JOURNAL VIEWS STYLES
+       ========================================================================== */
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 860px) {
+      .tracks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .track-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(11, 58, 99, 0.04);
+      transition: all var(--transition-smooth);
+      cursor: pointer;
+    }
+
+    .track-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(11, 58, 99, 0.09);
+      border-color: #bad0df;
+    }
+
+    .track-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .track-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .track-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .journal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 4px 14px rgba(11, 58, 99, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .journal-input-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .journal-textarea {
+      width: 100%;
+      height: 100px;
+      padding: 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text-main);
+      outline: none;
+      resize: vertical;
+      transition: border-color var(--transition-fast);
+    }
+
+    .journal-textarea:focus {
+      border-color: var(--navy);
+    }
+
+    .journal-entries-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .journal-entry-item {
+      background: #f8fafc;
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--gold);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .journal-entry-source {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .journal-entry-quote {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 15px;
+      font-style: italic;
+      color: #243b50;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+  <!-- ==========================================================================
+       SIDEBAR NAVIGATION (Exact match to screenshot)
+       ========================================================================== -->
+  <aside class="app-sidebar" id="appSidebar">
+    <!-- Header Logo -->
+    <div class="sidebar-header">
+      <a href="index.html" style="display:flex; align-items:center; gap:10px;">
+        <img src="assets/images/Bridgeway36_eLibrary_Logo.png" alt="Bridgeway36" class="sidebar-logo" />
+        <div class="sidebar-brand-text">
+          <span class="brand-title">Bridgeway36</span>
+          <span class="brand-sub">DIGITAL LIBRARY</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Nav List -->
+    <nav class="sidebar-nav">
+      <!-- 1. Library -->
+      <a href="javascript:void(0)" class="nav-link active" data-tooltip="Library"
+        onclick="switchNavTab('Library', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span>Library</span>
+      </a>
+
+      <!-- 2. Discover -->
+      <a href="javascript:void(0)" class="nav-link" data-tooltip="Discover" onclick="switchNavTab('Discover', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+        </svg>
+        <span>Discover</span>
+      </a>
+
+      <!-- 3. Reading Journal -->
+      <a href="javascript:void(0)" class="nav-link" data-tooltip="Reading Journal"
+        onclick="switchNavTab('Reading Journal', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+        <span>Reading Journal</span>
+      </a>
+
+      <!-- 4. Collections -->
+      <a href="javascript:void(0)" class="nav-link" data-tooltip="Collections"
+        onclick="switchNavTab('Collections', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Collections</span>
+      </a>
+
+      <!-- 5. Membership -->
+      <a href="javascript:void(0)" class="nav-link" data-tooltip="Membership"
+        onclick="switchNavTab('Membership', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"></path>
+        </svg>
+        <span>Membership</span>
+      </a>
+
+      <!-- 6. Achievements -->
+      <a href="javascript:void(0)" class="nav-link" data-tooltip="Achievements"
+        onclick="switchNavTab('Achievements', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+          <path d="M4 22h16"></path>
+          <path d="M10 14.66V17c0 .55-.45 1-1 1H7"></path>
+          <path d="M14 14.66V17c0 .55.45 1 1 1h2"></path>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path>
+        </svg>
+        <span>Achievements</span>
+      </a>
+
+      <!-- 7. Settings -->
+      <a href="javascript:void(0)" class="nav-link" data-tooltip="Settings" onclick="switchNavTab('Settings', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+          </path>
+        </svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Bottom -->
+    <div class="sidebar-footer">
+      <a href="contact.html" class="nav-link" data-tooltip="Help">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <span>Help</span>
+      </a>
+      <a href="login.html" class="nav-link sign-out" data-tooltip="Sign Out" onclick="handleSignOut(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        <span>Sign Out</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       MAIN VIEW
+       ========================================================================== -->
+  <div class="app-main">
+
+    <!-- Top App Bar -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Sidebar"
+          title="Collapse / Expand Sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <h1 class="current-page-title" id="pageTitleText">Library</h1>
+      </div>
+
+      <div class="header-right">
+        <!-- Search Input / Command Palette Trigger -->
+        <div class="header-search" onclick="openSpotlightModal()" role="button" tabindex="0" aria-label="Open search palette" title="Search publications (Ctrl + K)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" placeholder="Search publications..." readonly onclick="openSpotlightModal()" />
+          <span class="search-kbd-hint">⌘K</span>
+        </div>
+
+        <!-- 1 Day Streak Badge (Screenshot Match) -->
+        <div class="streak-badge"
+          onclick="switchNavTab('Achievements', document.querySelector('.nav-link[data-tooltip=\'Achievements\']'))"
+          title="View your reading achievements and streak">
+          <span>🔥</span>
+          <span>1 day streak</span>
+        </div>
+
+        <!-- Notification Bell -->
+        <button class="icon-btn" onclick="showToast('🔔 You have 2 new executive whitepapers ready in your library!')"
+          aria-label="Notifications">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="notif-dot"></span>
+        </button>
+
+        <!-- User Profile Avatar -->
+        <div class="user-avatar-btn" onclick="switchNavTab('Settings', document.querySelector('.nav-link[data-tooltip=\'Settings\']'))"
+          title="Sarah Jenkins - Settings & Preferences">
+          SJ
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Main Body -->
+    <div class="dashboard-body">
+
+      <!-- ====================================================================
+           TAB VIEW 1: LIBRARY (Original Dashboard View)
+           ==================================================================== -->
+      <div class="dashboard-tab-view" id="view-library">
+        <!-- 1. Featured Book Hero Banner (Screenshot Match) -->
+        <section class="featured-hero-banner" id="featuredHero">
+          <div class="hero-content">
+            <div class="featured-badge">
+              <span>★</span> FEATURED BOOK
+            </div>
+            <h2 class="hero-title">The AI Job Shift</h2>
+            <div class="hero-author">
+              <span>⚡</span> by Bridgeway36 Research &amp; Leadership
+            </div>
+            <p class="hero-desc">
+              A definitive playbook for professionals navigating AI disruption. Learn how to reframe established domain
+              experience into high-leverage AI-supported careers without losing your voice.
+            </p>
+            <div class="hero-actions">
+              <button class="btn-hero-read"
+                onclick="openReaderModal('The AI Job Shift', 'assets/book cover/AI Shift ebook Cover.webp')">
+                <span>📖</span>
+                <span>Read Now</span>
+              </button>
+              <button class="btn-hero-learn" onclick="showToast('Loading executive summary & chapter outline...')">
+                <span>🔖</span>
+                <span>Learn More</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-cover-preview">
+            <img src="assets/book cover/AI Shift ebook Cover.webp" alt="The AI Job Shift Cover" />
+          </div>
+        </section>
+
+        <!-- 2. Category Filter Pills (Screenshot Match) -->
+        <div class="category-pills-wrap" id="dashCatPills">
+          <button class="dash-pill active" onclick="filterDashCategory('All Library', this)">All Library</button>
+          <button class="dash-pill" onclick="filterDashCategory('Ancient History & Civilizations', this)">Ancient History
+            &amp; Civilizations</button>
+          <button class="dash-pill" onclick="filterDashCategory('Architecture & Design', this)">Architecture &amp;
+            Design</button>
+          <button class="dash-pill" onclick="filterDashCategory('Artificial Intelligence & Data', this)">Artificial
+            Intelligence &amp; Data</button>
+          <button class="dash-pill" onclick="filterDashCategory('Computer Science & Engineering', this)">Computer Science
+            &amp; Engineering</button>
+          <button class="dash-pill" onclick="filterDashCategory('Philosophy & Creative Arts', this)">Philosophy &amp;
+            Creative Arts</button>
+        </div>
+
+        <!-- 3. Explore Library Heading + Counter -->
+        <div class="catalog-section-head">
+          <h2 class="catalog-title">Explore Library</h2>
+          <span class="catalog-counter" id="dashCounterText">14 titles available</span>
+        </div>
+
+        <!-- 4. Books Grid with Read & Download Overlays -->
+        <div class="books-grid" id="dashBooksGrid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           TAB VIEW 2: DISCOVER
+           ==================================================================== -->
+      <div class="dashboard-tab-view" id="view-discover" style="display:none;">
+        <div class="view-header">
+          <span class="view-eyebrow">CURATED DISCOVERY</span>
+          <h2 class="view-title">Discover</h2>
+          <p class="view-desc">Explore emerging AI research, recommended executive pathways, and deep-dive manuscripts.</p>
+        </div>
+
+        <h3 class="view-section-title">Recommended Executive Pathways</h3>
+        <div class="tracks-grid">
+          <div class="track-card" onclick="openReaderModal('The AI Job Shift', 'assets/book cover/AI Shift ebook Cover.webp')">
+            <span class="track-badge">Pathway 01</span>
+            <h4 class="track-title">Generative AI in Strategy &amp; Governance</h4>
+            <p class="track-desc">Guiding organizational leadership through algorithmic transformation, risk matrices, and cultural change.</p>
+            <span style="font-size:12.5px; font-weight:700; color:var(--navy); margin-top:auto;">Explore 4 manuscripts →</span>
+          </div>
+
+          <div class="track-card" onclick="openReaderModal('Python for Developers', 'assets/book cover/python.webp')">
+            <span class="track-badge">Pathway 02</span>
+            <h4 class="track-title">Engineering Foundations &amp; Python ML</h4>
+            <p class="track-desc">From data pipelines to neural weights: core architectures for technical leaders and systems architects.</p>
+            <span style="font-size:12.5px; font-weight:700; color:var(--navy); margin-top:auto;">Explore 5 manuscripts →</span>
+          </div>
+
+          <div class="track-card" onclick="openReaderModal('The Classical Heritage', 'assets/book cover/ancient.webp')">
+            <span class="track-badge">Pathway 03</span>
+            <h4 class="track-title">Humanities, Wisdom &amp; Technological Ethics</h4>
+            <p class="track-desc">Timeless frameworks of philosophy, rhetoric, and ethics to balance technological acceleration.</p>
+            <span style="font-size:12.5px; font-weight:700; color:var(--navy); margin-top:auto;">Explore 5 manuscripts →</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           TAB VIEW 3: READING JOURNAL
+           ==================================================================== -->
+      <div class="dashboard-tab-view" id="view-reading-journal" style="display:none;">
+        <div class="view-header">
+          <span class="view-eyebrow">PERSONAL REFLECTIONS</span>
+          <h2 class="view-title">Reading Journal</h2>
+          <p class="view-desc">Your private repository for margin notes, executive highlights, and chapter syntheses.</p>
+        </div>
+
+        <div class="journal-box">
+          <h3 class="view-section-title" style="margin-bottom:0;">Capture Reflection</h3>
+          <div class="journal-input-wrap">
+            <textarea class="journal-textarea" id="journalInput" placeholder="Record a thought, saved quote, or strategic implication..."></textarea>
+            <div style="display:flex; justify-content:flex-end;">
+              <button class="btn-create-shelf" style="background:var(--navy); color:#fff; border-color:var(--navy);" onclick="addNewJournalEntry()">
+                <span>+</span>
+                <span>Save Note</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="view-section-title">Saved Notes &amp; Highlights</h3>
+          <div class="journal-entries-list" id="journalEntriesList">
+            <div class="journal-entry-item">
+              <div class="journal-entry-source">
+                <span>📖 The AI Job Shift · Chapter 1</span>
+                <span style="color:var(--text-light); font-weight:400;">Saved today</span>
+              </div>
+              <p class="journal-entry-quote">
+                "Those who thrive in the next decade will not be programmers who became prompt writers, but domain experts who learned how to conduct algorithmic intelligence like an orchestra."
+              </p>
+            </div>
+
+            <div class="journal-entry-item">
+              <div class="journal-entry-source">
+                <span>📖 Cognitive Labor &amp; Strategic Value</span>
+                <span style="color:var(--text-light); font-weight:400;">Saved yesterday</span>
+              </div>
+              <p class="journal-entry-quote">
+                "An LLM possesses infinite fluency but zero accountability. It cannot stand before a board of directors, calm an anxious frontline team, or sense organizational politics."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           TAB VIEW 4: COLLECTIONS (Screenshot Exact Match)
+           ==================================================================== -->
+      <div class="dashboard-tab-view" id="view-collections" style="display:none;">
+        <div class="view-header">
+          <span class="view-eyebrow">YOUR SHELVES</span>
+          <h2 class="view-title">Collections</h2>
+          <p class="view-desc">Organize your library into shelves — group by mood, topic, or project.</p>
+        </div>
+
+        <div>
+          <h3 class="view-section-title">Smart Shelves</h3>
+          <div class="smart-shelves-grid">
+            <!-- Currently Reading -->
+            <div class="shelf-card" onclick="openShelfModal('Currently Reading')">
+              <div class="shelf-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+              <h4 class="shelf-card-title">Currently Reading</h4>
+              <p class="shelf-card-desc">Books you've started but not finished</p>
+              <div class="shelf-card-counter" id="shelfCountReading">0 books</div>
+            </div>
+
+            <!-- Favorites Shelves -->
+            <div class="shelf-card" onclick="openShelfModal('Favorites Shelves')">
+              <div class="shelf-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+                </svg>
+              </div>
+              <h4 class="shelf-card-title">Favorites Shelves</h4>
+              <p class="shelf-card-desc">Your bookmarked and starred books</p>
+              <div class="shelf-card-counter" id="shelfCountFavorites">0 books</div>
+            </div>
+
+            <!-- Journal Logs -->
+            <div class="shelf-card" onclick="openShelfModal('Journal Logs')">
+              <div class="shelf-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </div>
+              <h4 class="shelf-card-title">Journal Logs</h4>
+              <p class="shelf-card-desc">Reflections and saved quotes</p>
+              <div class="shelf-card-counter" id="shelfCountLogs">0 logs</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Curated Topic Shelves -->
+        <div>
+          <div class="custom-shelves-header">
+            <h3 class="view-section-title" style="margin-bottom:0;">Curated Topic Shelves</h3>
+            <button class="btn-create-shelf" onclick="createNewShelfPrompt()">
+              <span>+</span>
+              <span>Create New Shelf</span>
+            </button>
+          </div>
+          <div class="smart-shelves-grid" id="customShelvesGrid" style="margin-top:16px;">
+            <div class="shelf-card" onclick="openShelfModal('AI Strategy & Leadership')">
+              <div class="shelf-icon-wrap" style="color:var(--gold);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                  <path d="M2 17l10 5 10-5"></path>
+                  <path d="M2 12l10 5 10-5"></path>
+                </svg>
+              </div>
+              <h4 class="shelf-card-title">AI Strategy &amp; Leadership</h4>
+              <p class="shelf-card-desc">Executive playbooks for navigating machine disruption</p>
+              <div class="shelf-card-counter">3 books</div>
+            </div>
+
+            <div class="shelf-card" onclick="openShelfModal('System Engineering & Data')">
+              <div class="shelf-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <h4 class="shelf-card-title">System Engineering &amp; Data</h4>
+              <p class="shelf-card-desc">Core technical foundations, Python pipelines &amp; Cloud ML</p>
+              <div class="shelf-card-counter">2 books</div>
+            </div>
+
+            <div class="shelf-card" onclick="openShelfModal('Philosophy & Creative Arts')">
+              <div class="shelf-icon-wrap" style="color:var(--gold);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 16v-4"></path>
+                  <path d="M12 8h.01"></path>
+                </svg>
+              </div>
+              <h4 class="shelf-card-title">Philosophy &amp; Creative Arts</h4>
+              <p class="shelf-card-desc">The enduring human advantage in algorithmic cultures</p>
+              <div class="shelf-card-counter">2 books</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           TAB VIEW 5: MEMBERSHIP (Screenshot Exact Match)
+           ==================================================================== -->
+      <div class="dashboard-tab-view" id="view-membership" style="display:none;">
+        <div class="membership-hero">
+          <h2 class="view-title">Choose Your Journey</h2>
+          <p class="view-desc">Unlock the full potential of the Bridgeway36 Digital Library. Access unlimited curated publications.</p>
+        </div>
+
+        <!-- Subscription Status Card -->
+        <div class="sub-status-card">
+          <div class="sub-status-head">
+            <span class="sub-status-label">Your Subscription Status</span>
+            <span class="status-badge inactive" id="subStatusBadge">
+              <span>●</span>
+              <span id="subStatusBadgeText">INACTIVE</span>
+            </span>
+          </div>
+          <h3 class="sub-status-title" id="subStatusTitle">No Active Membership Plan</h3>
+          <p class="sub-status-desc" id="subStatusDesc">Join a plan to unlock all manuscripts and flipbook read features.</p>
+        </div>
+
+        <!-- 3 Pricing Tier Cards (Screenshot Exact Match) -->
+        <div class="membership-pricing-grid">
+          <!-- Card 1: THE READER -->
+          <div class="pricing-card">
+            <span class="pricing-tier-tag">THE READER</span>
+            <h3 class="pricing-plan-title">Monthly Access</h3>
+            <div class="pricing-price-wrap">
+              <span class="pricing-price-num">$9.99</span>
+              <span class="pricing-price-unit">/month</span>
+            </div>
+            <ul class="pricing-features-list">
+              <li class="pricing-feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Unlimited digital reading</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Real-time reading journal logs</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Saves streaks &amp; achievements</span>
+              </li>
+            </ul>
+            <button class="pricing-action-btn btn-outline" onclick="openPlanConfirmation('Monthly Access', '$9.99 / month')">Select Plan</button>
+          </div>
+
+          <!-- Card 2: THE SCHOLAR (BEST VALUE) -->
+          <div class="pricing-card featured">
+            <div class="best-value-pill">BEST VALUE</div>
+            <span class="pricing-tier-tag">THE SCHOLAR</span>
+            <h3 class="pricing-plan-title">Yearly Membership</h3>
+            <div class="pricing-price-wrap">
+              <span class="pricing-price-num">$99.99</span>
+              <span class="pricing-price-unit">/year</span>
+            </div>
+            <ul class="pricing-features-list">
+              <li class="pricing-feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Everything in Monthly</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Save ~30% annually</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Collector badges unlocked</span>
+              </li>
+            </ul>
+            <button class="pricing-action-btn btn-solid" onclick="openPlanConfirmation('Yearly Membership', '$99.99 / year')">Subscribe Yearly</button>
+          </div>
+
+          <!-- Card 3: THE COLLECTOR -->
+          <div class="pricing-card">
+            <span class="pricing-tier-tag">THE COLLECTOR</span>
+            <h3 class="pricing-plan-title">Lifetime Access</h3>
+            <div class="pricing-price-wrap">
+              <span class="pricing-price-num">$199.99</span>
+              <span class="pricing-price-unit">/one-time</span>
+            </div>
+            <ul class="pricing-features-list">
+              <li class="pricing-feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Unlimited permanent access</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>No recurring bills or fees</span>
+              </li>
+              <li class="pricing-feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>All future books included</span>
+              </li>
+            </ul>
+            <button class="pricing-action-btn btn-outline" onclick="openPlanConfirmation('Lifetime Access', '$199.99 one-time')">Unlock Lifetime</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           TAB VIEW 6: ACHIEVEMENTS (Screenshot Exact Match)
+           ==================================================================== -->
+      <div class="dashboard-tab-view" id="view-achievements" style="display:none;">
+        <div class="view-header">
+          <span class="view-eyebrow">YOUR PROGRESS</span>
+          <h2 class="view-title">Achievements</h2>
+          <p class="view-desc">Track your streak, level, and the badges you've earned along the way.</p>
+        </div>
+
+        <!-- 3 Summary Metrics Row -->
+        <div class="achievements-top-grid">
+          <!-- Dark Streak Card -->
+          <div class="achieve-streak-card" onclick="showToast('🔥 1-Day Streak active! Keep reading daily to maintain momentum.')">
+            <div class="streak-icon-circle">🔥</div>
+            <div>
+              <div class="achieve-metric-val">1</div>
+              <div class="achieve-metric-label">DAY STREAK</div>
+            </div>
+          </div>
+
+          <!-- White Level Progress Card -->
+          <div class="achieve-level-card">
+            <div class="level-head-row">
+              <span>Level Progress</span>
+              <span id="achieveLevelText">Lv. 1</span>
+            </div>
+            <div class="level-progress-track">
+              <div class="level-progress-fill" id="achieveProgressFill" style="width: 33.3%;"></div>
+            </div>
+            <div class="level-xp-text" id="achieveXpText">50 / 150 XP</div>
+          </div>
+
+          <!-- White Badges Earned Card -->
+          <div class="achieve-badges-card">
+            <div class="trophy-icon-circle">🏆</div>
+            <div>
+              <div class="achieve-metric-val" id="badgesEarnedCount">1</div>
+              <div class="achieve-metric-label" style="color:var(--text-muted);">BADGES EARNED</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- This Week Progress -->
+        <div class="week-progress-card">
+          <h3 class="view-section-title" style="margin-bottom:0;">This Week Progress</h3>
+          <div class="week-days-grid">
+            <div class="week-day-box" onclick="showToast('Monday: Completed executive reading session')">
+              <span class="week-day-name">MON</span>
+              <span style="font-size:16px; opacity:0.6;">🔥</span>
+            </div>
+            <div class="week-day-box active" onclick="showToast('Tuesday: Reading session logged today!')">
+              <span class="week-day-name">TUE</span>
+              <span style="font-size:18px;">🔥</span>
+            </div>
+            <div class="week-day-box" onclick="showToast('Wednesday: Upcoming scheduled session')">
+              <span class="week-day-name">WED</span>
+              <span style="font-size:16px; opacity:0.4;">🔥</span>
+            </div>
+            <div class="week-day-box" onclick="showToast('Thursday: Upcoming scheduled session')">
+              <span class="week-day-name">THU</span>
+              <span style="font-size:16px; opacity:0.4;">🔥</span>
+            </div>
+            <div class="week-day-box" onclick="showToast('Friday: Upcoming scheduled session')">
+              <span class="week-day-name">FRI</span>
+              <span style="font-size:16px; opacity:0.4;">🔥</span>
+            </div>
+            <div class="week-day-box" onclick="showToast('Saturday: Weekend deep-dive scheduled')">
+              <span class="week-day-name">SAT</span>
+              <span style="font-size:16px; opacity:0.4;">🔥</span>
+            </div>
+            <div class="week-day-box" onclick="showToast('Sunday: Reflection digest review')">
+              <span class="week-day-name">SUN</span>
+              <span style="font-size:16px; opacity:0.4;">🔥</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Badge Wall -->
+        <div class="badge-wall-container">
+          <h3 class="view-section-title">Badge Wall</h3>
+          <div class="badge-wall-grid">
+            <!-- Badge 1: Joined the Archive (Unlocked) -->
+            <div class="badge-card unlocked" onclick="showToast('✓ Badge Unlocked: Joined the Archive')">
+              <div class="badge-icon-bubble">🥂</div>
+              <h4 class="badge-title">Joined the Archive</h4>
+              <p class="badge-desc">Create your account</p>
+            </div>
+
+            <!-- Badge 2: First Chapter -->
+            <div class="badge-card locked" id="badgeFirstChapter" onclick="showToast('🔒 First Chapter: Open your first book in the reader')">
+              <div class="badge-icon-bubble">📖</div>
+              <h4 class="badge-title">First Chapter</h4>
+              <p class="badge-desc">Open your first book</p>
+            </div>
+
+            <!-- Badge 3: 3 Day Streak -->
+            <div class="badge-card locked" onclick="showToast('🔒 3 Day Streak: Read 3 consecutive days')">
+              <div class="badge-icon-bubble">🔥</div>
+              <h4 class="badge-title">3 Day Streak</h4>
+              <p class="badge-desc">Read 3 days in a row</p>
+            </div>
+
+            <!-- Badge 4: 7 Day Streak -->
+            <div class="badge-card locked" onclick="showToast('🔒 7 Day Streak: Read 7 consecutive days')">
+              <div class="badge-icon-bubble">🔥</div>
+              <h4 class="badge-title">7 Day Streak</h4>
+              <p class="badge-desc">Read 7 days in a row</p>
+            </div>
+
+            <!-- Badge 5: Archive Member -->
+            <div class="badge-card locked" id="badgeArchiveMember" onclick="showToast('🔒 Archive Member: Join a paid membership plan')">
+              <div class="badge-icon-bubble">👑</div>
+              <h4 class="badge-title">Archive Member</h4>
+              <p class="badge-desc">Join a paid membership</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           TAB VIEW 7: SETTINGS (Current Theme & Typography)
+           ==================================================================== -->
+      <div class="dashboard-tab-view" id="view-settings" style="display:none;">
+        <div class="view-header">
+          <span class="view-eyebrow">PREFERENCES &amp; IDENTITY</span>
+          <h2 class="view-title">Settings</h2>
+          <p class="view-desc">Manage your profile, reading preferences, notifications, and security credentials.</p>
+        </div>
+
+        <div class="settings-sections-wrap">
+          <!-- 1. Profile Information -->
+          <div class="settings-card">
+            <div class="settings-card-header">
+              <h3 class="settings-card-title">Member Profile</h3>
+              <p class="settings-card-desc">Personal identity and institutional affiliation</p>
+            </div>
+            
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div class="user-avatar-btn" style="width:56px; height:56px; font-size:18px;">SJ</div>
+              <div>
+                <button type="button" class="btn-create-shelf" style="padding:6px 14px; font-size:12px;" onclick="showToast('Photo upload dialog...')">Change Avatar</button>
+                <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">JPG or PNG, max 2MB.</div>
+              </div>
+            </div>
+
+            <div class="settings-grid-2col">
+              <div class="settings-field">
+                <label class="settings-label" for="settingName">Full Name</label>
+                <input class="settings-input" id="settingName" type="text" value="Sarah Jenkins" />
+              </div>
+              <div class="settings-field">
+                <label class="settings-label" for="settingEmail">Email Address</label>
+                <input class="settings-input" id="settingEmail" type="email" value="sarah.jenkins@bridgeway36.com" />
+              </div>
+              <div class="settings-field">
+                <label class="settings-label" for="settingTitle">Professional Title</label>
+                <input class="settings-input" id="settingTitle" type="text" value="Executive Fellow · AI &amp; Leadership" />
+              </div>
+              <div class="settings-field">
+                <label class="settings-label" for="settingMemberId">Member Identifier</label>
+                <input class="settings-input" id="settingMemberId" type="text" value="#BW36-882" readonly />
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Reading Experience & Theme Appearance -->
+          <div class="settings-card">
+            <div class="settings-card-header">
+              <h3 class="settings-card-title">Reading Appearance &amp; Reader Mode</h3>
+              <p class="settings-card-desc">Fine-tune the typography and layout of your executive reader</p>
+            </div>
+
+            <div>
+              <label class="settings-label" style="display:block; margin-bottom:10px;">Reader Color Scheme</label>
+              <div class="theme-cards-wrap">
+                <button type="button" class="theme-card-btn active" onclick="selectThemeMode('light', this)">
+                  <span class="theme-swatch" style="background:#ffffff; border:1px solid #d0dbe2;"></span>
+                  <div>
+                    <div style="font-size:13.5px; font-weight:700; color:var(--navy);">Light Executive</div>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Crisp ivory paper</div>
+                  </div>
+                </button>
+                <button type="button" class="theme-card-btn" onclick="selectThemeMode('sepia', this)">
+                  <span class="theme-swatch" style="background:#fbf5e8; border:1px solid #e2d2b5;"></span>
+                  <div>
+                    <div style="font-size:13.5px; font-weight:700; color:var(--navy);">Editorial Sepia</div>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Warm archival tone</div>
+                  </div>
+                </button>
+                <button type="button" class="theme-card-btn" onclick="selectThemeMode('dark', this)">
+                  <span class="theme-swatch" style="background:#072540;"></span>
+                  <div>
+                    <div style="font-size:13.5px; font-weight:700; color:var(--navy);">Midnight Navy</div>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Low-glare dark mode</div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <div class="settings-grid-2col">
+              <div class="settings-field">
+                <label class="settings-label" for="settingFontSize">Default Reader Font Size</label>
+                <select class="settings-input" id="settingFontSize" style="cursor:pointer;" onchange="updateReaderFontSize(this.value)">
+                  <option value="15px">Compact (15px)</option>
+                  <option value="17px" selected>Comfortable (17px - Standard)</option>
+                  <option value="19px">Large Executive (19px)</option>
+                </select>
+              </div>
+              <div class="settings-field">
+                <label class="settings-label" for="settingFlipMode">Reading Navigation</label>
+                <select class="settings-input" id="settingFlipMode" style="cursor:pointer;">
+                  <option value="scroll" selected>Continuous Vertical Scroll</option>
+                  <option value="book">Two-Page Flipbook Simulation</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Toggle switches for reading experience -->
+            <div style="margin-top:6px;">
+              <div class="settings-toggle-row">
+                <div class="toggle-text">
+                  <span class="toggle-title">Auto-save Reading Progress</span>
+                  <span class="toggle-hint">Automatically bookmark your last read paragraph across sessions</span>
+                </div>
+                <label class="switch-label">
+                  <input type="checkbox" id="toggleAutoSave" checked>
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="settings-toggle-row">
+                <div class="toggle-text">
+                  <span class="toggle-title">Sync Highlights to Reading Journal</span>
+                  <span class="toggle-hint">Copies quoted text directly into your personal margin notes</span>
+                </div>
+                <label class="switch-label">
+                  <input type="checkbox" id="toggleHighlightSync" checked>
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="settings-toggle-row">
+                <div class="toggle-text">
+                  <span class="toggle-title">Offline Manuscript Caching</span>
+                  <span class="toggle-hint">Download encrypted copies locally for offline flights and commuting</span>
+                </div>
+                <label class="switch-label">
+                  <input type="checkbox" id="toggleOfflineSync" checked>
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Notifications & Communication -->
+          <div class="settings-card">
+            <div class="settings-card-header">
+              <h3 class="settings-card-title">Digests &amp; Communications</h3>
+              <p class="settings-card-desc">Control what alerts and research updates you receive</p>
+            </div>
+
+            <div class="settings-toggle-row">
+              <div class="toggle-text">
+                <span class="toggle-title">Weekly Research Executive Digest</span>
+                <span class="toggle-hint">Curated synthesis of top new research papers delivered every Monday</span>
+              </div>
+              <label class="switch-label">
+                <input type="checkbox" id="toggleWeeklyDigest" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <div class="settings-toggle-row">
+              <div class="toggle-text">
+                <span class="toggle-title">Daily Streak &amp; Habit Reminders</span>
+                <span class="toggle-hint">Gentle notification to keep your reading streak alive</span>
+              </div>
+              <label class="switch-label">
+                <input type="checkbox" id="toggleStreakReminders" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <div class="settings-toggle-row">
+              <div class="toggle-text">
+                <span class="toggle-title">New Curated Manuscript Releases</span>
+                <span class="toggle-hint">Immediate notification when a new book or whitepaper joins the catalog</span>
+              </div>
+              <label class="switch-label">
+                <input type="checkbox" id="toggleNewManuscripts" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Save Actions -->
+          <div class="settings-bottom-actions">
+            <button class="btn-save-settings" onclick="saveUserSettings()">Save Preferences</button>
+            <button class="btn-cancel-settings" onclick="showToast('Reverted unsaved modifications.')">Discard</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Shelf Contents Preview Modal -->
+  <div class="shelf-modal-backdrop" id="shelfModal" onclick="closeShelfModal()">
+    <div class="shelf-modal-dialog" onclick="event.stopPropagation()">
+      <div class="shelf-modal-header">
+        <h3 class="shelf-modal-title" id="shelfModalTitle">
+          <span>📚</span>
+          <span>Shelf Contents</span>
+        </h3>
+        <button class="reader-close-btn" onclick="closeShelfModal()" style="padding:4px 10px; font-size:12px;">✕</button>
+      </div>
+      <div class="shelf-modal-body" id="shelfModalBody">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Membership Plan Confirmation Modal -->
+  <div class="shelf-modal-backdrop" id="planConfirmModal" onclick="closePlanConfirmation()">
+    <div class="shelf-modal-dialog" style="max-width:500px;" onclick="event.stopPropagation()">
+      <div class="shelf-modal-header">
+        <h3 class="shelf-modal-title">
+          <span>👑</span>
+          <span>Confirm Membership Tier</span>
+        </h3>
+        <button class="reader-close-btn" onclick="closePlanConfirmation()" style="padding:4px 10px; font-size:12px;">✕</button>
+      </div>
+      <div class="shelf-modal-body" style="padding:28px 24px; text-align:center; gap:16px;">
+        <div style="font-size:12px; font-weight:800; color:var(--gold); letter-spacing:1px; text-transform:uppercase;">BRIDGEWAY36 EXECUTIVE ACCESS</div>
+        <h3 style="font-family:'Newsreader', Georgia, serif; font-size:26px; color:var(--navy); margin-top:2px;" id="confirmPlanName">Yearly Membership</h3>
+        <div style="font-size:28px; font-weight:800; color:var(--navy-dark);" id="confirmPlanPrice">$99.99 / year</div>
+        <p style="font-size:13.5px; color:var(--text-muted); line-height:1.5;">
+          Activates immediate full access to all publications, high-resolution flipbook readers, offline PDF/ePub downloads, and exclusive collector badges.
+        </p>
+        <div style="display:flex; gap:12px; margin-top:8px;">
+          <button class="pricing-action-btn btn-solid" style="flex:1;" onclick="activateSelectedPlan()">Confirm &amp; Activate Plan</button>
+          <button class="pricing-action-btn btn-outline" style="flex:0.7;" onclick="closePlanConfirmation()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       SPOTLIGHT SEARCH MODAL (Command Palette Matching Reference Image)
+       ========================================================================== -->
+  <div class="spotlight-overlay" id="spotlightModal" role="dialog" aria-modal="true" aria-labelledby="spotlightSearchInput" onclick="handleSpotlightBackdropClick(event)">
+    <div class="spotlight-dialog" id="spotlightDialog" onclick="event.stopPropagation()">
+      
+      <!-- Top Search Input Bar -->
+      <div class="spotlight-search-bar">
+        <span class="spotlight-search-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input 
+          type="text" 
+          id="spotlightSearchInput" 
+          class="spotlight-input" 
+          placeholder="Search courses, skills, or topics..." 
+          autocomplete="off"
+          spellcheck="false"
+          oninput="handleSpotlightInput(this.value)"
+          onkeydown="handleSpotlightKeydown(event)"
+        />
+        <button type="button" class="spotlight-close-btn" onclick="closeSpotlightModal()" aria-label="Close search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Section Heading -->
+      <div class="spotlight-section-label" id="spotlightSectionLabel">
+        Popular right now
+      </div>
+
+      <!-- Dynamic Realtime Results List -->
+      <div class="spotlight-results" id="spotlightResults">
+        <!-- Rendered in real time via JavaScript -->
+      </div>
+
+      <!-- Modal Footer with Keyboard Navigation Hints -->
+      <div class="spotlight-footer">
+        <div class="spotlight-hint-keys">
+          <span>↑ ↓ to move, Enter to open</span>
+        </div>
+        <div class="spotlight-hint-esc">
+          <span>Esc to close</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       INTERACTIVE READING MODAL
+       ========================================================================== -->
+  <div class="reader-modal" id="readerModal">
+    <div class="reader-header">
+      <div class="reader-title-info">
+        <span style="font-size:18px;">📖</span>
+        <span class="reader-book-name" id="readerBookName">The AI Job Shift</span>
+      </div>
+      <button class="reader-close-btn" onclick="closeReaderModal()">Close Reader ✕</button>
+    </div>
+    <div class="reader-content-body">
+      <div
+        style="font-size:12px; font-weight:800; letter-spacing:1px; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">
+        CHAPTER 1: THE DISRUPTION HORIZON
+      </div>
+      <h1>Understanding What Machines Augment and What Humans Anchor</h1>
+      <p>
+        The conversation surrounding artificial intelligence in modern organizations has often vacillated between
+        utopian acceleration and existential alarm. Yet for experienced practitioners, managers, and thinkers, the
+        reality of work is neither automated away overnight nor preserved in amber.
+      </p>
+      <p>
+        What is occurring is a fundamental re-bundling of cognitive labor. When generative models automate procedural
+        drafting, predictive modeling, and data summarization, the value in human leadership shifts decisively toward
+        context evaluation, ethical boundaries, and synthesized discernment.
+      </p>
+      <h2>The Core Paradox of Experience</h2>
+      <p>
+        Many mid-career professionals initially perceive artificial intelligence as a threat to their established
+        tenure. They fear that years of specialized knowledge are rendered obsolete by foundational models trained on
+        billions of parameters.
+      </p>
+      <p>
+        In reality, an LLM possesses infinite fluency but zero accountability. It cannot stand before a board of
+        directors, calm an anxious frontline team, or sense the political undercurrents of an organizational
+        restructuring. Experience is not dead; it is simply awaiting its re-articulation.
+      </p>
+      <div
+        style="background:#f4f7f9; border-left:4px solid var(--navy); padding:20px; border-radius:8px; margin:30px 0;">
+        <p style="margin:0; font-weight:600; color:var(--navy);">
+          "Those who thrive in the next decade will not be programmers who became prompt writers, but domain experts who
+          learned how to conduct algorithmic intelligence like an orchestra."
+        </p>
+      </div>
+      <p>
+        As we delve into subsequent chapters, the Bridgeway36 Transition Readiness Index™ provides a concrete blueprint
+        for auditing your professional inventory, separating transient mechanical skills from your enduring strategic
+        foundation.
+      </p>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="dash-toast" id="dashToast">Action completed!</div>
+
+  <!-- Floating Search Button (<= 768px) -->
+  <button class="mobile-search-fab" id="mobileSearchFab" onclick="openSpotlightModal()" aria-label="Search publications" title="Search publications">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  </button>
+
+  <!-- ==========================================================================
+       DASHBOARD SCRIPT
+       ========================================================================== -->
+  <script>
+    // Library Data enriched with categories, levels, access, badges, and popular markers
+    const dashBooks = [
+      // Top 5 Popular Items (Exact match with reference screenshot)
+      {
+        id: "py-dev",
+        title: "Python for Developers",
+        author: "Hannah Lee",
+        category: "Computer Science & Engineering",
+        level: "Beginner",
+        access: "$49",
+        badgeText: "py",
+        thumbTheme: "theme-brown",
+        popular: true,
+        image: "assets/book cover/Mastering Code.jpg"
+      },
+      {
+        id: "fullstack-web",
+        title: "Full Stack Web Development",
+        author: "Ashraful Haque",
+        category: "Computer Science & Engineering",
+        level: "Beginner",
+        access: "$79",
+        badgeText: "</>",
+        thumbTheme: "theme-navy",
+        popular: true,
+        image: "assets/book cover/Mastering Code.jpg"
+      },
+      {
+        id: "git-github",
+        title: "Git & GitHub for Professionals",
+        author: "Tomás Silva",
+        category: "Computer Science & Engineering",
+        level: "Beginner",
+        access: "Free",
+        badgeText: "git",
+        thumbTheme: "theme-brown",
+        popular: true,
+        image: "assets/book cover/Mastering Code.jpg"
+      },
+      {
+        id: "react-next",
+        title: "Modern React & Next.js",
+        author: "Daniel Okafor",
+        category: "Computer Science & Engineering",
+        level: "Intermediate",
+        access: "$69",
+        badgeText: "⚛",
+        thumbTheme: "theme-navy",
+        popular: true,
+        image: "assets/book cover/Mastering Code.jpg"
+      },
+      {
+        id: "tailwind-css",
+        title: "Tailwind CSS: Rapid UI Building",
+        author: "Daniel Okafor",
+        category: "Computer Science & Engineering",
+        level: "Beginner",
+        access: "Free",
+        badgeText: "~",
+        thumbTheme: "theme-navy",
+        popular: true,
+        image: "assets/book cover/Mastering Code.jpg"
+      },
+
+      // Bridgeway36 Core Library Publications
+      {
+        id: "ai-shift",
+        title: "The AI Job Shift",
+        author: "Bridgeway36 Research",
+        category: "Artificial Intelligence & Data",
+        level: "Executive & Strategic",
+        access: "Member Edition",
+        badgeText: "AI",
+        thumbTheme: "theme-navy",
+        popular: true,
+        image: "assets/book cover/AI Shift ebook Cover.webp"
+      },
+      {
+        id: "fundamentals-ai",
+        title: "Fundamentals of Generative AI",
+        author: "Dr. Aris Thorne",
+        category: "Computer Science & Engineering",
+        level: "Practitioner & Technical",
+        access: "$49",
+        badgeText: "GEN-AI",
+        thumbTheme: "theme-navy",
+        popular: true,
+        image: "assets/book cover/Fandamentals of Generative.png"
+      },
+      {
+        id: "tri-index",
+        title: "Transition Readiness Index™",
+        author: "Bridgeway36 Frameworks",
+        category: "Architecture & Design",
+        level: "Executive Framework",
+        access: "Included",
+        badgeText: "TRI",
+        thumbTheme: "theme-brown",
+        popular: true,
+        image: "assets/book cover/The Bridgeway36 Transition Readiness index.png"
+      },
+      {
+        id: "mastering-code",
+        title: "Mastering Systems Code",
+        author: "Liam Chen",
+        category: "Computer Science & Engineering",
+        level: "Advanced Engineering",
+        access: "$79",
+        badgeText: "</>",
+        thumbTheme: "theme-navy",
+        popular: false,
+        image: "assets/book cover/Mastering Code.jpg"
+      },
+      {
+        id: "voices-past",
+        title: "Voices of the Past",
+        author: "Sophia Hadad",
+        category: "Ancient History & Civilizations",
+        level: "Historical Research",
+        access: "Free",
+        badgeText: "HIST",
+        thumbTheme: "theme-brown",
+        popular: false,
+        image: "assets/book cover/Voices of the Past.jpg"
+      },
+      {
+        id: "visual-stage",
+        title: "The Visual Stage",
+        author: "Maya Lin",
+        category: "Philosophy & Creative Arts",
+        level: "Creative Strategy",
+        access: "Free",
+        badgeText: "ARTS",
+        thumbTheme: "theme-slate",
+        popular: false,
+        image: "assets/book cover/The Visual Stage.jpg"
+      },
+      {
+        id: "little-city",
+        title: "The Little City That Went AI",
+        author: "Elena Vance",
+        category: "Philosophy & Creative Arts",
+        level: "Narrative Analysis",
+        access: "Free",
+        badgeText: "CITY",
+        thumbTheme: "theme-slate",
+        popular: false,
+        image: "assets/book cover/the Little City That Went AI.png"
+      },
+      {
+        id: "bridgeway-biz",
+        title: "Bridgeway to Business",
+        author: "Marcus Sterling",
+        category: "Architecture & Design",
+        level: "Business Strategy",
+        access: "$59",
+        badgeText: "BIZ",
+        thumbTheme: "theme-brown",
+        popular: false,
+        image: "assets/book cover/Bridgeway to Business.png"
+      },
+      {
+        id: "hce-metrics",
+        title: "Human Capital Evolution",
+        author: "Dr. Rachel Vance",
+        category: "Artificial Intelligence & Data",
+        level: "Workforce Strategy",
+        access: "Included",
+        badgeText: "HCE",
+        thumbTheme: "theme-navy",
+        popular: false,
+        image: "assets/images/hce_index.png"
+      },
+      {
+        id: "algorithmic-strat",
+        title: "Algorithmic Strategy",
+        author: "Jonathan Ray",
+        category: "Architecture & Design",
+        level: "Leadership",
+        access: "$69",
+        badgeText: "STRAT",
+        thumbTheme: "theme-dark",
+        popular: false,
+        canvasBg: "canvas-bg-1"
+      },
+      {
+        id: "cosmos-chronicles",
+        title: "Chronicles of the Cosmos",
+        author: "Arthur Pendelton",
+        category: "Philosophy & Creative Arts",
+        level: "Science & Philosophy",
+        access: "Free",
+        badgeText: "ASTRO",
+        thumbTheme: "theme-slate",
+        popular: false,
+        canvasBg: "canvas-bg-2"
+      },
+      {
+        id: "frontiers-neural",
+        title: "Frontiers of Neural Intelligence",
+        author: "Alan K. Sterling",
+        category: "Artificial Intelligence & Data",
+        level: "Advanced AI",
+        access: "$89",
+        badgeText: "NEURAL",
+        thumbTheme: "theme-navy",
+        popular: false,
+        canvasBg: "canvas-bg-4"
+      },
+      {
+        id: "architecture-future",
+        title: "The Architecture of Tomorrow",
+        author: "David K. Brooks",
+        category: "Architecture & Design",
+        level: "Systems Design",
+        access: "Included",
+        badgeText: "ARCH",
+        thumbTheme: "theme-slate",
+        popular: false,
+        canvasBg: "canvas-bg-3"
+      },
+      {
+        id: "ancient-societies",
+        title: "Historic Societal Resets",
+        author: "Marcus Sterling",
+        category: "Ancient History & Civilizations",
+        level: "Historical Analysis",
+        access: "Free",
+        badgeText: "RESET",
+        thumbTheme: "theme-brown",
+        popular: false,
+        canvasBg: "canvas-bg-1"
+      }
+    ];
+
+    let activeDashCategory = "All Library";
+    let activeDashSearch = "";
+    const savedBookmarks = new Set();
+    const currentlyReadingBooks = new Set(["The AI Job Shift"]);
+    let currentMembershipTier = null;
+    let selectedTierForConfirmation = { name: "Yearly Membership", price: "$99.99 / year" };
+    let earnedBadges = new Set(["Joined the Archive"]);
+    let userXp = 50;
+    let userLevel = 1;
+
+    // Spotlight Search Modal State
+    let spotlightActiveIndex = 0;
+    let spotlightVisibleBooks = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderDashGrid();
+      // Pre-initialize spotlight popular results
+      handleSpotlightInput("");
+      updateShelfCounters();
+
+      // Check URL hash for direct tab navigation
+      const hash = (window.location.hash || "").toLowerCase().replace('#', '');
+      const hashMap = {
+        'library': 'Library',
+        'discover': 'Discover',
+        'reading-journal': 'Reading Journal',
+        'journal': 'Reading Journal',
+        'collections': 'Collections',
+        'membership': 'Membership',
+        'achievements': 'Achievements',
+        'settings': 'Settings'
+      };
+
+      if (hash && hashMap[hash]) {
+        switchNavTab(hashMap[hash]);
+      }
+    });
+
+    function renderDashGrid() {
+      const grid = document.getElementById("dashBooksGrid");
+      const counterText = document.getElementById("dashCounterText");
+
+      // Core publications for dashboard catalog display
+      const gridSource = dashBooks.filter(b => !["py-dev", "fullstack-web", "git-github", "react-next", "tailwind-css"].includes(b.id));
+
+      const filtered = gridSource.filter(b => {
+        const matchCat = (activeDashCategory === "All Library") || (b.category === activeDashCategory);
+        const matchSearch = !activeDashSearch ||
+          b.title.toLowerCase().includes(activeDashSearch.toLowerCase()) ||
+          b.author.toLowerCase().includes(activeDashSearch.toLowerCase()) ||
+          b.category.toLowerCase().includes(activeDashSearch.toLowerCase());
+        return matchCat && matchSearch;
+      });
+
+      counterText.textContent = `${filtered.length} titles available`;
+
+      grid.innerHTML = filtered.map(b => {
+        const isSaved = savedBookmarks.has(b.id);
+        const coverHtml = b.image
+          ? `<img src="${b.image}" alt="${b.title}" class="card-cover-img" loading="lazy" />`
+          : `<div class="card-cover-canvas ${b.canvasBg || 'canvas-bg-1'}">
+               <span style="font-size:10px; font-weight:800; letter-spacing:1px; opacity:0.8;">${b.category}</span>
+               <div style="font-family:'Newsreader',serif; font-size:17px; font-weight:700;">${b.title}</div>
+               <span style="font-size:11px; opacity:0.9;">${b.author}</span>
+             </div>`;
+
+        const safeTitle = b.title.replace(/'/g, "\\'");
+        const safeImage = (b.image || '').replace(/'/g, "\\'");
+
+        return `
+          <article class="book-card" onclick="openReaderModal('${safeTitle}', '${safeImage}')" tabindex="0" role="button" aria-label="${b.title} by ${b.author}">
+            <div class="card-cover-wrap">
+              <!-- Bookmark Icon -->
+              <button class="bookmark-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleBookmark('${b.id}', this)" title="Bookmark book" aria-label="Bookmark ${b.title}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="${isSaved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </button>
+
+              <!-- Cover Image -->
+              ${coverHtml}
+
+              <!-- Hover Overlay with Read & Download Buttons -->
+              <div class="cover-hover-overlay">
+                <button class="overlay-btn overlay-btn-read" onclick="event.stopPropagation(); openReaderModal('${safeTitle}', '${safeImage}')">Read Now</button>
+                <button class="overlay-btn overlay-btn-download" onclick="event.stopPropagation(); simulateDownload('${safeTitle}')">Download</button>
+              </div>
+            </div>
+
+            <div class="card-info">
+              <span class="card-cat">${b.category}</span>
+              <h3 class="card-title" title="${b.title}">${b.title}</h3>
+              <span class="card-author">${b.author}</span>
+              <div class="card-action-footer">
+                <span class="card-read-link">Read Book →</span>
+                <button class="card-quick-dl" onclick="event.stopPropagation(); simulateDownload('${safeTitle}')" title="Quick Download" aria-label="Download ${b.title}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    // Category Filter
+    function filterDashCategory(catName, btn) {
+      activeDashCategory = catName;
+      document.querySelectorAll(".dash-pill").forEach(p => p.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      renderDashGrid();
+    }
+
+    // Search Filter
+    function handleDashboardSearch(val) {
+      activeDashSearch = val;
+      renderDashGrid();
+    }
+
+    // Bookmark Toggle
+    function toggleBookmark(bookId, btn) {
+      if (savedBookmarks.has(bookId)) {
+        savedBookmarks.delete(bookId);
+        btn.classList.remove('saved');
+        btn.querySelector('svg').setAttribute('fill', 'none');
+        showToast("Removed from your Saved Collection.");
+      } else {
+        savedBookmarks.add(bookId);
+        btn.classList.add('saved');
+        btn.querySelector('svg').setAttribute('fill', 'currentColor');
+        showToast("✓ Added to your Saved Collection!");
+      }
+      updateShelfCounters();
+    }
+
+    // Download Simulation
+    function simulateDownload(title) {
+      showToast(`✓ Downloading "${title}" in offline PDF & ePub format...`);
+    }
+
+    // Reader Modal
+    function openReaderModal(title, image) {
+      document.getElementById("readerBookName").textContent = title;
+      document.getElementById("readerModal").classList.add("active");
+      document.body.style.overflow = "hidden";
+
+      // Mark book as Currently Reading
+      currentlyReadingBooks.add(title);
+      updateShelfCounters();
+
+      // Unlock "First Chapter" badge if locked
+      unlockBadge("First Chapter");
+    }
+
+    function closeReaderModal() {
+      document.getElementById("readerModal").classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    // Switch Nav Tabs
+    function switchNavTab(tabName, el) {
+      if (!el) {
+        el = document.querySelector(`.nav-link[data-tooltip='${tabName}']`);
+      }
+      document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+      if (el) el.classList.add("active");
+      
+      const titleEl = document.getElementById("pageTitleText");
+      if (titleEl) titleEl.textContent = tabName;
+
+      // Close drawer on mobile if open
+      if (window.innerWidth <= 900) {
+        document.getElementById("appSidebar")?.classList.remove("open");
+        document.getElementById("sidebarBackdrop")?.classList.remove("active");
+      }
+
+      // Tab View Map
+      const tabMap = {
+        "Library": "view-library",
+        "Discover": "view-discover",
+        "Reading Journal": "view-reading-journal",
+        "Collections": "view-collections",
+        "Membership": "view-membership",
+        "Achievements": "view-achievements",
+        "Settings": "view-settings"
+      };
+
+      const targetId = tabMap[tabName] || "view-library";
+
+      document.querySelectorAll(".dashboard-tab-view").forEach(view => {
+        view.style.display = "none";
+      });
+
+      const targetView = document.getElementById(targetId);
+      if (targetView) {
+        targetView.style.display = "flex";
+      }
+
+      // Reset scroll position to top
+      const mainContainer = document.querySelector(".app-main");
+      if (mainContainer) mainContainer.scrollTop = 0;
+
+      try {
+        const hashSlug = tabName.toLowerCase().replace(/\s+/g, '-');
+        history.replaceState(null, null, '#' + hashSlug);
+      } catch (e) {}
+
+      updateShelfCounters();
+      showToast(`Switched to ${tabName} view.`);
+    }
+
+    // Update Shelf Counters
+    function updateShelfCounters() {
+      const readingEl = document.getElementById("shelfCountReading");
+      if (readingEl) readingEl.textContent = `${currentlyReadingBooks.size} books`;
+
+      const favEl = document.getElementById("shelfCountFavorites");
+      if (favEl) favEl.textContent = `${savedBookmarks.size} books`;
+
+      const logsEl = document.getElementById("shelfCountLogs");
+      const listEl = document.getElementById("journalEntriesList");
+      if (logsEl && listEl) {
+        logsEl.textContent = `${listEl.children.length} logs`;
+      }
+    }
+
+    // Shelf Modal
+    function openShelfModal(shelfType) {
+      const modal = document.getElementById("shelfModal");
+      const title = document.getElementById("shelfModalTitle");
+      const body = document.getElementById("shelfModalBody");
+      if (!modal || !title || !body) return;
+
+      title.innerHTML = `<span>📚</span><span>${shelfType}</span>`;
+
+      if (shelfType === "Currently Reading") {
+        const books = Array.from(currentlyReadingBooks);
+        if (books.length === 0) {
+          body.innerHTML = `
+            <div style="text-align:center; padding:30px 10px; color:var(--text-muted);">
+              <p>No publications currently in progress.</p>
+              <button class="pricing-action-btn btn-solid" style="margin-top:14px; max-width:200px;" onclick="closeShelfModal(); switchNavTab('Library');">Explore Library</button>
+            </div>
+          `;
+        } else {
+          body.innerHTML = books.map(bookTitle => {
+            const bookObj = dashBooks.find(b => b.title === bookTitle) || { title: bookTitle, author: "Bridgeway36 Leadership", image: "assets/book cover/AI Shift ebook Cover.webp" };
+            return `
+              <div class="shelf-book-item">
+                <div class="shelf-book-info">
+                  <img src="${bookObj.image || 'assets/book cover/AI Shift ebook Cover.webp'}" alt="${bookObj.title}" class="shelf-book-thumb" />
+                  <div>
+                    <div class="shelf-book-name">${bookObj.title}</div>
+                    <div class="shelf-book-author">${bookObj.author}</div>
+                  </div>
+                </div>
+                <button class="pricing-action-btn btn-solid" style="padding:6px 14px; font-size:12.5px;" onclick="closeShelfModal(); openReaderModal('${bookObj.title.replace(/'/g, "\\'")}', '${(bookObj.image || '').replace(/'/g, "\\'")}')">Continue Reading</button>
+              </div>
+            `;
+          }).join("");
+        }
+      } else if (shelfType === "Favorites Shelves") {
+        const favIds = Array.from(savedBookmarks);
+        if (favIds.length === 0) {
+          body.innerHTML = `
+            <div style="text-align:center; padding:30px 10px; color:var(--text-muted);">
+              <p>No books added to Favorites yet. Click the bookmark icon on any card in the Library.</p>
+              <button class="pricing-action-btn btn-solid" style="margin-top:14px; max-width:200px;" onclick="closeShelfModal(); switchNavTab('Library');">Browse Library</button>
+            </div>
+          `;
+        } else {
+          body.innerHTML = favIds.map(bookId => {
+            const b = dashBooks.find(item => item.id === bookId) || { title: "Executive Publication", author: "Bridgeway36", image: "" };
+            return `
+              <div class="shelf-book-item">
+                <div class="shelf-book-info">
+                  <img src="${b.image || 'assets/book cover/AI Shift ebook Cover.webp'}" alt="${b.title}" class="shelf-book-thumb" />
+                  <div>
+                    <div class="shelf-book-name">${b.title}</div>
+                    <div class="shelf-book-author">${b.author}</div>
+                  </div>
+                </div>
+                <button class="pricing-action-btn btn-solid" style="padding:6px 14px; font-size:12.5px;" onclick="closeShelfModal(); openReaderModal('${b.title.replace(/'/g, "\\'")}', '${(b.image || '').replace(/'/g, "\\'")}')">Read Now</button>
+              </div>
+            `;
+          }).join("");
+        }
+      } else if (shelfType === "Journal Logs") {
+        closeShelfModal();
+        switchNavTab('Reading Journal');
+        return;
+      } else {
+        // Custom shelves
+        const sampleShelfBooks = dashBooks.slice(0, 3);
+        body.innerHTML = sampleShelfBooks.map(b => `
+          <div class="shelf-book-item">
+            <div class="shelf-book-info">
+              <img src="${b.image || 'assets/book cover/AI Shift ebook Cover.webp'}" alt="${b.title}" class="shelf-book-thumb" />
+              <div>
+                <div class="shelf-book-name">${b.title}</div>
+                <div class="shelf-book-author">${b.author}</div>
+              </div>
+            </div>
+            <button class="pricing-action-btn btn-solid" style="padding:6px 14px; font-size:12.5px;" onclick="closeShelfModal(); openReaderModal('${b.title.replace(/'/g, "\\'")}', '${(b.image || '').replace(/'/g, "\\'")}')">Read Now</button>
+          </div>
+        `).join("");
+      }
+
+      modal.classList.add("active");
+    }
+
+    function closeShelfModal() {
+      document.getElementById("shelfModal")?.classList.remove("active");
+    }
+
+    function createNewShelfPrompt() {
+      const name = prompt("Enter a name for your new curated shelf:", "Executive Strategy 2026");
+      if (!name || !name.trim()) return;
+
+      const grid = document.getElementById("customShelvesGrid");
+      if (!grid) return;
+
+      const card = document.createElement("div");
+      card.className = "shelf-card";
+      card.onclick = () => openShelfModal(name.trim());
+      card.innerHTML = `
+        <div class="shelf-icon-wrap" style="color:var(--navy);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <h4 class="shelf-card-title">${name.trim()}</h4>
+        <p class="shelf-card-desc">Custom curated shelf</p>
+        <div class="shelf-card-counter">0 books</div>
+      `;
+      grid.appendChild(card);
+      showToast(`✓ Shelf "${name.trim()}" created successfully!`);
+    }
+
+    // Membership Plan Flow
+    function openPlanConfirmation(planName, price) {
+      selectedTierForConfirmation = { name: planName, price: price };
+      const nameEl = document.getElementById("confirmPlanName");
+      const priceEl = document.getElementById("confirmPlanPrice");
+      if (nameEl) nameEl.textContent = planName;
+      if (priceEl) priceEl.textContent = price;
+      document.getElementById("planConfirmModal")?.classList.add("active");
+    }
+
+    function closePlanConfirmation() {
+      document.getElementById("planConfirmModal")?.classList.remove("active");
+    }
+
+    function activateSelectedPlan() {
+      if (!selectedTierForConfirmation) return;
+      currentMembershipTier = selectedTierForConfirmation.name;
+      closePlanConfirmation();
+
+      // Update Subscription Status Card
+      const badge = document.getElementById("subStatusBadge");
+      const badgeText = document.getElementById("subStatusBadgeText");
+      const title = document.getElementById("subStatusTitle");
+      const desc = document.getElementById("subStatusDesc");
+
+      if (badge && badgeText) {
+        badge.className = "status-badge active";
+        badgeText.textContent = "ACTIVE";
+      }
+      if (title) {
+        title.textContent = `${currentMembershipTier} (Active Plan)`;
+      }
+      if (desc) {
+        desc.textContent = "All manuscripts, flipbook formats, and executive downloads are fully unlocked.";
+      }
+
+      // Unlock Archive Member Badge in Achievements
+      unlockBadge("Archive Member");
+      addXp(60);
+
+      showToast(`🎉 Congratulations! Your ${currentMembershipTier} is now active.`);
+    }
+
+    // Achievements Helpers
+    function unlockBadge(badgeName) {
+      if (earnedBadges.has(badgeName)) return;
+      earnedBadges.add(badgeName);
+
+      if (badgeName === "First Chapter") {
+        const badge = document.getElementById("badgeFirstChapter");
+        if (badge) {
+          badge.className = "badge-card unlocked";
+          badge.title = "Badge Unlocked!";
+        }
+      } else if (badgeName === "Archive Member") {
+        const badge = document.getElementById("badgeArchiveMember");
+        if (badge) {
+          badge.className = "badge-card unlocked";
+          badge.title = "Badge Unlocked!";
+        }
+      }
+
+      const counter = document.getElementById("badgesEarnedCount");
+      if (counter) counter.textContent = earnedBadges.size;
+      addXp(40);
+      showToast(`🏆 Badge Unlocked: ${badgeName}!`);
+    }
+
+    function addXp(amount) {
+      userXp += amount;
+      if (userXp >= 150) {
+        userLevel = 2;
+        const lvlText = document.getElementById("achieveLevelText");
+        if (lvlText) lvlText.textContent = "Lv. 2";
+      }
+      const fill = document.getElementById("achieveProgressFill");
+      const text = document.getElementById("achieveXpText");
+      if (fill) {
+        const pct = Math.min(100, Math.round((userXp / 150) * 100));
+        fill.style.width = `${pct}%`;
+      }
+      if (text) {
+        text.textContent = `${userXp} / 150 XP`;
+      }
+    }
+
+    // Journal Helpers
+    function addNewJournalEntry() {
+      const input = document.getElementById("journalInput");
+      const list = document.getElementById("journalEntriesList");
+      if (!input || !list) return;
+
+      const val = input.value.trim();
+      if (!val) {
+        showToast("Please enter a reflection before saving.");
+        return;
+      }
+
+      const item = document.createElement("div");
+      item.className = "journal-entry-item";
+      item.innerHTML = `
+        <div class="journal-entry-source">
+          <span>📖 Executive Margin Note</span>
+          <span style="color:var(--text-light); font-weight:400;">Just now</span>
+        </div>
+        <p class="journal-entry-quote">"${val.replace(/"/g, '&quot;')}"</p>
+      `;
+      list.prepend(item);
+      input.value = "";
+
+      updateShelfCounters();
+      addXp(15);
+      showToast("✓ Reflection saved to Reading Journal (+15 XP)");
+    }
+
+    // Settings Helpers
+    function selectThemeMode(mode, btn) {
+      document.querySelectorAll(".theme-card-btn").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      showToast(`Reader theme set to: ${mode.toUpperCase()}`);
+    }
+
+    function updateReaderFontSize(size) {
+      const body = document.querySelector(".reader-content-body");
+      if (body) body.style.fontSize = size;
+      showToast(`Reader font size updated to ${size}`);
+    }
+
+    function saveUserSettings() {
+      const name = document.getElementById("settingName")?.value || "Sarah Jenkins";
+      showToast(`✓ Preferences saved for ${name}.`);
+    }
+
+    // Sign Out
+    function handleSignOut(e) {
+      e.preventDefault();
+      showToast("✓ Signing out of member session...");
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1000);
+    }
+
+    // Toggle Sidebar on both desktop (collapse/expand) and mobile (open/close drawer)
+    function toggleSidebar() {
+      const isMobile = window.innerWidth <= 900;
+      const sidebar = document.getElementById("appSidebar");
+      const backdrop = document.getElementById("sidebarBackdrop");
+
+      if (isMobile) {
+        const isOpen = sidebar.classList.toggle("open");
+        if (backdrop) {
+          backdrop.classList.toggle("active", isOpen);
+        }
+      } else {
+        const isCollapsed = document.body.classList.toggle("sidebar-collapsed");
+        sidebar.classList.toggle("collapsed", isCollapsed);
+        try {
+          localStorage.setItem("bw36_sidebar_collapsed", isCollapsed ? "true" : "false");
+        } catch (e) { }
+      }
+    }
+
+    // Auto-restore desktop sidebar collapse preference
+    (function initSidebarState() {
+      try {
+        if (window.innerWidth > 900 && localStorage.getItem("bw36_sidebar_collapsed") === "true") {
+          document.body.classList.add("sidebar-collapsed");
+          document.getElementById("appSidebar")?.classList.add("collapsed");
+        }
+      } catch (e) { }
+    })();
+
+    // ==========================================================================
+    // SPOTLIGHT SEARCH MODAL (Command Palette) LOGIC
+    // ==========================================================================
+    function openSpotlightModal() {
+      const modal = document.getElementById("spotlightModal");
+      const input = document.getElementById("spotlightSearchInput");
+      if (!modal) return;
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+      if (input) {
+        input.value = "";
+        handleSpotlightInput("");
+        setTimeout(() => input.focus(), 60);
+      }
+    }
+
+    function closeSpotlightModal() {
+      const modal = document.getElementById("spotlightModal");
+      if (!modal) return;
+      modal.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    function handleSpotlightBackdropClick(e) {
+      if (e.target.id === "spotlightModal") {
+        closeSpotlightModal();
+      }
+    }
+
+    function handleSpotlightInput(val) {
+      const query = (val || "").trim().toLowerCase();
+      const label = document.getElementById("spotlightSectionLabel");
+
+      if (!query) {
+        if (label) label.textContent = "Popular right now";
+        // Show the top 5 popular items (matches reference screenshot)
+        spotlightVisibleBooks = dashBooks.filter(b => b.popular).slice(0, 5);
+      } else {
+        spotlightVisibleBooks = dashBooks.filter(b => {
+          return (
+            b.title.toLowerCase().includes(query) ||
+            b.author.toLowerCase().includes(query) ||
+            b.category.toLowerCase().includes(query) ||
+            (b.level && b.level.toLowerCase().includes(query)) ||
+            (b.access && b.access.toLowerCase().includes(query)) ||
+            (b.badgeText && b.badgeText.toLowerCase().includes(query))
+          );
+        });
+        if (label) {
+          label.textContent = spotlightVisibleBooks.length > 0
+            ? `Results (${spotlightVisibleBooks.length})`
+            : `No results for "${val}"`;
+        }
+      }
+
+      spotlightActiveIndex = 0;
+      renderSpotlightResults();
+    }
+
+    function renderSpotlightResults() {
+      const container = document.getElementById("spotlightResults");
+      if (!container) return;
+
+      if (spotlightVisibleBooks.length === 0) {
+        container.innerHTML = `
+          <div class="spotlight-empty-state">
+            <h4>No courses or publications found</h4>
+            <p>Try searching by course title, author name, or topic keyword.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = spotlightVisibleBooks.map((book, idx) => {
+        const isActive = idx === spotlightActiveIndex;
+        const themeClass = book.thumbTheme || "theme-navy";
+        const badge = book.badgeText || "</>";
+        const metaLine = `${book.author}, ${book.level || 'Beginner'}, ${book.access || 'Free'}`;
+
+        return `
+          <div 
+            class="spotlight-item ${isActive ? 'active' : ''}" 
+            data-index="${idx}"
+            onclick="selectSpotlightBook('${book.id}')"
+            onmouseenter="setSpotlightActiveIndex(${idx})"
+          >
+            <div class="spotlight-thumb ${themeClass}">
+              <span class="spotlight-thumb-code">${badge}</span>
+            </div>
+            <div class="spotlight-info">
+              <div class="spotlight-title">${book.title}</div>
+              <div class="spotlight-meta">${metaLine}</div>
+            </div>
+            <div class="spotlight-action-hint">
+              <span class="spotlight-enter-badge">↵</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      scrollSpotlightActiveIntoView();
+    }
+
+    function setSpotlightActiveIndex(idx) {
+      spotlightActiveIndex = idx;
+      const items = document.querySelectorAll(".spotlight-item");
+      items.forEach((item, i) => {
+        item.classList.toggle("active", i === idx);
+      });
+    }
+
+    function scrollSpotlightActiveIntoView() {
+      const activeItem = document.querySelector(".spotlight-item.active");
+      if (activeItem) {
+        activeItem.scrollIntoView({ block: "nearest" });
+      }
+    }
+
+    function handleSpotlightKeydown(e) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (spotlightVisibleBooks.length > 0) {
+          spotlightActiveIndex = (spotlightActiveIndex + 1) % spotlightVisibleBooks.length;
+          setSpotlightActiveIndex(spotlightActiveIndex);
+          scrollSpotlightActiveIntoView();
+        }
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (spotlightVisibleBooks.length > 0) {
+          spotlightActiveIndex = (spotlightActiveIndex - 1 + spotlightVisibleBooks.length) % spotlightVisibleBooks.length;
+          setSpotlightActiveIndex(spotlightActiveIndex);
+          scrollSpotlightActiveIntoView();
+        }
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (spotlightVisibleBooks.length > 0 && spotlightVisibleBooks[spotlightActiveIndex]) {
+          selectSpotlightBook(spotlightVisibleBooks[spotlightActiveIndex].id);
+        }
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        closeSpotlightModal();
+      }
+    }
+
+    function selectSpotlightBook(bookId) {
+      const book = dashBooks.find(b => b.id === bookId);
+      if (!book) return;
+      closeSpotlightModal();
+      openReaderModal(book.title, book.image);
+      showToast(`✓ Opened "${book.title}" in reader.`);
+    }
+
+    // Global keyboard shortcuts (Ctrl+K, Cmd+K, /, Esc)
+    document.addEventListener("keydown", (e) => {
+      // Ctrl+K or Cmd+K
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        openSpotlightModal();
+        return;
+      }
+      // Slash shortcut '/' when not in input
+      if (e.key === "/" && !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
+        e.preventDefault();
+        openSpotlightModal();
+        return;
+      }
+      // Escape closes active modals
+      if (e.key === "Escape") {
+        const spotlightModal = document.getElementById("spotlightModal");
+        if (spotlightModal && spotlightModal.classList.contains("active")) {
+          closeSpotlightModal();
+          return;
+        }
+        const readerModal = document.getElementById("readerModal");
+        if (readerModal && readerModal.classList.contains("active")) {
+          closeReaderModal();
+          return;
+        }
+      }
+    });
+
+    // Toast
+    function showToast(msg, duration = 3000) {
+      const toast = document.getElementById("dashToast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, duration);
+    }
+  </script>
+</body>
+
+</html>
