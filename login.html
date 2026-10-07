@@ -767,12 +767,16 @@
       gap: 8px;
       color: var(--ink-muted);
       cursor: pointer;
+      user-select: none;
     }
 
     .forgot-link {
       color: var(--navy);
       font-weight: 600;
       transition: color var(--transition-fast);
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
     }
 
     .forgot-link:hover {
@@ -1164,8 +1168,343 @@
       pointer-events: auto;
     }
 
+    /* ==========================================================================
+       FORGOT PASSWORD MODAL STYLES
+       ========================================================================== */
+    .forgot-modal-dialog {
+      max-width: 480px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(219, 229, 234, 0.8);
+      box-shadow: 0 28px 70px rgba(11, 46, 74, 0.28);
+    }
+
+    .forgot-modal-body {
+      padding: 32px 28px 28px;
+    }
+
+    .forgot-stepper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line-subtle);
+    }
+
+    .step-dot {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #7b94a6;
+      transition: all var(--transition-fast);
+    }
+
+    .step-dot.active {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .step-dot.completed {
+      color: #248a52;
+    }
+
+    .step-dot .dot-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #e5eff5;
+      color: var(--navy);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      transition: all var(--transition-fast);
+    }
+
+    .step-dot.active .dot-num {
+      background: var(--navy);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(11, 58, 99, 0.25);
+    }
+
+    .step-dot.completed .dot-num {
+      background: #248a52;
+      color: var(--white);
+    }
+
+    .step-connector {
+      flex: 1;
+      height: 2px;
+      background: #e2edf3;
+      margin: 0 10px;
+      border-radius: 2px;
+      transition: background 0.3s ease;
+    }
+
+    .step-connector.completed {
+      background: #248a52;
+    }
+
+    .forgot-icon-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: #eaf1f7;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      box-shadow: 0 4px 12px rgba(11, 58, 99, 0.08);
+    }
+
+    .forgot-icon-badge svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .forgot-icon-badge.email-badge {
+      background: #fdf6e6;
+      color: #9f7818;
+    }
+
+    .forgot-icon-badge.key-badge {
+      background: #eaf1f7;
+      color: var(--navy);
+    }
+
+    .forgot-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .forgot-desc {
+      font-size: 13.5px;
+      color: var(--ink-muted);
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    .forgot-change-email {
+      color: var(--navy);
+      font-weight: 700;
+      text-decoration: underline;
+      margin-left: 6px;
+      font-size: 12.5px;
+      display: inline-block;
+    }
+
+    .forgot-change-email:hover {
+      color: var(--gold);
+    }
+
+    .otp-inputs-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 16px 0 10px;
+    }
+
+    .otp-box {
+      width: 48px;
+      height: 52px;
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      background: #fbfdff;
+      color: var(--navy);
+      transition: all var(--transition-fast);
+      caret-color: var(--navy);
+    }
+
+    .otp-box:focus {
+      outline: none;
+      border-color: var(--navy);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(11, 58, 99, 0.14);
+    }
+
+    .otp-box.filled {
+      border-color: #8bb3cf;
+      background: var(--white);
+    }
+
+    .demo-otp-btn {
+      background: #fdfaf2;
+      border: 1px dashed #d5b259;
+      border-radius: 20px;
+      padding: 7px 14px;
+      font-size: 12px;
+      color: var(--navy);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+      max-width: 100%;
+    }
+
+    .demo-otp-btn:hover {
+      background: #fcf5e2;
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .resend-row {
+      text-align: center;
+      margin: 10px 0 6px;
+      font-size: 13px;
+    }
+
+    .resend-action-btn {
+      background: none;
+      border: none;
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: color var(--transition-fast);
+    }
+
+    .resend-action-btn:hover {
+      color: var(--gold);
+    }
+
+    .pass-rules-list {
+      background: #f6f9fc;
+      border: 1px solid var(--line-subtle);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--ink-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .rule-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .rule-item.valid {
+      color: #248a52;
+      font-weight: 600;
+    }
+
+    .rule-item .rule-icon {
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .forgot-back-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--ink-muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+      text-align: center;
+    }
+
+    .forgot-back-btn:hover {
+      color: var(--navy);
+    }
+
+    .forgot-success-icon-wrap {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-checkmark-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #edf8f0;
+      border: 2px solid #a1dcb0;
+      color: #248a52;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(36, 138, 82, 0.18);
+    }
+
+    .success-checkmark-circle svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .reset-success-card {
+      background: #f8fbfe;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin: 18px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .reset-success-card .card-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .reset-success-card .card-label {
+      color: var(--ink-muted);
+    }
+
+    .reset-success-card .card-val {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
     /* Mobile Responsive Rules for login.html */
     @media (max-width: 640px) {
+      /* Sign In Remember Me & Forgot Password Stacking on Mobile */
+      .form-row-remember {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        margin-bottom: 22px !important;
+      }
+      .form-row-remember .forgot-link {
+        order: 1 !important;
+        align-self: flex-end !important;
+        text-align: right !important;
+        font-size: 13.5px !important;
+        padding: 2px 0 !important;
+      }
+      .form-row-remember .checkbox-label {
+        order: 2 !important;
+        font-size: 13.5px !important;
+      }
+
       .auth-page-wrap {
         padding: 36px 16px;
       }
@@ -1250,6 +1589,46 @@
       .plan-badge.lifetime {
         right: 12px;
       }
+
+      /* Forgot Password Modal Mobile Overrides */
+      .forgot-modal-dialog {
+        max-width: calc(100vw - 24px) !important;
+        margin: auto;
+      }
+      .forgot-modal-body {
+        padding: 24px 18px 22px !important;
+      }
+      .forgot-stepper {
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+      }
+      .step-dot {
+        font-size: 11.5px;
+        gap: 5px;
+      }
+      .step-dot .dot-num {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+      }
+      .step-connector {
+        margin: 0 6px;
+      }
+      .otp-inputs-row {
+        gap: 6px;
+      }
+      .otp-box {
+        width: calc((100% - 30px) / 6);
+        max-width: 48px;
+        min-width: 34px;
+        height: 48px;
+        font-size: 18px;
+        border-radius: 8px;
+      }
+      .demo-otp-btn {
+        font-size: 11.5px;
+        padding: 6px 10px;
+      }
     }
 
     /* Mobile Landscape Viewports */
@@ -1266,6 +1645,32 @@
       }
       .membership-plan {
         padding: 16px 14px;
+      }
+
+      /* Forgot Password Landscape */
+      .forgot-modal-body {
+        padding: 16px 18px 14px !important;
+      }
+      .forgot-icon-badge {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 8px;
+      }
+      .forgot-icon-badge svg {
+        width: 20px;
+        height: 20px;
+      }
+      .forgot-title {
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
+      .forgot-desc {
+        font-size: 12.5px;
+        margin-bottom: 14px;
+      }
+      .forgot-stepper {
+        margin-bottom: 14px;
+        padding-bottom: 10px;
       }
     }
   </style>
@@ -1436,11 +1841,11 @@
           </div>
 
           <div class="form-row-remember">
-            <label class="checkbox-label">
+            <label class="checkbox-label" for="rememberMe">
               <input type="checkbox" id="rememberMe" checked />
-              <span>Remember me for 30 days</span>
+              <span>Remember me</span>
             </label>
-            <a href="javascript:void(0)" class="forgot-link" onclick="handleForgotPassword()">Forgot password?</a>
+            <a href="javascript:void(0)" class="forgot-link" onclick="openForgotPasswordModal()">Forgot password?</a>
           </div>
 
           <button type="submit" class="submit-btn" id="signInSubmitBtn">
@@ -1618,6 +2023,233 @@
     </div>
   </div>
 
+  <!-- Forgot Password Multi-Step Modal -->
+  <div class="modal-overlay" id="forgotPasswordModal" role="dialog" aria-modal="true" aria-labelledby="forgotModalTitle">
+    <div class="modal-dialog forgot-modal-dialog">
+      <button class="modal-close-btn" onclick="closeForgotPasswordModal()" aria-label="Close modal">×</button>
+      
+      <div class="modal-body forgot-modal-body">
+        
+        <!-- Step Indicator -->
+        <div class="forgot-stepper" aria-label="Password reset steps">
+          <div class="step-dot active" id="dotStep1">
+            <span class="dot-num">1</span>
+            <span class="dot-label">Email</span>
+          </div>
+          <div class="step-connector" id="conn1"></div>
+          <div class="step-dot" id="dotStep2">
+            <span class="dot-num">2</span>
+            <span class="dot-label">Verify</span>
+          </div>
+          <div class="step-connector" id="conn2"></div>
+          <div class="step-dot" id="dotStep3">
+            <span class="dot-num">3</span>
+            <span class="dot-label">New Password</span>
+          </div>
+        </div>
+
+        <!-- STEP 1: Enter Registered Email -->
+        <div class="forgot-step-pane" id="forgotStep1">
+          <div class="forgot-header">
+            <div class="forgot-icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <h3 class="forgot-title" id="forgotModalTitle">Reset Your Password</h3>
+            <p class="forgot-desc">Enter your Bridgeway36 registered email to receive a 6-digit verification code.</p>
+          </div>
+
+          <form id="forgotEmailForm" onsubmit="handleForgotEmailSubmit(event)">
+            <div class="form-group" style="text-align: left;">
+              <label class="form-label" for="forgotEmail">Work or Personal Email</label>
+              <input type="email" id="forgotEmail" class="form-input" placeholder="name@organization.com" required autocomplete="email" />
+              <div style="font-size: 12px; color: var(--ink-muted); margin-top: 6px; display: flex; align-items: center; gap: 5px;">
+                <span>🔒</span> <span>We will send a 6-digit verification code to this address.</span>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="forgotStep1Btn" style="margin-top: 18px;">
+              <span>Send Verification Code</span>
+              <span>→</span>
+            </button>
+
+            <button type="button" class="forgot-back-btn" onclick="closeForgotPasswordModal()">
+              ← Return to Sign In
+            </button>
+          </form>
+        </div>
+
+        <!-- STEP 2: Enter 6-Digit OTP Code -->
+        <div class="forgot-step-pane" id="forgotStep2" style="display: none;">
+          <div class="forgot-header">
+            <div class="forgot-icon-badge email-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <h3 class="forgot-title">Enter Verification Code</h3>
+            <p class="forgot-desc">
+              We sent a 6-digit code to <strong id="forgotEmailDisplay" style="color: var(--navy); word-break: break-all;">user@email.com</strong>.
+              <a href="javascript:void(0)" onclick="goToForgotStep(1)" class="forgot-change-email">Edit</a>
+            </p>
+          </div>
+
+          <form id="forgotOtpForm" onsubmit="handleForgotOtpSubmit(event)">
+            <!-- 6 Segmented OTP Boxes -->
+            <div class="otp-inputs-row" id="otpInputsRow">
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-box" id="otp1" autocomplete="one-time-code" aria-label="Digit 1" />
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-box" id="otp2" aria-label="Digit 2" />
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-box" id="otp3" aria-label="Digit 3" />
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-box" id="otp4" aria-label="Digit 4" />
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-box" id="otp5" aria-label="Digit 5" />
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-box" id="otp6" aria-label="Digit 6" />
+            </div>
+
+            <!-- Quick Auto-Fill Demo Chip -->
+            <div style="margin: 12px 0 14px; text-align: center;">
+              <button type="button" class="demo-otp-btn" onclick="autoFillDemoOtp()" title="Auto-fill demo code 123456">
+                <span style="color: var(--gold);">⚡</span> <strong>Prototype Demo:</strong> Click to fill <code style="background: rgba(203,161,53,0.18); padding: 2px 6px; border-radius: 4px; font-weight: 700;">123456</code>
+              </button>
+            </div>
+
+            <!-- Resend Countdown Timer -->
+            <div class="resend-row">
+              <span id="resendTimerText" style="color: var(--ink-muted); font-size: 13px;">
+                Didn't receive code? Resend in <strong id="resendSeconds">45</strong>s
+              </span>
+              <button type="button" id="resendCodeBtn" class="resend-action-btn" style="display: none;" onclick="triggerResendOtp()">
+                ↻ Resend Code Now
+              </button>
+            </div>
+
+            <button type="submit" class="submit-btn" id="forgotStep2Btn" style="margin-top: 18px;">
+              <span>Verify Code &amp; Continue</span>
+              <span>→</span>
+            </button>
+
+            <button type="button" class="forgot-back-btn" onclick="goToForgotStep(1)">
+              ← Change Email Address
+            </button>
+          </form>
+        </div>
+
+        <!-- STEP 3: Create New Password -->
+        <div class="forgot-step-pane" id="forgotStep3" style="display: none;">
+          <div class="forgot-header">
+            <div class="forgot-icon-badge key-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 2l-2 2m-1-1l-3 3m-2-2l-2 2m-2-2l-2 2M3 21l6-6M9 9l3-3a7 7 0 1 1 9.9 9.9L16 21l-3-3"></path>
+              </svg>
+            </div>
+            <h3 class="forgot-title">Create New Password</h3>
+            <p class="forgot-desc">Identity verified! Set a strong password for your Bridgeway36 account.</p>
+          </div>
+
+          <form id="forgotNewPassForm" onsubmit="handleForgotNewPassSubmit(event)">
+            <!-- New Password -->
+            <div class="form-group" style="text-align: left;">
+              <label class="form-label" for="forgotNewPass">New Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="forgotNewPass" class="form-input" placeholder="Minimum 8 characters" oninput="checkForgotStrength(this.value)" required />
+                <button type="button" class="password-toggle-btn" onclick="togglePassword('forgotNewPass', this)" aria-label="Toggle password visibility" title="Show password">
+                  <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <svg class="eye-icon eye-closed" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                  </svg>
+                </button>
+              </div>
+              <div class="strength-bar-wrap" style="margin-top: 8px;">
+                <div class="strength-segment" id="fpStr1"></div>
+                <div class="strength-segment" id="fpStr2"></div>
+                <div class="strength-segment" id="fpStr3"></div>
+              </div>
+              <div id="fpStrengthLabel" style="font-size: 12px; color: var(--ink-muted); margin-top: 4px; text-align: right;">Password strength: Enter password</div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group" style="text-align: left; margin-top: 14px;">
+              <label class="form-label" for="forgotConfirmPass">Confirm New Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="forgotConfirmPass" class="form-input" placeholder="Repeat your new password" oninput="checkForgotMatch()" required />
+                <button type="button" class="password-toggle-btn" onclick="togglePassword('forgotConfirmPass', this)" aria-label="Toggle password visibility" title="Show password">
+                  <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <svg class="eye-icon eye-closed" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                  </svg>
+                </button>
+              </div>
+              <div id="fpMatchMessage" style="font-size: 12px; margin-top: 5px; font-weight: 500; min-height: 18px;"></div>
+            </div>
+
+            <!-- Rules checklist -->
+            <div class="pass-rules-list">
+              <div class="rule-item" id="ruleLen"><span class="rule-icon">○</span> At least 8 characters</div>
+              <div class="rule-item" id="ruleMix"><span class="rule-icon">○</span> Contains letters &amp; numbers/symbols</div>
+              <div class="rule-item" id="ruleMatch"><span class="rule-icon">○</span> Passwords match</div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="forgotStep3Btn" style="margin-top: 18px;">
+              <span>Update Password &amp; Continue</span>
+              <span>→</span>
+            </button>
+
+            <button type="button" class="forgot-back-btn" onclick="goToForgotStep(2)">
+              ← Back to Code Verification
+            </button>
+          </form>
+        </div>
+
+        <!-- STEP 4: Success Screen -->
+        <div class="forgot-step-pane" id="forgotStep4" style="display: none; text-align: center;">
+          <div class="forgot-success-icon-wrap">
+            <div class="success-checkmark-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <h3 class="forgot-title" style="margin-top: 18px;">Password Reset Complete!</h3>
+          <p class="forgot-desc" style="margin-bottom: 20px;">
+            Your password has been successfully updated for <strong id="forgotSuccessEmail" style="color: var(--navy); word-break: break-all;"></strong>. You can now sign in with your new password.
+          </p>
+
+          <div class="reset-success-card">
+            <div class="card-item">
+              <span class="card-label">Account:</span>
+              <span class="card-val" id="successAccountBadge">user@email.com</span>
+            </div>
+            <div class="card-item">
+              <span class="card-label">Status:</span>
+              <span class="card-val" style="color: #248a52; font-weight: 700;">✓ Active &amp; Verified</span>
+            </div>
+            <div class="card-item">
+              <span class="card-label">Security:</span>
+              <span class="card-val">256-bit Encrypted</span>
+            </div>
+          </div>
+
+          <button type="button" class="submit-btn" style="margin-top: 20px;" onclick="finishForgotPasswordAndSignIn()">
+            <span>Sign In to eLibrary Now</span>
+            <span>→</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- Script -->
   <script>
     // Tab Switching Logic
@@ -1733,9 +2365,384 @@
       }, 1200);
     }
 
+    // ==========================================================================
+    // FORGOT PASSWORD WORKFLOW CONTROLS
+    // ==========================================================================
+    let currentForgotEmail = '';
+    let resendTimerInterval = null;
+
+    function openForgotPasswordModal() {
+      const modal = document.getElementById('forgotPasswordModal');
+      if (!modal) return;
+
+      // Prepopulate email if entered on sign in form
+      const signinEmail = document.getElementById('signinEmail');
+      const forgotEmail = document.getElementById('forgotEmail');
+      if (signinEmail && signinEmail.value.trim() && forgotEmail) {
+        forgotEmail.value = signinEmail.value.trim();
+      }
+
+      goToForgotStep(1);
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      setTimeout(() => {
+        if (forgotEmail) {
+          forgotEmail.focus();
+          if (forgotEmail.value) {
+            forgotEmail.select();
+          }
+        }
+      }, 120);
+    }
+
+    function closeForgotPasswordModal() {
+      const modal = document.getElementById('forgotPasswordModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      if (resendTimerInterval) {
+        clearInterval(resendTimerInterval);
+        resendTimerInterval = null;
+      }
+    }
+
     function handleForgotPassword() {
-      const email = document.getElementById('signinEmail').value || 'your registered email';
-      showToast(`✓ Prototype: Password reset link dispatched to ${email}. Check inbox.`);
+      openForgotPasswordModal();
+    }
+
+    function goToForgotStep(step) {
+      const steps = [1, 2, 3, 4];
+      steps.forEach(s => {
+        const pane = document.getElementById(`forgotStep${s}`);
+        if (pane) {
+          pane.style.display = (s === step) ? 'block' : 'none';
+        }
+      });
+
+      // Update Stepper dots
+      const d1 = document.getElementById('dotStep1');
+      const d2 = document.getElementById('dotStep2');
+      const d3 = document.getElementById('dotStep3');
+      const c1 = document.getElementById('conn1');
+      const c2 = document.getElementById('conn2');
+
+      if (d1 && d2 && d3) {
+        d1.className = 'step-dot' + (step === 1 ? ' active' : (step > 1 ? ' completed' : ''));
+        d2.className = 'step-dot' + (step === 2 ? ' active' : (step > 2 ? ' completed' : ''));
+        d3.className = 'step-dot' + (step === 3 ? ' active' : (step > 3 ? ' completed' : ''));
+        if (c1) c1.className = 'step-connector' + (step > 1 ? ' completed' : '');
+        if (c2) c2.className = 'step-connector' + (step > 2 ? ' completed' : '');
+      }
+
+      const stepper = document.querySelector('.forgot-stepper');
+      if (stepper) {
+        stepper.style.display = (step === 4) ? 'none' : 'flex';
+      }
+
+      if (step === 1) {
+        setTimeout(() => {
+          const emailInput = document.getElementById('forgotEmail');
+          if (emailInput) emailInput.focus();
+        }, 100);
+      } else if (step === 2) {
+        setTimeout(() => {
+          const firstOtp = document.getElementById('otp1');
+          if (firstOtp) firstOtp.focus();
+        }, 100);
+      } else if (step === 3) {
+        setTimeout(() => {
+          const newPass = document.getElementById('forgotNewPass');
+          if (newPass) newPass.focus();
+        }, 100);
+      }
+    }
+
+    function handleForgotEmailSubmit(e) {
+      e.preventDefault();
+      const emailInput = document.getElementById('forgotEmail');
+      const email = emailInput ? emailInput.value.trim() : '';
+
+      if (!email || !email.includes('@')) {
+        showToast('⚠️ Please provide a valid email address.');
+        return;
+      }
+
+      currentForgotEmail = email;
+      const displayElem = document.getElementById('forgotEmailDisplay');
+      const successElem = document.getElementById('forgotSuccessEmail');
+      const badgeElem = document.getElementById('successAccountBadge');
+      if (displayElem) displayElem.textContent = email;
+      if (successElem) successElem.textContent = email;
+      if (badgeElem) badgeElem.textContent = email;
+
+      const btn = document.getElementById('forgotStep1Btn');
+      if (btn) {
+        btn.innerHTML = '<span>Sending Code...</span>';
+        btn.disabled = true;
+      }
+
+      setTimeout(() => {
+        if (btn) {
+          btn.innerHTML = '<span>Send Verification Code</span> <span>→</span>';
+          btn.disabled = false;
+        }
+        showToast(`✓ Verification code sent to ${email}`);
+        goToForgotStep(2);
+        startResendCountdown();
+      }, 550);
+    }
+
+    function setupOtpInputs() {
+      const inputs = document.querySelectorAll('.otp-box');
+      inputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+          const val = e.target.value.replace(/[^0-9]/g, '');
+          e.target.value = val ? val[val.length - 1] : '';
+          if (val) {
+            e.target.classList.add('filled');
+            if (index < inputs.length - 1) {
+              inputs[index + 1].focus();
+            }
+          } else {
+            e.target.classList.remove('filled');
+          }
+        });
+
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace') {
+            if (!e.target.value && index > 0) {
+              inputs[index - 1].focus();
+              inputs[index - 1].value = '';
+              inputs[index - 1].classList.remove('filled');
+            } else {
+              e.target.classList.remove('filled');
+            }
+          }
+        });
+
+        input.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const pasteData = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+          if (pasteData) {
+            for (let i = 0; i < inputs.length; i++) {
+              if (pasteData[i]) {
+                inputs[i].value = pasteData[i];
+                inputs[i].classList.add('filled');
+              }
+            }
+            const nextIdx = Math.min(pasteData.length, inputs.length - 1);
+            inputs[nextIdx].focus();
+          }
+        });
+      });
+    }
+
+    function autoFillDemoOtp() {
+      const code = '123456';
+      const inputs = document.querySelectorAll('.otp-box');
+      inputs.forEach((input, i) => {
+        input.value = code[i] || '';
+        input.classList.add('filled');
+      });
+      if (inputs.length > 0) {
+        inputs[inputs.length - 1].focus();
+      }
+      showToast('✓ Demo code 123456 autofilled!');
+    }
+
+    function getEnteredOtp() {
+      const inputs = document.querySelectorAll('.otp-box');
+      let code = '';
+      inputs.forEach(input => code += (input.value || ''));
+      return code;
+    }
+
+    function startResendCountdown() {
+      if (resendTimerInterval) clearInterval(resendTimerInterval);
+      let timeLeft = 45;
+      const timerText = document.getElementById('resendTimerText');
+      const countdown = document.getElementById('resendSeconds');
+      const resendBtn = document.getElementById('resendCodeBtn');
+
+      if (timerText) timerText.style.display = 'inline';
+      if (resendBtn) resendBtn.style.display = 'none';
+      if (countdown) countdown.textContent = timeLeft;
+
+      resendTimerInterval = setInterval(() => {
+        timeLeft -= 1;
+        if (countdown) countdown.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(resendTimerInterval);
+          resendTimerInterval = null;
+          if (timerText) timerText.style.display = 'none';
+          if (resendBtn) resendBtn.style.display = 'inline';
+        }
+      }, 1000);
+    }
+
+    function triggerResendOtp() {
+      showToast(`✓ New 6-digit verification code sent to ${currentForgotEmail || 'your email'}!`);
+      startResendCountdown();
+      const firstOtp = document.getElementById('otp1');
+      if (firstOtp) firstOtp.focus();
+    }
+
+    function handleForgotOtpSubmit(e) {
+      e.preventDefault();
+      const code = getEnteredOtp();
+      if (code.length < 6) {
+        showToast('⚠️ Please enter the complete 6-digit code.');
+        return;
+      }
+
+      const btn = document.getElementById('forgotStep2Btn');
+      if (btn) {
+        btn.innerHTML = '<span>Verifying...</span>';
+        btn.disabled = true;
+      }
+
+      setTimeout(() => {
+        if (btn) {
+          btn.innerHTML = '<span>Verify Code &amp; Continue</span> <span>→</span>';
+          btn.disabled = false;
+        }
+        showToast('✓ Code verified! Please create your new password.');
+        goToForgotStep(3);
+      }, 500);
+    }
+
+    function checkForgotStrength(val) {
+      const s1 = document.getElementById('fpStr1');
+      const s2 = document.getElementById('fpStr2');
+      const s3 = document.getElementById('fpStr3');
+      const label = document.getElementById('fpStrengthLabel');
+      const ruleLen = document.getElementById('ruleLen');
+      const ruleMix = document.getElementById('ruleMix');
+
+      if (!s1 || !s2 || !s3) return;
+
+      s1.className = 'strength-segment';
+      s2.className = 'strength-segment';
+      s3.className = 'strength-segment';
+
+      const hasLen = val.length >= 8;
+      const hasMix = /[a-zA-Z]/.test(val) && /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val);
+
+      if (ruleLen) {
+        ruleLen.className = 'rule-item' + (hasLen ? ' valid' : '');
+        ruleLen.querySelector('.rule-icon').textContent = hasLen ? '✓' : '○';
+      }
+      if (ruleMix) {
+        ruleMix.className = 'rule-item' + (hasMix ? ' valid' : '');
+        ruleMix.querySelector('.rule-icon').textContent = hasMix ? '✓' : '○';
+      }
+
+      checkForgotMatch();
+
+      if (!val) {
+        if (label) {
+          label.textContent = 'Password strength: Enter password';
+          label.style.color = 'var(--ink-muted)';
+        }
+        return;
+      }
+
+      if (val.length < 6) {
+        s1.classList.add('active-weak');
+        if (label) { label.textContent = 'Password strength: Weak'; label.style.color = '#e76e55'; }
+      } else if (!hasLen || !hasMix) {
+        s1.classList.add('active-med');
+        s2.classList.add('active-med');
+        if (label) { label.textContent = 'Password strength: Medium'; label.style.color = '#e5a93b'; }
+      } else {
+        s1.classList.add('active-strong');
+        s2.classList.add('active-strong');
+        s3.classList.add('active-strong');
+        if (label) { label.textContent = 'Password strength: Strong ✓'; label.style.color = '#248a52'; }
+      }
+    }
+
+    function checkForgotMatch() {
+      const p1 = document.getElementById('forgotNewPass') ? document.getElementById('forgotNewPass').value : '';
+      const p2 = document.getElementById('forgotConfirmPass') ? document.getElementById('forgotConfirmPass').value : '';
+      const ruleMatch = document.getElementById('ruleMatch');
+      const msg = document.getElementById('fpMatchMessage');
+
+      if (!p2) {
+        if (msg) msg.textContent = '';
+        if (ruleMatch) {
+          ruleMatch.className = 'rule-item';
+          ruleMatch.querySelector('.rule-icon').textContent = '○';
+        }
+        return;
+      }
+
+      if (p1 === p2) {
+        if (msg) {
+          msg.textContent = '✓ Passwords match';
+          msg.style.color = '#248a52';
+        }
+        if (ruleMatch) {
+          ruleMatch.className = 'rule-item valid';
+          ruleMatch.querySelector('.rule-icon').textContent = '✓';
+        }
+      } else {
+        if (msg) {
+          msg.textContent = '⚠️ Passwords do not match';
+          msg.style.color = '#e76e55';
+        }
+        if (ruleMatch) {
+          ruleMatch.className = 'rule-item';
+          ruleMatch.querySelector('.rule-icon').textContent = '○';
+        }
+      }
+    }
+
+    function handleForgotNewPassSubmit(e) {
+      e.preventDefault();
+      const p1 = document.getElementById('forgotNewPass') ? document.getElementById('forgotNewPass').value : '';
+      const p2 = document.getElementById('forgotConfirmPass') ? document.getElementById('forgotConfirmPass').value : '';
+
+      if (p1.length < 8) {
+        showToast('⚠️ Password must be at least 8 characters long.');
+        return;
+      }
+      if (p1 !== p2) {
+        showToast('⚠️ Passwords do not match. Please verify.');
+        return;
+      }
+
+      const btn = document.getElementById('forgotStep3Btn');
+      if (btn) {
+        btn.innerHTML = '<span>Updating Password...</span>';
+        btn.disabled = true;
+      }
+
+      setTimeout(() => {
+        if (btn) {
+          btn.innerHTML = '<span>Update Password &amp; Continue</span> <span>→</span>';
+          btn.disabled = false;
+        }
+        showToast('✓ Password updated successfully!');
+        goToForgotStep(4);
+      }, 600);
+    }
+
+    function finishForgotPasswordAndSignIn() {
+      closeForgotPasswordModal();
+      switchAuthTab('signin');
+      const signinEmail = document.getElementById('signinEmail');
+      if (signinEmail && currentForgotEmail) {
+        signinEmail.value = currentForgotEmail;
+      }
+      const pass = document.getElementById('signinPassword');
+      if (pass) {
+        pass.value = '';
+        pass.focus();
+      }
+      showToast('✓ Password reset complete. Welcome back!');
     }
 
     // Mobile Drawer Controls
@@ -1796,8 +2803,18 @@
       }
     });
 
-    
     document.addEventListener('DOMContentLoaded', () => {
+      setupOtpInputs();
+
+      const forgotModal = document.getElementById('forgotPasswordModal');
+      if (forgotModal) {
+        forgotModal.addEventListener('click', (e) => {
+          if (e.target === forgotModal) {
+            closeForgotPasswordModal();
+          }
+        });
+      }
+
       const header = document.getElementById('siteHeader');
       if (header) {
         window.addEventListener('scroll', () => {
@@ -1818,6 +2835,7 @@
         if (e.key === 'Escape') {
           closeMobileMenu();
           closeMembershipModal();
+          closeForgotPasswordModal();
         }
       });
     });
