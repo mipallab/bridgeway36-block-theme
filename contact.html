@@ -335,21 +335,59 @@
       top: 0;
       right: -100%;
       width: 85%;
-      max-width: 380px;
+      max-width: 360px;
       height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
       background: var(--white);
       z-index: 103;
-      padding: 100px 30px 40px;
+      padding: 20px 22px 36px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 10px;
       box-shadow: -10px 0 40px rgba(11, 58, 99, 0.18);
       transition: right var(--transition-smooth);
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
 
     .mobile-drawer.open {
       right: 0;
+    }
+
+    .mobile-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--mist);
+      flex-shrink: 0;
+    }
+
+    .mobile-drawer-close {
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      background: var(--mist);
+      color: var(--navy);
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-drawer-close:hover {
+      background: #dfe9ef;
+      color: #dc2626;
+      border-color: #bcd1dc;
     }
 
     .mobile-backdrop {
@@ -369,22 +407,42 @@
     }
 
     .mobile-nav-link {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
       color: var(--navy);
-      padding: 12px 0;
+      padding: 10px 0;
       border-bottom: 1px solid var(--mist);
       display: flex;
       align-items: center;
       justify-content: space-between;
       text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .mobile-nav-link:hover {
+      color: var(--gold);
     }
 
     .mobile-drawer .libbtn {
       width: 100%;
       justify-content: center;
-      margin-top: 16px;
-      padding: 16px;
+      margin-top: 10px;
+      padding: 14px;
+    }
+
+    @media (max-height: 520px) {
+      .mobile-drawer {
+        padding: 14px 18px 24px;
+        gap: 6px;
+      }
+      .mobile-nav-link {
+        padding: 7px 0;
+        font-size: 14.5px;
+      }
+      .mobile-drawer-header {
+        margin-bottom: 4px;
+        padding-bottom: 8px;
+      }
     }
 
     @media (min-width: 1400px) {
@@ -1237,24 +1295,36 @@
     </div>
   </header>
 
-  <!-- Mobile Off-Canvas Drawer -->
+  <!-- Mobile Off-Canvas Drawer (Right Side) -->
   <div class="mobile-backdrop" id="mobileBackdrop" onclick="closeMobileMenu()"></div>
   <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation Drawer">
-    <div style="display: flex; align-items: center; margin-bottom: 20px;">
-      <img src="assets/images/Bridgeway36_eLibrary_Logo.png" alt="Bridgeway36 Logo" style="height: 52px; width: auto;" />
-    </div>
-    <a href="books.html" class="mobile-nav-link" onclick="closeMobileMenu()">Books Repository <span>→</span></a>
-    <a href="index.html#path-section" class="mobile-nav-link" onclick="closeMobileMenu()">Courses &amp; Pathways <span>→</span></a>
-    <a href="about.html" class="mobile-nav-link" onclick="closeMobileMenu()">About Bridgeway36 <span>→</span></a>
-    <a href="contact.html" class="mobile-nav-link" onclick="closeMobileMenu()">Contact <span>→</span></a>
-    
-    <div style="margin: 20px 0; display: flex; flex-direction: column; gap: 10px;">
-      <a href="login.html" class="btn secondary" style="width: 100%; text-align: center; justify-content: center; padding: 12px;" onclick="closeMobileMenu()">Sign In</a>
-      <a href="login.html#register" class="btn primary" style="width: 100%; text-align: center; justify-content: center; padding: 12px; background: var(--navy);" onclick="closeMobileMenu()">Create Account</a>
+    <div class="mobile-drawer-header">
+      <a href="index.html" onclick="closeMobileMenu()" style="display: flex; align-items: center;">
+        <img src="assets/images/Bridgeway36_eLibrary_Logo.png" alt="Bridgeway36 Logo"
+          style="height: 48px; width: auto;" />
+      </a>
+      <button class="mobile-drawer-close" onclick="closeMobileMenu()" aria-label="Close navigation menu">&times;</button>
     </div>
 
-    <button class="libbtn" style="width: 100%; justify-content: center;" onclick="closeMobileMenu(); openMembershipModal('eLibrary Access')">
-      <span>▣</span> &nbsp; Enter eLibrary
+    <a href="index.html" class="mobile-nav-link" onclick="closeMobileMenu()">Home <span>→</span></a>
+    <a href="books.html" class="mobile-nav-link" onclick="closeMobileMenu()">Books <span>→</span></a>
+    <a href="index.html#path-section" class="mobile-nav-link" onclick="closeMobileMenu()">Courses <span>→</span></a>
+    <a href="about.html" class="mobile-nav-link" onclick="closeMobileMenu()">About <span>→</span></a>
+    <a href="contact.html" class="mobile-nav-link" onclick="closeMobileMenu()">Contact <span>→</span></a>
+    <a href="dashboard.html" class="mobile-nav-link" onclick="closeMobileMenu()">Dashboard <span>→</span></a>
+
+    <div style="margin: 12px 0 4px; display: flex; flex-direction: column; gap: 8px;">
+      <a href="login.html" class="btn secondary"
+        style="width: 100%; text-align: center; justify-content: center; padding: 11px;"
+        onclick="closeMobileMenu()">Sign In</a>
+      <a href="login.html#register" class="btn primary"
+        style="width: 100%; text-align: center; justify-content: center; padding: 11px; background: var(--navy); color: #fff;"
+        onclick="closeMobileMenu()">Register</a>
+    </div>
+
+    <button class="libbtn" style="width: 100%; justify-content: center; padding: 13px;"
+      onclick="closeMobileMenu(); openMembershipModal('eLibrary Access')">
+      <span>▣</span> &nbsp; eLibrary
     </button>
   </aside>
 
