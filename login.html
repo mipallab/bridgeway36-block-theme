@@ -961,8 +961,10 @@
       padding: 36px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
       scrollbar-width: thin;
-      flex: 1;
+      flex: 1 1 auto;
+      min-height: 0;
     }
 
     .membership-grid {
@@ -1134,11 +1136,16 @@
         grid-template-columns: 1fr;
       }
       .modal-dialog {
-        max-height: calc(100vh - 20px);
-        border-radius: 16px;
+        max-height: calc(100dvh - 24px) !important;
+        border-radius: 18px !important;
+        margin: auto;
       }
       .modal-body {
-        padding: 24px 16px 20px;
+        padding: 22px 16px 20px !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
       }
       .modal-close-btn {
         top: 12px;
@@ -1147,8 +1154,37 @@
         height: 32px;
         font-size: 18px;
       }
+      .membership-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 16px;
+      }
       .membership-plan {
-        padding: 22px 14px;
+        padding: 20px 15px 16px;
+        border-radius: 14px;
+      }
+      .membership-plan h4 {
+        font-size: 17px;
+        margin-bottom: 4px;
+      }
+      .membership-plan .price {
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+      .membership-features {
+        margin: 10px 0 14px;
+        gap: 6px;
+        font-size: 12.5px;
+      }
+      .membership-modal-title {
+        font-size: 22px !important;
+        line-height: 1.25 !important;
+        margin: 6px 0 8px !important;
+      }
+      .membership-modal-lead {
+        font-size: 13.5px !important;
+        margin-bottom: 14px !important;
+        line-height: 1.5 !important;
       }
       .plan-badge.annual {
         left: 12px;
@@ -1468,8 +1504,8 @@
       <button class="modal-close-btn" onclick="closeMembershipModal()" aria-label="Close modal">×</button>
       <div class="modal-body">
         <span class="eyebrow" style="font-size: 11px;">BRIDGEWAY36 MEMBERSHIP TIERS</span>
-        <h3 style="font-family: var(--font-serif); font-size: 32px; color: #0a365f; margin: 8px 0 10px;">Choose Your Access Plan</h3>
-        <p style="color: #4b6478; font-size: 15px; margin-bottom: 24px;">Gain immediate, unmetered access to every book, certification pathway, and human-centered framework in the Bridgeway36 eLibrary.</p>
+        <h3 class="membership-modal-title" style="font-family: var(--font-serif); font-size: 32px; color: #0a365f; margin: 8px 0 10px;">Choose Your Access Plan</h3>
+        <p class="membership-modal-lead" style="color: #4b6478; font-size: 15px; margin-bottom: 24px;">Gain immediate, unmetered access to every book, certification pathway, and human-centered framework in the Bridgeway36 eLibrary.</p>
         
         <div class="membership-grid">
           <!-- Package 1: $25 Yearly -->
