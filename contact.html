@@ -1,21 +1,25 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact Us · Bridgeway36 eLibrary</title>
-  <meta name="description" content="Get in touch with the Bridgeway36 editorial and research team for institutional licensing, author bookings, and eLibrary support." />
-  
+  <meta name="description"
+    content="Get in touch with the Bridgeway36 editorial and research team for institutional licensing, author bookings, and eLibrary support." />
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/Bridgeway36_eLibrary_Logo.png" />
 
   <!-- Google Fonts: Inter & Newsreader styling -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
+    rel="stylesheet">
 
-    <style>
-/* ==========================================================================
+  <style>
+    /* ==========================================================================
        DESIGN SYSTEM & CSS VARIABLES
        ========================================================================== */
     :root {
@@ -37,17 +41,17 @@
       --text: #163d61;
       --muted: #50677a;
       --white: #ffffff;
-      
+
       --font-serif: Georgia, "Newsreader", "Times New Roman", serif;
       --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      
+
       --max-width: 1380px;
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 18px;
       --radius-full: 9999px;
       --radius-pill: 9999px;
-      
+
       --shadow-subtle: 0 4px 14px rgba(16, 44, 68, 0.04);
       --shadow-card: 0 12px 30px rgba(18, 55, 83, 0.07);
       --shadow-hover: 0 20px 42px rgba(18, 55, 83, 0.13);
@@ -56,9 +60,11 @@
 
       --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
+    }
 
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -161,7 +167,8 @@
       text-decoration: none;
     }
 
-    .nav-item:hover, .nav-item:focus-within {
+    .nav-item:hover,
+    .nav-item:focus-within {
       color: var(--gold);
     }
 
@@ -322,9 +329,11 @@
     .hamburger-btn.active .hamburger-line:nth-child(1) {
       transform: translateY(8.5px) rotate(45deg);
     }
+
     .hamburger-btn.active .hamburger-line:nth-child(2) {
       opacity: 0;
     }
+
     .hamburger-btn.active .hamburger-line:nth-child(3) {
       transform: translateY(-8.5px) rotate(-45deg);
     }
@@ -435,10 +444,12 @@
         padding: 14px 18px 24px;
         gap: 6px;
       }
+
       .mobile-nav-link {
         padding: 7px 0;
         font-size: 14.5px;
       }
+
       .mobile-drawer-header {
         margin-bottom: 4px;
         padding-bottom: 8px;
@@ -446,7 +457,10 @@
     }
 
     @media (min-width: 1400px) {
-      header, footer, .contact-hero {
+
+      header,
+      footer,
+      .contact-hero {
         padding-left: 8vw;
         padding-right: 8vw;
       }
@@ -456,12 +470,15 @@
       header {
         height: 84px;
       }
+
       .brand-logo-img {
         height: 52px;
       }
+
       nav.desktop-nav {
         display: none;
       }
+
       .hamburger-btn {
         display: flex;
       }
@@ -472,6 +489,7 @@
         height: 76px;
         padding: 0 5vw;
       }
+
       .brand-logo-img {
         height: 46px;
       }
@@ -612,7 +630,9 @@
       margin-bottom: 8px;
     }
 
-    .form-input, .form-select, .form-textarea {
+    .form-input,
+    .form-select,
+    .form-textarea {
       width: 100%;
       padding: 13px 16px;
       border: 1.5px solid #cbdde8;
@@ -624,7 +644,9 @@
       transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     }
 
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
       outline: none;
       border-color: var(--navy);
       box-shadow: 0 0 0 3px rgba(11, 58, 99, 0.12);
@@ -998,6 +1020,7 @@
       background: var(--gold);
       color: var(--white);
     }
+
     .btn.primary:hover {
       background: var(--gold-hover);
     }
@@ -1006,6 +1029,7 @@
       background: var(--navy);
       color: var(--white);
     }
+
     .btn.secondary:hover {
       background: var(--navy-dark);
     }
@@ -1041,7 +1065,10 @@
 
     /* Responsive */
     @media (min-width: 1400px) {
-      header, footer, .contact-hero {
+
+      header,
+      footer,
+      .contact-hero {
         padding-left: 8vw;
         padding-right: 8vw;
       }
@@ -1098,12 +1125,15 @@
       header {
         height: 84px;
       }
+
       .brand-logo-img {
         height: 52px;
       }
+
       nav.desktop-nav {
         display: none;
       }
+
       .hamburger-btn {
         display: flex;
       }
@@ -1114,58 +1144,75 @@
         height: 76px;
         padding: 0 5vw;
       }
+
       .brand-logo-img {
         height: 46px;
       }
+
       .footer-top {
         grid-template-columns: 1fr;
         gap: 25px;
       }
+
       .footer-bottom {
         flex-direction: column;
         text-align: center;
       }
+
       .contact-hero {
         padding: 38px 5vw 26px;
       }
+
       .contact-hero h1 {
         font-size: 28px;
         letter-spacing: -0.5px;
       }
+
       .contact-wrap {
         padding: 28px 4vw 50px;
         gap: 24px;
       }
+
       .form-card {
         padding: 22px 16px;
         border-radius: 16px;
       }
+
       .form-card h2 {
         font-size: 24px;
       }
+
       .info-card {
         padding: 20px 16px;
         border-radius: 14px;
       }
-      .form-input, .form-select, .form-textarea {
+
+      .form-input,
+      .form-select,
+      .form-textarea {
         font-size: 14px;
         padding: 12px 14px;
       }
+
       .submit-btn {
         padding: 14px;
         font-size: 15px;
       }
+
       .faq-section {
         padding: 50px 5vw;
       }
+
       .faq-header h2 {
         font-size: 26px;
       }
+
       .modal-dialog {
         max-height: calc(100dvh - 24px) !important;
         border-radius: 18px !important;
         margin: auto;
       }
+
       .modal-body {
         padding: 22px 16px 20px !important;
         flex: 1 1 auto !important;
@@ -1173,6 +1220,7 @@
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
       }
+
       .modal-close-btn {
         top: 12px;
         right: 12px;
@@ -1180,41 +1228,50 @@
         height: 32px;
         font-size: 18px;
       }
+
       .membership-grid {
         grid-template-columns: 1fr;
         gap: 16px;
         margin-top: 16px;
       }
+
       .membership-plan {
         padding: 20px 15px 16px;
         border-radius: 14px;
       }
+
       .membership-plan h4 {
         font-size: 17px;
         margin-bottom: 4px;
       }
+
       .membership-plan .price {
         font-size: 22px;
         margin-bottom: 8px;
       }
+
       .membership-features {
         margin: 10px 0 14px;
         gap: 6px;
         font-size: 12.5px;
       }
+
       .membership-modal-title {
         font-size: 22px !important;
         line-height: 1.25 !important;
         margin: 6px 0 8px !important;
       }
+
       .membership-modal-lead {
         font-size: 13.5px !important;
         margin-bottom: 14px !important;
         line-height: 1.5 !important;
       }
+
       .plan-badge.annual {
         left: 12px;
       }
+
       .plan-badge.lifetime {
         right: 12px;
       }
@@ -1225,19 +1282,23 @@
       .modal-dialog {
         max-height: 94vh;
       }
+
       .modal-body {
         padding: 16px 20px;
       }
+
       .membership-grid {
         grid-template-columns: 1fr 1fr;
         gap: 12px;
       }
+
       .membership-plan {
         padding: 16px 14px;
       }
     }
   </style>
 </head>
+
 <body>
 
   <!-- ==========================================================================
@@ -1246,7 +1307,8 @@
   <header>
     <div class="header-inner">
       <a href="index.html" class="brand-wrap" aria-label="Bridgeway36 Home">
-        <img src="assets/images/Bridgeway36_eLibrary_Logo.png" alt="Bridgeway36 - EDUCATE · EMPOWER · EVOLVE" class="brand-logo-img" />
+        <img src="assets/images/Bridgeway36_eLibrary_Logo.png" alt="Bridgeway36 - EDUCATE · EMPOWER · EVOLVE"
+          class="brand-logo-img" />
       </a>
 
       <!-- Desktop Navigation -->
@@ -1255,10 +1317,14 @@
           <span>Books</span>
           <span class="nav-chevron">⌄</span>
           <div class="dropdown-menu">
-            <a href="books.html" class="dropdown-item">All Publications<small>Explore full repository (14+ Books)</small></a>
-            <a href="books.html?category=ai" class="dropdown-item">AI &amp; Workforce<small>The AI Job Shift &amp; GenAI Guides</small></a>
-            <a href="books.html?category=career" class="dropdown-item">Career &amp; Purpose<small>Bridgeway to Business &amp; TRI</small></a>
-            <a href="books.html?category=framework" class="dropdown-item">Executive Frameworks<small>Indexes &amp; Assessment Tools</small></a>
+            <a href="books.html" class="dropdown-item">All Publications<small>Explore full repository (14+
+                Books)</small></a>
+            <a href="books.html?category=ai" class="dropdown-item">AI &amp; Workforce<small>The AI Job Shift &amp; GenAI
+                Guides</small></a>
+            <a href="books.html?category=career" class="dropdown-item">Career &amp; Purpose<small>Bridgeway to Business
+                &amp; TRI</small></a>
+            <a href="books.html?category=framework" class="dropdown-item">Executive Frameworks<small>Indexes &amp;
+                Assessment Tools</small></a>
           </div>
         </div>
 
@@ -1266,9 +1332,14 @@
           <span>Courses</span>
           <span class="nav-chevron">⌄</span>
           <div class="dropdown-menu">
-            <a href="javascript:void(0)" class="dropdown-item" onclick="openMembershipModal('Generative AI Certification Pathway')">GenAI Certification Track<small>Foundation to practitioner</small></a>
-            <a href="javascript:void(0)" class="dropdown-item" onclick="openMembershipModal('Career Pivot Lab')">Career Pivot Lab<small>Reinvention for seasoned pros</small></a>
-            <a href="javascript:void(0)" class="dropdown-item" onclick="openMembershipModal('Human-Centered AI Workshop')">Human-Centered AI Leadership<small>Organizational adaptation</small></a>
+            <a href="javascript:void(0)" class="dropdown-item"
+              onclick="openMembershipModal('Generative AI Certification Pathway')">GenAI Certification
+              Track<small>Foundation to practitioner</small></a>
+            <a href="javascript:void(0)" class="dropdown-item" onclick="openMembershipModal('Career Pivot Lab')">Career
+              Pivot Lab<small>Reinvention for seasoned pros</small></a>
+            <a href="javascript:void(0)" class="dropdown-item"
+              onclick="openMembershipModal('Human-Centered AI Workshop')">Human-Centered AI
+              Leadership<small>Organizational adaptation</small></a>
           </div>
         </div>
 
@@ -1287,7 +1358,8 @@
       </nav>
 
       <!-- Mobile Hamburger Button -->
-      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false" onclick="toggleMobileMenu()">
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false"
+        onclick="toggleMobileMenu()">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
@@ -1303,7 +1375,8 @@
         <img src="assets/images/Bridgeway36_eLibrary_Logo.png" alt="Bridgeway36 Logo"
           style="height: 48px; width: auto;" />
       </a>
-      <button class="mobile-drawer-close" onclick="closeMobileMenu()" aria-label="Close navigation menu">&times;</button>
+      <button class="mobile-drawer-close" onclick="closeMobileMenu()"
+        aria-label="Close navigation menu">&times;</button>
     </div>
 
     <a href="index.html" class="mobile-nav-link" onclick="closeMobileMenu()">Home <span>→</span></a>
@@ -1332,18 +1405,19 @@
   <section class="contact-hero">
     <span class="eyebrow">CONNECT WITH BRIDGEWAY36</span>
     <h1>Start a Conversation With Our Team</h1>
-    <p class="lead">Whether you are exploring organizational licenses, consulting on cognitive workforce adaptation, or have a question about reading access, we are here to assist.</p>
+    <p class="lead">Whether you are exploring organizational licenses, consulting on cognitive workforce adaptation, or
+      have a question about reading access, we are here to assist.</p>
   </section>
 
   <!-- Contact Layout -->
   <main class="contact-wrap">
-    
+
     <!-- Left: Contact Details -->
     <div class="contact-info-col">
       <div class="info-card">
         <div class="info-icon">✉</div>
         <h3>General &amp; Member Inquiries</h3>
-        <p>Questions about the eLibrary, reader subscriptions ($25/yr or $100 lifetime), or downloadable ePubs.</p>
+        <p>Questions about the eLibrary, reader memberships ($25/month or $100/year), or downloadable ePubs.</p>
         <a href="mailto:inquiries@bridgeway36.com" class="info-link">inquiries@bridgeway36.com →</a>
       </div>
 
@@ -1364,7 +1438,8 @@
       <div class="info-card" style="background: var(--mist); border-color: #cde0ec;">
         <div class="info-icon" style="color: var(--navy);">⏱</div>
         <h3>Response Commitment</h3>
-        <p>Our advisory desk reviews all inquiries within 24 business hours. Monday to Friday, 9:00 AM – 6:00 PM EST.</p>
+        <p>Our advisory desk reviews all inquiries within 24 business hours. Monday to Friday, 9:00 AM – 6:00 PM EST.
+        </p>
       </div>
     </div>
 
@@ -1393,7 +1468,7 @@
           <div class="form-group">
             <label class="form-label" for="contactTopic">Inquiry Topic</label>
             <select id="contactTopic" class="form-select">
-              <option value="subscription">eLibrary Membership ($25 / $100)</option>
+              <option value="subscription">eLibrary Membership ($25/mo or $100/yr)</option>
               <option value="enterprise">Team &amp; Institutional Licensing</option>
               <option value="tri">Transition Readiness Index™ Assessment</option>
               <option value="speaking">Author Speaking &amp; Workshops</option>
@@ -1404,7 +1479,9 @@
 
         <div class="form-group">
           <label class="form-label" for="contactMessage">How can we assist your journey?</label>
-          <textarea id="contactMessage" class="form-textarea" placeholder="Tell us about your team, transition goals, or specific book requirements..." required></textarea>
+          <textarea id="contactMessage" class="form-textarea"
+            placeholder="Tell us about your team, transition goals, or specific book requirements..."
+            required></textarea>
         </div>
 
         <button type="submit" class="submit-btn" id="contactSubmitBtn">
@@ -1428,12 +1505,11 @@
       <div class="faq-accordion">
         <div class="faq-item active">
           <div class="faq-question" onclick="toggleFaq(this)">
-            <span>What is the difference between the $25 Annual Pass and $100 Lifetime?</span>
+            <span>What is the difference between the $25 Monthly and $100 Annual membership?</span>
             <span class="faq-toggle-icon">+</span>
           </div>
           <div class="faq-answer">
-            The <strong>Annual Pass ($25/year)</strong> provides full unmetered reading access, assessments, and regular monthly releases for one full year. The <strong>Lifetime All-Access Pass ($100 one-time)</strong> gives you permanent lifetime ownership with zero renewals ever, including all future books, GenAI course pathways, and priority author briefings.
-          </div>
+            The <strong>Monthly plan ($25/month)</strong> gives full unmetered reading access, assessments and new releases, billed month to month and cancellable anytime. The <strong>Annual plan ($100/year)</strong> includes everything in Monthly, saves you $200 a year (about $8.33/month), and unlocks collector badges and priority author briefings.</div>
         </div>
 
         <div class="faq-item">
@@ -1442,7 +1518,9 @@
             <span class="faq-toggle-icon">+</span>
           </div>
           <div class="faq-answer">
-            Yes. We offer central billing, volume seat discounts, and organizational cohort analytics for corporate departments, non-profits, and educational institutions. Contact <a href="mailto:licensing@bridgeway36.com" style="color:var(--navy); font-weight:700;">licensing@bridgeway36.com</a> for tailored quotes.
+            Yes. We offer central billing, volume seat discounts, and organizational cohort analytics for corporate
+            departments, non-profits, and educational institutions. Contact <a href="mailto:licensing@bridgeway36.com"
+              style="color:var(--navy); font-weight:700;">licensing@bridgeway36.com</a> for tailored quotes.
           </div>
         </div>
 
@@ -1452,7 +1530,8 @@
             <span class="faq-toggle-icon">+</span>
           </div>
           <div class="faq-answer">
-            All Bridgeway36 publications are available for high-fidelity interactive online reading in any modern browser, as well as downloadable, DRM-free PDF and ePub editions for Kindle, iPad, and e-readers.
+            All Bridgeway36 publications are available for high-fidelity interactive online reading in any modern
+            browser, as well as downloadable, DRM-free PDF and ePub editions for Kindle, iPad, and e-readers.
           </div>
         </div>
 
@@ -1462,7 +1541,9 @@
             <span class="faq-toggle-icon">+</span>
           </div>
           <div class="faq-answer">
-            The TRI assessment measures five core cognitive agility dimensions: Cognitive Flexibility, Role Detachment, Strategic Literacy, Network Agility, and Purpose Anchoring. It generates a personalized reflection report and recommended reading pathway.
+            The TRI assessment measures five core cognitive agility dimensions: Cognitive Flexibility, Role Detachment,
+            Strategic Literacy, Network Agility, and Purpose Anchoring. It generates a personalized reflection report
+            and recommended reading pathway.
           </div>
         </div>
       </div>
@@ -1475,7 +1556,8 @@
       <div class="footer-top">
         <div class="footer-brand">
           <img src="assets/images/Bridgeway36_eLibrary_Logo.png" alt="Bridgeway36 Logo" class="footer-logo" />
-          <p class="footer-desc">Bridgeway36 empowers individuals and teams to navigate disruption, reframe professional identity, and thrive in an AI-supported era.</p>
+          <p class="footer-desc">Bridgeway36 empowers individuals and teams to navigate disruption, reframe professional
+            identity, and thrive in an AI-supported era.</p>
         </div>
         <div class="footer-col">
           <h5>Collections</h5>
@@ -1490,8 +1572,10 @@
           <h5>Resources</h5>
           <ul class="footer-links">
             <li><a href="index.html#path-section">Four Ways Forward</a></li>
-            <li><a href="javascript:void(0)" onclick="openMembershipModal('Certification Prep')">Certification Guides</a></li>
-            <li><a href="javascript:void(0)" onclick="openMembershipModal('Workforce Toolkits')">Workforce Toolkits</a></li>
+            <li><a href="javascript:void(0)" onclick="openMembershipModal('Certification Prep')">Certification
+                Guides</a></li>
+            <li><a href="javascript:void(0)" onclick="openMembershipModal('Workforce Toolkits')">Workforce Toolkits</a>
+            </li>
             <li><a href="contact.html">Webinars &amp; Lectures</a></li>
           </ul>
         </div>
@@ -1513,49 +1597,48 @@
     </div>
   </footer>
 
-  <!-- Membership Modal ($25/Yearly & $100/Lifetime) -->
+  <!-- Membership Modal ($25/Monthly & $100/Annual) -->
   <div class="modal-overlay" id="membershipModal" role="dialog" aria-modal="true">
     <div class="modal-dialog">
       <button class="modal-close-btn" onclick="closeMembershipModal()" aria-label="Close modal">×</button>
       <div class="modal-body">
         <span class="eyebrow" style="font-size: 11px;">BRIDGEWAY36 MEMBERSHIP TIERS</span>
-        <h3 class="membership-modal-title" style="font-family: var(--font-serif); font-size: 32px; color: #0a365f; margin: 8px 0 10px;">Choose Your Access Plan</h3>
-        <p class="membership-modal-lead" style="color: #4b6478; font-size: 15px; margin-bottom: 24px;">Gain immediate, unmetered access to every book, certification pathway, and human-centered framework in the Bridgeway36 eLibrary.</p>
-        
+        <h3 class="membership-modal-title"
+          style="font-family: var(--font-serif); font-size: 32px; color: #0a365f; margin: 8px 0 10px;">Choose Your
+          Access Plan</h3>
+        <p class="membership-modal-lead" style="color: #4b6478; font-size: 15px; margin-bottom: 24px;">Gain immediate,
+          unmetered access to every book, certification pathway, and human-centered framework in the Bridgeway36
+          eLibrary.</p>
+
         <div class="membership-grid">
-          <!-- Package 1: $25 Yearly -->
           <div class="membership-plan">
-            <span class="plan-badge annual">ANNUAL ACCESS</span>
-            <h4>Annual Pass</h4>
-            <div class="price">$25 <span>/ year</span></div>
-            <p style="font-size: 13.5px; color: #50677a;">Complete personal access to the growing eLibrary with full year updates (approx. $2.08/mo).</p>
+            <span class="plan-badge annual">FLEXIBLE</span>
+            <h4>Monthly</h4>
+            <div class="price">$25 <span>/ month</span></div>
+            <p style="font-size: 13.5px; color: #50677a;">Pay month to month. Cancel anytime.</p>
             <ul class="membership-features">
-              <li>Instant digital access to all 5 featured titles</li>
-              <li>Transition Readiness Index™ (TRI) assessment workbook</li>
+              <li>Unlimited reading of every title</li>
               <li>PDF &amp; ePub downloads for offline reading</li>
-              <li>All monthly new releases &amp; executive reports for 1 year</li>
-              <li>Standard reader community support</li>
+              <li>Reading journal &amp; streaks</li>
+              <li>Cancel anytime</li>
             </ul>
-            <button class="btn secondary" style="width:100%; margin-top: auto; padding: 13px;" onclick="simulateJoin('Annual Pass ($25/year)')">Subscribe Yearly ($25)</button>
+            <button class="btn secondary" style="width:100%; margin-top: auto; padding: 13px;" onclick="simulateJoin('month')">Subscribe Monthly ($25)</button>
           </div>
 
-          <!-- Package 2: $100 Lifetime -->
           <div class="membership-plan featured">
-            <span class="plan-badge lifetime">BEST VALUE · LIFETIME</span>
-            <h4>Lifetime All-Access</h4>
-            <div class="price">$100 <span>/ lifetime</span></div>
-            <p style="font-size: 13.5px; color: #50677a;">One-time payment. Permanent lifetime ownership with zero recurring fees or renewals ever.</p>
+            <span class="plan-badge lifetime">BEST VALUE &middot; SAVE 67%</span>
+            <h4>Annual</h4>
+            <div class="price">$100 <span>/ year</span></div>
+            <p style="font-size: 13.5px; color: #50677a;">Just $8.33/month. Save $200 a year.</p>
             <ul class="membership-features">
-              <li>Permanent lifetime access to entire Bridgeway36 library</li>
-              <li>Every future publication, whitepaper &amp; toolkit included</li>
-              <li>GenAI Certification Track &amp; Career Pivot Lab access</li>
-              <li>Priority access to quarterly author briefings &amp; webinars</li>
-              <li>Multi-device sync &amp; priority offline downloads</li>
+              <li>Everything in Monthly</li>
+              <li>Save 67% vs. paying monthly</li>
+              <li>Collector badges unlocked</li>
+              <li>Priority author briefings</li>
             </ul>
-            <button class="btn primary" style="width:100%; margin-top: auto; padding: 13px;" onclick="simulateJoin('Lifetime All-Access ($100)')">Get Lifetime Access ($100)</button>
+            <button class="btn primary" style="width:100%; margin-top: auto; padding: 13px;" onclick="simulateJoin('year')">Subscribe Annually ($100)</button>
           </div>
         </div>
-
         <p style="font-size: 12px; text-align: center; color: #7c92a2; margin-top: 20px;">
           ✓ Instant digital access · 14-day satisfaction promise · Prototype checkout simulation
         </p>
@@ -1620,9 +1703,12 @@
       }, duration);
     }
 
-    function simulateJoin(planName) {
-      closeMembershipModal();
-      showToast('✓ ' + planName + ' selected! (Simulated Prototype Checkout)');
+    function simulateJoin(planKey) {
+      if (typeof closeMembershipModal === 'function') closeMembershipModal();
+      if (typeof showToast === 'function') showToast('\u2713 Opening secure membership checkout...');
+      setTimeout(function () {
+        window.location.href = 'membership-checkout.html?plan=' + (planKey === 'month' ? 'month' : 'year');
+      }, 350);
     }
 
     // FAQ Accordion Toggle
@@ -1651,7 +1737,7 @@
       if (e.key === 'Escape') closeMembershipModal();
     });
 
-    
+
     document.addEventListener('DOMContentLoaded', () => {
       const header = document.getElementById('siteHeader');
       if (header) {
@@ -1671,5 +1757,37 @@
     });
 
   </script>
+  <!-- Global Header Auth Profile Component -->
+  <script src="assets/js/b36-header-auth.js"></script>
 </body>
+
+</html>
+window.toastTimer = setTimeout(() => {
+toast.classList.remove('show');
+}, duration);
+}
+
+// Modal click outside & escape key
+document.addEventListener('DOMContentLoaded', () => {
+const modal = document.getElementById('membershipModal');
+if (modal) {
+modal.addEventListener('click', (e) => {
+if (e.target === modal) closeMembershipModal();
+});
+}
+
+if (mobileBackdrop) {
+mobileBackdrop.addEventListener('click', closeMobileMenu);
+}
+
+window.addEventListener('keydown', (e) => {
+if (e.key === 'Escape') {
+closeMembershipModal();
+closeMobileMenu();
+}
+});
+});
+</script>
+</body>
+
 </html>

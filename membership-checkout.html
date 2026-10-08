@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Join Bridgeway36 · Membership Checkout</title>
+<meta name="description" content="Choose a Bridgeway36 eLibrary membership, create your account and check out securely." />
+<link rel="icon" type="image/png" href="assets/images/Bridgeway36_eLibrary_Logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="assets/js/b36-header-auth.js"></script>
+<style>
+:root{
+  --navy:#0b3a63;--navy-dark:#092f50;--navy-light:#164e7e;--navy-deep:#051a2d;
+  --gold:#b28a49;--gold-hover:#9c753b;--gold-light:#c39a57;
+  --ink:#163d61;--ink-muted:#50677a;--paper:#fcfcfd;--cream:#fbf8f2;--mist:#eef4f6;
+  --line:#dbe5ea;--white:#fff;--ok:#1d7a4d;--err:#d03a2c;
+  --font-serif:Georgia,"Newsreader","Times New Roman",serif;
+  --font-sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --radius-sm:9px;--radius-md:14px;--radius-lg:18px;
+  --shadow-card:0 12px 30px rgba(18,55,83,.07);
+  --t:.2s cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip;overflow-y:scroll}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-sans);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip;width:100%;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;border:none;cursor:pointer;background:none}
+h1,h2,h3{font-family:var(--font-serif);font-weight:500;color:var(--navy);letter-spacing:-.01em}
+img,svg{max-width:100%;height:auto}
+
+/* Top brand banner for distraction-free checkout */
+.checkout-brand{text-align:center;margin-bottom:20px}
+.checkout-brand img{height:clamp(46px, 5vw, 64px);display:inline-block;transition:transform var(--t)}
+.checkout-brand img:hover{transform:scale(1.02)}
+
+.wrap{width:100%;max-width:1240px;margin:0 auto;padding:40px clamp(16px, 4vw, 40px) 90px;box-sizing:border-box}
+.head{text-align:center;max-width:720px;margin:0 auto}
+.eyebrow{font-size:clamp(11px, 1.2vw, 13px);font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.page-title{font-size:clamp(26px, 3.6vw, 44px);margin:6px 0 10px;word-break:break-word}
+.lede{color:var(--ink-muted);font-size:clamp(14px, 1.5vw, 16px)}
+
+/* Stepper - flexible, zero-overflow */
+.stepper{display:flex;align-items:center;justify-content:center;max-width:680px;width:100%;margin:28px auto 34px;box-sizing:border-box}
+.step{flex:1;display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-muted);cursor:pointer;transition:var(--t);min-width:0}
+.step:last-child{flex:0 0 auto}
+.step::after{content:"";flex:1;height:2px;background:var(--line);margin:0 12px;min-width:8px}
+.step:last-child::after{display:none}
+.step .n{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;background:#fff;flex-shrink:0;transition:var(--t)}
+.step .t{white-space:nowrap}
+.step:hover{color:var(--navy)}
+.step:hover .n{border-color:var(--navy)}
+.step.active{color:var(--navy)}
+.step.active .n{border-color:var(--navy);background:var(--navy);color:#fff;box-shadow:0 4px 12px rgba(11,58,99,.25)}
+.step.done .n{border-color:var(--gold);background:var(--gold);color:#fff}
+.step.done::after{background:var(--gold)}
+
+/* Unified 2-column layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:32px;align-items:start;width:100%;box-sizing:border-box}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);overflow:hidden;width:100%;box-sizing:border-box}
+.card-banner{background:linear-gradient(135deg,var(--navy-dark) 0%,#15456f 100%);color:#fff;padding:24px 30px 22px;position:relative;overflow:hidden}
+.card-banner::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold) 0%,#e2be79 100%)}
+.card-banner .badge{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:800;color:#ebd09c}
+.card-banner h2{color:#fff;font-size:clamp(22px, 2.8vw, 26px);margin-top:4px}
+.card-banner p{font-size:13.5px;color:#bbd3e4;margin-top:2px}
+.card-body{padding:28px 30px 32px;box-sizing:border-box}
+.panel{display:none;animation:fade .4s var(--t)}
+.panel.show{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* STEP 1: Plans */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;width:100%}
+.plan{position:relative;border:1.5px solid #cbdde8;border-radius:var(--radius-md);padding:26px 22px 24px;cursor:pointer;transition:var(--t);background:#fff;display:flex;flex-direction:column;gap:6px;text-align:left;box-sizing:border-box;min-width:0}
+.plan:hover{border-color:var(--navy);transform:translateY(-3px);box-shadow:0 14px 32px rgba(18,55,83,.12)}
+.plan:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(11,58,99,.18);border-color:var(--navy)}
+.plan.sel{border-color:var(--navy);background:#f7fafc;box-shadow:0 0 0 3px rgba(11,58,99,.12)}
+.plan .tag{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--gold)}
+.plan h3{font-size:22px}
+.plan .price{font-family:var(--font-serif);font-size:clamp(32px, 3.8vw, 42px);color:var(--navy);line-height:1.1;margin-top:6px}
+.plan .price small{font-family:var(--font-sans);font-size:14px;color:var(--ink-muted);margin-left:4px}
+.plan .note{font-size:13px;color:var(--ink-muted)}
+.plan ul{list-style:none;margin-top:12px;display:grid;gap:7px;font-size:13.5px;font-weight:500}
+.plan li::before{content:"✓";color:var(--gold);font-weight:800;margin-right:8px}
+.plan .chk{position:absolute;top:18px;right:18px;width:24px;height:24px;border-radius:50%;border:2px solid #b8c9d3;display:grid;place-items:center;color:transparent;font-size:13px;font-weight:800;transition:var(--t)}
+.plan.sel .chk{background:var(--navy);border-color:var(--navy);color:#fff}
+.ribbon{position:absolute;top:-12px;left:20px;background:var(--gold);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:99px;box-shadow:0 4px 10px rgba(178,138,73,.35);white-space:nowrap}
+
+/* STEP 2: Account Design */
+.auth-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;background:var(--mist);padding:5px;border-radius:12px;border:1px solid var(--line);box-sizing:border-box}
+.auth-tab{padding:11px 12px;text-align:center;font-weight:700;font-size:14px;color:var(--ink-muted);border-radius:8px;transition:var(--t);cursor:pointer;white-space:nowrap}
+.auth-tab:hover{color:var(--navy)}
+.auth-tab.on{background:#fff;color:var(--navy);box-shadow:0 3px 10px rgba(11,58,99,.08)}
+
+.social-title{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;font-weight:700;color:#648197;text-align:center;margin-bottom:14px}
+.social{display:flex;flex-direction:column;gap:12px;width:100%}
+.sbtn{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;padding:13px 18px;border-radius:10px;font-size:14.5px;font-weight:600;transition:var(--t);box-sizing:border-box}
+.sbtn svg{width:20px;height:20px;flex-shrink:0}
+.sbtn.google{background:#fff;color:#2b3b4c;border:1.5px solid #d5e2eb;box-shadow:0 2px 6px rgba(11,58,99,.04)}
+.sbtn.google:hover{background:#f8fafc;border-color:#b9cfdd;box-shadow:0 4px 14px rgba(11,58,99,.09);transform:translateY(-1px)}
+.sbtn.apple{background:#000;color:#fff;border:1.5px solid #000;box-shadow:0 4px 14px rgba(0,0,0,.16)}
+.sbtn.apple:hover{background:#1a1a1a;transform:translateY(-1px)}
+.divider{position:relative;text-align:center;margin:24px 0}
+.divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--line)}
+.divider span{position:relative;background:#fff;padding:0 16px;font-size:12.5px;font-weight:500;color:#7b96a8;text-transform:uppercase;letter-spacing:.8px}
+.hint{font-size:12.5px;color:var(--ink-muted);margin-top:16px;text-align:center}
+
+/* Logged In Member Card (Step 2) */
+.account-card{border:1.5px solid #cbdde8;border-radius:var(--radius-md);background:#fbfcfe;padding:22px;transition:var(--t);box-sizing:border-box}
+.account-card:hover{border-color:var(--navy);box-shadow:0 8px 24px rgba(18,55,83,.06)}
+.account-card-header{display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.av-large{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;display:grid;place-items:center;font-size:20px;font-weight:700;box-shadow:0 6px 16px rgba(11,58,99,.2);flex-shrink:0;overflow:hidden}
+.av-large svg, .av-large img{width:100%;height:100%;display:block;object-fit:cover}
+.account-card-info h3{font-size:19px;color:var(--navy);margin-top:2px;word-break:break-word}
+.account-card-info p{font-size:14px;color:var(--ink-muted);word-break:break-all}
+.account-badge{display:inline-flex;align-items:center;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ok);background:#e9f7ef;padding:3px 10px;border-radius:99px;margin-bottom:4px}
+.account-card-body{padding-top:16px}
+.account-benefit-list{display:grid;gap:8px;font-size:13.5px;color:var(--ink);font-weight:500;margin-bottom:16px}
+.account-switch{font-size:13px;color:var(--ink-muted);padding-top:12px;border-top:1px dashed var(--line)}
+.link-btn{color:var(--navy);font-weight:700;text-decoration:underline;cursor:pointer}
+.link-btn:hover{color:var(--gold)}
+
+/* Form Inputs & Validation */
+.form-group{margin-bottom:18px;width:100%}
+.form-label{display:block;font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:7px}
+.form-label i{color:var(--err);font-style:normal;margin-left:2px}
+.input-wrapper{position:relative;width:100%}
+.form-input,.form-select{width:100%;padding:12px 16px;border:1.5px solid #cbdde8;border-radius:9px;font-size:14.5px;font-family:inherit;color:var(--ink);background:var(--white);transition:border-color var(--t),box-shadow var(--t),background var(--t);box-sizing:border-box}
+.form-input::placeholder{color:#93a9b8}
+.form-input:hover,.form-select:hover{border-color:#8fb0c6}
+.form-input:focus,.form-select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,58,99,.12)}
+.form-input:active,.form-select:active{border-color:var(--navy-dark)}
+.has-error .form-input,.has-error .form-select{border-color:var(--err);background:#fff9f8}
+.has-error .form-input:focus,.has-error .form-select:focus{box-shadow:0 0 0 3px rgba(208,58,44,.14)}
+.form-error{display:none;margin-top:6px;font-size:12.5px;font-weight:600;color:var(--err)}
+.has-error .form-error{display:block;animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.form-alert{display:none;background:#fff3f1;border:1px solid #f1c4be;color:#a5281c;border-radius:10px;padding:12px 16px;font-size:13.5px;font-weight:600;margin-bottom:20px}
+.form-alert.show{display:block}
+
+/* Password Toggle Eye Icon */
+.pw .form-input{padding-right:48px}
+.pw-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;color:#6b879c;padding:0;transition:var(--t);cursor:pointer;background:transparent}
+.pw-toggle:hover{color:var(--navy);background:var(--mist)}
+.pw-toggle svg{display:block;width:19px;height:19px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%}
+.link{color:var(--navy);font-weight:600;cursor:pointer;transition:var(--t)}
+.link:hover{color:var(--gold);text-decoration:underline}
+
+/* Buttons */
+.submit-btn{width:100%;background:var(--navy);color:#fff;padding:14px;border-radius:10px;font-size:15px;font-weight:700;letter-spacing:.3px;box-shadow:0 6px 18px rgba(11,58,99,.2);transition:var(--t);display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;box-sizing:border-box}
+.submit-btn:hover{background:var(--navy-dark);transform:translateY(-2px);box-shadow:0 10px 24px rgba(11,58,99,.3)}
+.submit-btn:active{transform:translateY(0)}
+.submit-btn[disabled]{opacity:.75;pointer-events:none}
+.submit-btn.ghost{background:var(--mist);color:var(--navy);border:1px solid var(--line);box-shadow:none}
+.submit-btn.ghost:hover{background:#dfe9ef;box-shadow:none}
+.actions{display:grid;grid-template-columns:auto 1fr;gap:12px;margin-top:8px;width:100%}
+.actions.one{grid-template-columns:1fr}
+.actions .ghost{padding-left:22px;padding-right:22px}
+
+/* STEP 3: Payment Details */
+.sec-title{font-family:var(--font-serif);font-size:20px;color:var(--navy);margin-bottom:16px}
+.sec-sep{height:1px;background:var(--line);margin:24px 0}
+.pay-opts{display:grid;gap:10px;margin-bottom:18px;width:100%}
+.pay{border:1.5px solid #cbdde8;border-radius:10px;padding:13px 15px;cursor:pointer;transition:var(--t);display:flex;gap:12px;align-items:center;font-weight:600;font-size:14.5px;background:#fff;text-align:left;width:100%;box-sizing:border-box}
+.pay:hover{border-color:#8fb0c6}
+.pay.sel{border-color:var(--navy);background:#f7fafc;box-shadow:0 0 0 3px rgba(11,58,99,.1)}
+.pay .dot{width:20px;height:20px;border-radius:50%;border:2px solid #b8c9d3;display:grid;place-items:center;flex-shrink:0}
+.pay.sel .dot{border-color:var(--navy)}
+.pay.sel .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--navy)}
+.pay .cards{margin-left:auto;font-size:11px;font-weight:700;color:var(--ink-muted);letter-spacing:.06em}
+.cardform{background:var(--mist);border:1px solid var(--line);border-radius:var(--radius-md);padding:20px 20px 4px;margin-bottom:20px;box-sizing:border-box}
+.paynote{display:none;background:var(--mist);border:1px solid var(--line);border-radius:var(--radius-md);padding:16px;margin-bottom:20px;font-size:13.5px;color:var(--ink-muted);box-sizing:border-box}
+.checkbox-label{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--ink-muted);cursor:pointer}
+.checkbox-label input{margin-top:3px;accent-color:var(--navy);width:16px;height:16px;flex-shrink:0}
+
+/* STEP 4: Order Confirmed */
+.done-header{text-align:center;padding:10px 0 16px}
+.done-tick{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;display:grid;place-items:center;font-size:30px;margin:0 auto 16px;box-shadow:0 8px 24px rgba(11,58,99,.25)}
+.done-header h3{font-size:24px;color:var(--navy);margin-bottom:6px}
+.done-lede{font-size:14px;color:var(--ink-muted);max-width:520px;margin:0 auto}
+.receipt-box{border:1.5px solid var(--line);border-radius:var(--radius-md);background:#fff;overflow:hidden;margin:24px 0;width:100%;box-sizing:border-box}
+.receipt-box .rh{display:grid;grid-template-columns:repeat(3,1fr);background:var(--mist);padding:14px 18px;gap:10px;font-size:12px;color:var(--ink-muted);border-bottom:1px solid var(--line)}
+.receipt-box .rh b{display:block;color:var(--navy);font-size:14px;margin-top:2px}
+.receipt-box .rb{padding:16px 18px;font-size:14px}
+.receipt-box .ln{display:flex;justify-content:space-between;padding:5px 0;color:var(--ink)}
+.receipt-box .ln.disc{color:var(--ok)}
+.receipt-box .ln.total{border-top:1px solid var(--line);margin-top:8px;padding-top:12px;font-weight:700;color:var(--navy);font-size:16px}
+.receipt-box .ln.total span:last-child{font-family:var(--font-serif);font-size:24px}
+.done-perks{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;width:100%}
+.perk-box{background:var(--mist);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;font-size:13px;box-sizing:border-box}
+.perk-box .perk-icon{font-size:18px;display:block;margin-bottom:4px}
+.perk-box b{color:var(--navy);display:block;margin-bottom:2px}
+.perk-box p{color:var(--ink-muted);line-height:1.4}
+
+/* Order Summary (Right Column) */
+.summary{position:sticky;top:32px;background:var(--navy);color:#fff;border-radius:var(--radius-lg);padding:28px;box-shadow:0 26px 70px rgba(16,44,68,.22);overflow:hidden;box-sizing:border-box;width:100%}
+.summary::before{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(195,154,87,.35),transparent 70%);pointer-events:none}
+.summary h2{color:#fff;font-size:22px;margin-bottom:18px;position:relative}
+.sum-status-badge{display:none;align-items:center;gap:6px;background:rgba(29,122,77,.2);border:1px solid #8fe0b3;color:#8fe0b3;padding:6px 12px;border-radius:8px;font-size:12.5px;font-weight:700;margin-bottom:16px;position:relative}
+.sum-item{display:flex;justify-content:space-between;gap:12px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.14);position:relative}
+.sum-item b{font-family:var(--font-serif);font-weight:500;font-size:18px;display:block}
+.sum-item span{font-size:12.5px;color:#b8cde0}
+.lines{padding:16px 0;font-size:14px;position:relative}
+.ln{display:flex;justify-content:space-between;padding:5px 0;color:#d4e2ee}
+.ln.disc{color:#8fe0b3}
+.ln.total{border-top:1px solid rgba(255,255,255,.14);margin-top:10px;padding-top:16px;color:#fff;font-size:17px;font-weight:700}
+.ln.total span:last-child{font-family:var(--font-serif);font-size:30px;font-weight:500;color:var(--gold-light)}
+.coupon{display:flex;gap:8px;position:relative;width:100%}
+.coupon input{flex:1;min-width:0;padding:12px 14px;border-radius:9px;border:1.5px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:14px;text-transform:uppercase;transition:var(--t);box-sizing:border-box}
+.coupon input::placeholder{color:#8fa9bf;text-transform:none}
+.coupon input:hover{border-color:rgba(255,255,255,.4)}
+.coupon input:focus{outline:none;border-color:var(--gold-light);box-shadow:0 0 0 3px rgba(195,154,87,.2)}
+.coupon button{background:var(--gold);color:#fff;padding:0 18px;border-radius:9px;font-weight:700;font-size:13.5px;transition:var(--t);flex-shrink:0}
+.coupon button:hover{background:var(--gold-hover)}
+.cmsg{font-size:12.5px;margin-top:8px;min-height:18px;position:relative}
+.cmsg.ok{color:#8fe0b3}.cmsg.no{color:#ffb3a8}
+.applied{display:none;align-items:center;justify-content:space-between;background:rgba(143,224,179,.12);border:1px dashed #8fe0b3;border-radius:9px;padding:9px 12px;font-size:13px;position:relative}
+.applied button{color:#ffb3a8;font-size:12px;font-weight:600}
+.perks{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.14);font-size:12.5px;color:#b8cde0;display:grid;gap:7px;position:relative}
+.demo-codes{font-size:11.5px;color:#8fa9bf;position:relative}
+.demo-codes code{background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;cursor:pointer;color:#e6c88f}
+
+/* RESPONSIVE SCALING & ZERO-OVERFLOW MEDIA QUERIES */
+@media(min-width:2560px){
+  .wrap{max-width:1800px; padding-top:60px}
+  .layout{gap:60px; grid-template-columns:minmax(0,1fr) 520px}
+  .page-title{font-size:56px}
+  .card-banner h2{font-size:34px}
+  .plan h3{font-size:28px}
+  .plan .price{font-size:52px}
+  .card-body{padding:40px 48px}
+  .summary{padding:40px}
+}
+@media(min-width:1700px) and (max-width:2559px){
+  .wrap{max-width:1440px}
+  .layout{gap:40px; grid-template-columns:minmax(0,1fr) 460px}
+}
+/* Break 2-to-1 Column smoothly at 1024px */
+@media(max-width:1024px){
+  .layout{grid-template-columns:1fr; gap:26px}
+  .summary{position:relative; top:auto; margin-top:12px; width:100%}
+}
+@media(max-width:768px){
+  .step .t{display:none}
+  .step::after{margin:0 8px}
+}
+@media(max-width:640px){
+  .plans,.row2,.done-perks{grid-template-columns:1fr}
+  .card-body{padding:22px 18px}
+  .card-banner{padding:20px 18px}
+  .actions{flex-direction:column}
+  .actions .submit-btn{width:100%}
+  .receipt-box .rh{grid-template-columns:1fr; gap:8px}
+  .pay .cards{display:none}
+}
+@media(max-width:400px){
+  .wrap{padding:20px 14px 60px}
+  .card-body{padding:18px 14px}
+  .card-banner{padding:18px 14px}
+  .summary{padding:18px 14px}
+  .plan{padding:20px 16px}
+  .plan .price{font-size:30px}
+  .page-title{font-size:24px}
+  .step .n{width:28px;height:28px;font-size:12px}
+  .step::after{margin:0 5px; min-width:4px}
+  .pay{font-size:13.5px; padding:11px 12px; gap:8px}
+  .form-input, .form-select{padding:10px 12px}
+  .submit-btn{padding:12px}
+  .account-card-header{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <!-- Clean brand logo for distraction-free checkout -->
+  <div class="checkout-brand">
+    <a href="index.html" title="Return to Bridgeway36 eLibrary">
+      <img src="assets/images/Bridgeway36_eLibrary_Logo.png" alt="Bridgeway36 eLibrary" />
+    </a>
+  </div>
+
+  <div class="head" id="pageHead">
+    <p class="eyebrow">Membership</p>
+    <h1 class="page-title">Join the Bridgeway36 eLibrary</h1>
+    <p class="lede">Unlimited access to every book, framework and career guide. Cancel anytime.</p>
+  </div>
+
+  <!-- Interactive 4-step tabs -->
+  <div class="stepper" id="stepper">
+    <div class="step active" data-s="1"><span class="n">1</span><span class="t">Plan</span></div>
+    <div class="step" data-s="2"><span class="n">2</span><span class="t">Account</span></div>
+    <div class="step" data-s="3"><span class="n">3</span><span class="t">Payment</span></div>
+    <div class="step" data-s="4"><span class="n">4</span><span class="t">Done</span></div>
+  </div>
+
+  <!-- Unified 2-column layout -->
+  <div class="layout" id="layout">
+    <div>
+      <!-- STEP 1: PLAN -->
+      <section class="card panel show" id="p1">
+        <div class="card-banner">
+          <span class="badge">Step 1 of 4</span>
+          <h2>Choose your membership</h2>
+          <p>Two simple plans. Taxes are calculated at checkout.</p>
+        </div>
+        <div class="card-body">
+          <div class="plans" id="plans"></div>
+          <div class="actions one" style="margin-top:28px">
+            <button class="submit-btn" id="to2" type="button">Continue to account <span>→</span></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2: ACCOUNT -->
+      <section class="card panel" id="p2">
+        <div class="card-banner">
+          <span class="badge">Step 2 of 4</span>
+          <h2>Account &amp; Access</h2>
+          <p>Sign in to your member account or create a new profile.</p>
+        </div>
+
+        <!-- Logged In View -->
+        <div class="card-body" id="authDone" style="display:none">
+          <div class="account-card">
+            <div class="account-card-header">
+              <span class="av-large" id="wAv">U</span>
+              <div class="account-card-info">
+                <div class="account-badge">✓ Active Member Account</div>
+                <h3 id="wName"></h3>
+                <p id="wMail"></p>
+              </div>
+            </div>
+            <div class="account-card-body">
+              <div class="account-benefit-list">
+                <div>✓ Instant eLibrary access will be granted to this account</div>
+                <div>✓ Download receipts and manage renewals directly from your dashboard</div>
+              </div>
+              <div class="account-switch">
+                Not you or want to use another email? <button type="button" class="link-btn" id="switchAccBtn">Switch or create new account</button>
+              </div>
+            </div>
+          </div>
+          <div class="actions" style="margin-top:24px">
+            <button type="button" class="submit-btn ghost" data-back="1">← Back to plan</button>
+            <button class="submit-btn" id="to3" type="button">Continue to payment <span>→</span></button>
+          </div>
+        </div>
+
+        <!-- Not Logged In View -->
+        <div class="card-body" id="authBox">
+          <div class="auth-toggle">
+            <button class="auth-tab on" data-t="reg" type="button">Create Account</button>
+            <button class="auth-tab" data-t="log" type="button">Sign In</button>
+          </div>
+
+          <div class="social-title">Instant 1-Click Access</div>
+          <div class="social">
+            <button type="button" class="sbtn google" data-social="Google">
+              <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+              <span>Continue with Google</span>
+            </button>
+            <button type="button" class="sbtn apple" data-social="Apple">
+              <svg fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.63 1.35-.57.66-.99 1.73-.86 2.76 1.01.08 2.05-.51 2.57-1.26z"/></svg>
+              <span>Continue with Apple</span>
+            </button>
+          </div>
+          <div class="divider"><span>or continue with email</span></div>
+
+          <form id="regForm" novalidate>
+            <div class="form-alert">Please fill in the highlighted required fields.</div>
+            <div class="row2">
+              <div class="form-group"><label class="form-label" for="rf">First name<i>*</i></label><input class="form-input" id="rf" data-req data-label="first name" autocomplete="given-name" placeholder="Sarah"><div class="form-error"></div></div>
+              <div class="form-group"><label class="form-label" for="rl">Last name<i>*</i></label><input class="form-input" id="rl" data-req data-label="last name" autocomplete="family-name" placeholder="Jenkins"><div class="form-error"></div></div>
+            </div>
+            <div class="form-group"><label class="form-label" for="re">Email address<i>*</i></label><input class="form-input" id="re" type="email" data-req data-type="email" data-label="email address" autocomplete="email" placeholder="name@organization.com"><div class="form-error"></div></div>
+            <div class="form-group">
+              <label class="form-label" for="rp">Create password<i>*</i></label>
+              <div class="input-wrapper pw">
+                <input class="form-input" id="rp" type="password" data-req data-type="pw" data-label="password" autocomplete="new-password" placeholder="Minimum 8 characters">
+                <button type="button" class="pw-toggle" data-for="rp" aria-label="Toggle password visibility" title="Show password">
+                  <svg class="eye-icon eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <svg class="eye-icon eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </button>
+              </div>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group" style="margin-top:14px;">
+              <label class="form-label">Profile Avatar</label>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <label style="display:flex; align-items:center; gap:8px; padding:10px 12px; border:1.5px solid #cbdde8; border-radius:9px; cursor:pointer; background:#fff; font-size:13.5px; font-weight:600; color:#0b3a63;">
+                  <input type="radio" name="chkGender" value="female" checked style="accent-color:#0b3a63;" />
+                  <span>👩 Woman Avatar</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:8px; padding:10px 12px; border:1.5px solid #cbdde8; border-radius:9px; cursor:pointer; background:#fff; font-size:13.5px; font-weight:600; color:#0b3a63;">
+                  <input type="radio" name="chkGender" value="male" style="accent-color:#0b3a63;" />
+                  <span>👨 Man Avatar</span>
+                </label>
+              </div>
+            </div>
+            <div class="actions"><button type="button" class="submit-btn ghost" data-back="1">← Back to plan</button><button class="submit-btn" type="submit">Create account &amp; continue <span>→</span></button></div>
+          </form>
+
+          <form id="logForm" novalidate style="display:none">
+            <div class="form-alert">Please fill in the highlighted required fields.</div>
+            <div class="form-group"><label class="form-label" for="le">Email address<i>*</i></label><input class="form-input" id="le" type="email" data-req data-type="email" data-label="email address" autocomplete="email" placeholder="name@organization.com"><div class="form-error"></div></div>
+            <div class="form-group">
+              <label class="form-label" for="lp">Password<i>*</i></label>
+              <div class="input-wrapper pw">
+                <input class="form-input" id="lp" type="password" data-req data-label="password" autocomplete="current-password" placeholder="Enter your password">
+                <button type="button" class="pw-toggle" data-for="lp" aria-label="Toggle password visibility" title="Show password">
+                  <svg class="eye-icon eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <svg class="eye-icon eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </button>
+              </div>
+              <div class="form-error"></div>
+            </div>
+            <p style="font-size:13.5px;margin:-6px 0 18px"><a class="link" href="login.html">Forgot password?</a></p>
+            <div class="actions"><button type="button" class="submit-btn ghost" data-back="1">← Back to plan</button><button class="submit-btn" type="submit">Sign in &amp; continue <span>→</span></button></div>
+          </form>
+          <p class="hint">By continuing you agree to our Terms of Service &amp; Privacy Policy.</p>
+        </div>
+      </section>
+
+      <!-- STEP 3: PAYMENT -->
+      <section class="card panel" id="p3">
+        <div class="card-banner">
+          <span class="badge">Step 3 of 4</span>
+          <h2>Billing &amp; payment</h2>
+          <p>Secure 256-bit encrypted checkout. Cancel anytime from your dashboard.</p>
+        </div>
+        <div class="card-body" id="payBody">
+          <div class="form-alert" id="payAlert">Please fill in the highlighted required fields.</div>
+          <h3 class="sec-title">Billing details</h3>
+          <div class="row2">
+            <div class="form-group"><label class="form-label" for="country">Country / Region<i>*</i></label>
+              <select class="form-select" id="country">
+                <option value="US">United States</option><option value="GB">United Kingdom</option><option value="CA">Canada</option>
+                <option value="DE">Germany</option><option value="AU">Australia</option><option value="BD">Bangladesh</option><option value="OT">Other (no tax)</option>
+              </select></div>
+            <div class="form-group" id="stateWrap"><label class="form-label" for="state">State<i>*</i></label>
+              <select class="form-select" id="state"><option value="CA">California (7.25%)</option><option value="NY">New York (8.875%)</option><option value="TX">Texas (6.25%)</option><option value="OR">Oregon (0%)</option></select></div>
+          </div>
+          <div class="form-group"><label class="form-label" for="addr">Street address<i>*</i></label><input class="form-input" id="addr" data-req data-label="street address" autocomplete="address-line1" placeholder="House number and street name"><div class="form-error"></div></div>
+          <div class="row2">
+            <div class="form-group"><label class="form-label" for="city">Town / City<i>*</i></label><input class="form-input" id="city" data-req data-label="town or city" autocomplete="address-level2"><div class="form-error"></div></div>
+            <div class="form-group"><label class="form-label" for="zip">ZIP / Postcode<i>*</i></label><input class="form-input" id="zip" data-req data-label="ZIP / postcode" autocomplete="postal-code"><div class="form-error"></div></div>
+          </div>
+          <div class="form-group"><label class="form-label" for="vat">Company VAT ID (optional)</label><input class="form-input" id="vat" placeholder="e.g. DE123456789 — reverse charge for Germany"></div>
+
+          <div class="sec-sep"></div>
+          <h3 class="sec-title">Payment method</h3>
+          <div class="pay-opts" id="payOpts">
+            <button type="button" class="pay sel" data-p="card"><span class="dot"></span>Credit / Debit card<span class="cards">VISA · MC · AMEX</span></button>
+            <button type="button" class="pay" data-p="paypal"><span class="dot"></span>PayPal</button>
+            <button type="button" class="pay" data-p="gpay"><span class="dot"></span>Apple Pay / Google Pay</button>
+          </div>
+          <div class="cardform" id="cardForm">
+            <div class="form-group"><label class="form-label" for="cn">Card number<i>*</i></label><input class="form-input" id="cn" inputmode="numeric" data-req data-type="card" data-label="card number" placeholder="4242 4242 4242 4242" maxlength="19" autocomplete="cc-number"><div class="form-error"></div></div>
+            <div class="row2">
+              <div class="form-group"><label class="form-label" for="ce">Expiry<i>*</i></label><input class="form-input" id="ce" data-req data-type="exp" data-label="expiry date" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp"><div class="form-error"></div></div>
+              <div class="form-group"><label class="form-label" for="cc">CVC<i>*</i></label><input class="form-input" id="cc" inputmode="numeric" data-req data-type="cvc" data-label="CVC" placeholder="123" maxlength="4" autocomplete="cc-csc"><div class="form-error"></div></div>
+            </div>
+          </div>
+          <div class="paynote" id="payNote">You'll be redirected to complete your payment securely, then returned here.</div>
+          <div class="form-group">
+            <label class="checkbox-label" for="terms"><input type="checkbox" id="terms" data-req data-label="terms" data-msg="You must accept the terms and conditions to place your order."><span>I have read and agree to the website terms and conditions and authorise recurring charges until I cancel.</span></label>
+            <div class="form-error"></div>
+          </div>
+          <div class="actions"><button type="button" class="submit-btn ghost" data-back="2">← Back to account</button><button type="button" class="submit-btn" id="place">Place order · <span id="placeAmt"></span></button></div>
+        </div>
+      </section>
+
+      <!-- STEP 4: ORDER CONFIRMED -->
+      <section class="card panel" id="p4">
+        <div class="card-banner">
+          <span class="badge">Step 4 of 4</span>
+          <h2>Order confirmed</h2>
+          <p>Thank you! Your eLibrary membership is active and ready to use.</p>
+        </div>
+        <div class="card-body">
+          <div class="done-header">
+            <div class="done-tick">✓</div>
+            <h3>Welcome to Bridgeway36, <span id="dName"></span>!</h3>
+            <p class="done-lede">Your membership has been activated. A receipt and confirmation have been sent to <b id="dMail"></b>.</p>
+          </div>
+
+          <div class="receipt-box" id="receipt"></div>
+
+          <div class="done-perks">
+            <div class="perk-box">
+              <span class="perk-icon">📚</span>
+              <b>Instant eLibrary Access</b>
+              <p>Read every digital title, framework, and career playbook online.</p>
+            </div>
+            <div class="perk-box">
+              <span class="perk-icon">⚡</span>
+              <b>Member Dashboard</b>
+              <p>Manage subscription, renewals, and reading progress anytime.</p>
+            </div>
+          </div>
+
+          <div class="actions" style="margin-top:28px">
+            <a class="submit-btn" href="dashboard.html">Go to my dashboard <span>→</span></a>
+            <a class="submit-btn ghost" href="books.html">Browse the library</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ORDER SUMMARY (Zero overflow on break) -->
+    <aside class="summary" id="summary">
+      <div class="sum-status-badge" id="sumBadge">✓ Payment Complete · Active</div>
+      <h2>Order summary</h2>
+      <div class="sum-item"><div><b id="sName"></b><span id="sCycle"></span></div><div style="font-family:var(--font-serif);font-size:20px" id="sPrice"></div></div>
+      <div class="lines" id="lines"></div>
+      <div class="applied" id="applied"><span>🏷️ <b id="aCode"></b> applied</span><button type="button" id="rmCoupon">Remove</button></div>
+      <div class="coupon" id="couponBox"><input id="cin" placeholder="Discount code" aria-label="Discount code"><button type="button" id="capply">Apply</button></div>
+      <div class="cmsg" id="cmsg"></div>
+      <div class="demo-codes">Try: <code>WELCOME10</code> <code>BRIDGE25</code> <code>SAVE5</code></div>
+      <div class="perks"><span>✓ 14-day money-back guarantee</span><span>✓ Cancel anytime from your dashboard</span><span>✓ Instant access after payment</span></div>
+    </aside>
+  </div>
+</main>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const PLANS={
+  month:{id:'month',name:'Monthly Membership',tag:'FLEXIBLE',price:25,unit:'month',period:'Billed monthly',note:'Pay month to month. Cancel anytime.',feat:['Unlimited reading of every title','PDF & ePub downloads','Reading journal & streaks','Cancel anytime']},
+  year:{id:'year',name:'Annual Membership',tag:'BEST VALUE',price:100,unit:'year',period:'Billed annually',note:'Just $8.33/month — save $200 a year.',feat:['Everything in Monthly','Save 67% vs. paying monthly','Collector badges unlocked','Priority author briefings'],best:1}
+};
+const COUPONS={WELCOME10:{type:'pct',v:10,label:'10% off'},BRIDGE25:{type:'pct',v:25,label:'25% off'},SAVE5:{type:'fixed',v:5,label:'$5 off'}};
+const COUNTRY_TAX={GB:{r:.20,n:'VAT'},CA:{r:.05,n:'GST'},DE:{r:.19,n:'VAT'},AU:{r:.10,n:'GST'},BD:{r:.15,n:'VAT'},OT:{r:0,n:'Tax'}};
+const STATE_TAX={CA:.0725,NY:.08875,TX:.0625,OR:0};
+const EU_VAT=/^[A-Z]{2}[0-9A-Z]{8,12}$/i;
+const money=n=>'$'+n.toFixed(2);
+const pctTxt=r=>+(r*100).toFixed(3)+'%';
+
+const qp=new URLSearchParams(location.search).get('plan');
+const S={plan:(qp==='month'||qp==='year')?qp:'year',coupon:null,user:null,step:1,pay:'card'};
+try{S.user=JSON.parse(localStorage.getItem('b36_user')||'null')}catch(e){}
+
+function calc(){
+  const p=PLANS[S.plan],base=p.price;let disc=0;
+  if(S.coupon){const c=COUPONS[S.coupon];disc=c.type==='pct'?base*c.v/100:Math.min(c.v,base)}
+  disc=Math.round(disc*100)/100;const taxable=base-disc;
+  const cc=$('#country').value;let rate,name;
+  if(cc==='US'){rate=STATE_TAX[$('#state').value]||0;name='Sales tax ('+$('#state').value+')'}
+  else{const t=COUNTRY_TAX[cc];rate=t.r;name=t.n}
+  if(cc==='DE'&&EU_VAT.test(($('#vat').value||'').trim())){rate=0;name='VAT (reverse charge)'}
+  const tax=Math.round(taxable*rate*100)/100;
+  return {p,base,disc,tax,rate,name,total:Math.round((taxable+tax)*100)/100};
+}
+
+function renderPlans(){
+  $('#plans').innerHTML=Object.values(PLANS).map(p=>`
+    <div class="plan ${p.id===S.plan?'sel':''}" data-id="${p.id}" role="radio" aria-checked="${p.id===S.plan}" tabindex="0">
+      ${p.best?'<span class="ribbon">Best value · Save 67%</span>':''}
+      <span class="chk">✓</span>
+      <span class="tag">${p.tag}</span><h3>${p.name.replace(' Membership','')}</h3>
+      <div class="price">$${p.price}<small>/ ${p.unit}</small></div>
+      <p class="note">${p.note}</p>
+      <ul>${p.feat.map(f=>`<li>${f}</li>`).join('')}</ul></div>`).join('');
+  $$('.plan').forEach(el=>{const pick=()=>{S.plan=el.dataset.id;renderPlans();renderSummary()};
+    el.onclick=pick;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}}});
+}
+
+function renderSummary(){
+  const c=calc();
+  $('#sName').textContent=c.p.name;$('#sCycle').textContent=c.p.period;$('#sPrice').textContent=money(c.base);
+  let h=`<div class="ln"><span>Subtotal</span><span>${money(c.base)}</span></div>`;
+  if(c.disc>0)h+=`<div class="ln disc"><span>Discount (${S.coupon})</span><span>−${money(c.disc)}</span></div>`;
+  h+=`<div class="ln"><span>${c.name}${c.rate?' · '+pctTxt(c.rate):''}</span><span>${money(c.tax)}</span></div>`;
+  h+=`<div class="ln total"><span>Total / ${c.p.unit}</span><span>${money(c.total)}</span></div>`;
+  $('#lines').innerHTML=h;$('#placeAmt').textContent=money(c.total);
+  $('#applied').style.display=S.coupon?'flex':'none';$('#couponBox').style.display=S.coupon?'none':'flex';
+  if(S.coupon)$('#aCode').textContent=S.coupon;
+}
+
+function go(n){
+  S.step=n;
+  $$('.panel').forEach(p=>p.classList.remove('show'));
+  const p=$('#p'+n);
+  if(p)p.classList.add('show');
+  $$('.step').forEach(s=>{
+    const i=+s.dataset.s;
+    s.classList.toggle('active',i===n);
+    s.classList.toggle('done',i<n);
+  });
+  const done=n===4;
+  $('#sumBadge').style.display=done?'flex':'none';
+  if(done){
+    $('#couponBox').style.display='none';
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Interactive Stepper Tab clicks
+$$('.step').forEach(s=>{
+  s.onclick=()=>{
+    const target=+s.dataset.s;
+    go(target);
+  };
+});
+
+function setUser(u){
+  S.user=u;
+  if(u)localStorage.setItem('b36_user',JSON.stringify(u));else localStorage.removeItem('b36_user');
+  const ini=u?(u.first||u.email)[0].toUpperCase():'U';
+  if(u){
+    const g=u.gender||(window.B36HeaderAuth?.detectGender?window.B36HeaderAuth.detectGender(u.first):'female');
+    if(window.B36HeaderAuth?.getAvatarHtml){
+      $('#wAv').innerHTML=window.B36HeaderAuth.getAvatarHtml(g,u.photo);
+    }else{
+      $('#wAv').textContent=ini;
+    }
+    $('#wName').textContent=((u.first||'')+' '+(u.last||'')).trim()||u.email;
+    $('#wMail').textContent=u.email;
+  }
+  $('#authBox').style.display=u?'none':'block';
+  $('#authDone').style.display=u?'block':'none';
+}
+
+$('#switchAccBtn').onclick=()=>{
+  setUser(null);
+};
+
+/* Validation logic */
+const RULES={
+  email:[v=>/^\S+@\S+\.\S+$/.test(v),'Enter a valid email address.'],
+  pw:[v=>v.length>=8,'Password must be at least 8 characters.'],
+  card:[v=>{const d=v.replace(/\s/g,'');return /^\d{15,16}$/.test(d)},'Enter a valid card number.'],
+  exp:[v=>{const m=v.match(/^(\d{2}) \/ (\d{2})$/);return !!m&&+m[1]>=1&&+m[1]<=12},'Enter a valid expiry date (MM / YY).'],
+  cvc:[v=>/^\d{3,4}$/.test(v),'Enter the 3 or 4 digit security code.']
+};
+const grp=el=>el.closest('.form-group');
+function setErr(el,msg){const g=grp(el);if(g){g.classList.add('has-error');g.querySelector('.form-error').textContent=msg}}
+function clrErr(el){const g=grp(el);if(g)g.classList.remove('has-error')}
+function validate(scope,alertEl){
+  let first=null;
+  scope.querySelectorAll('[data-req]').forEach(el=>{
+    if(!el.offsetParent)return;
+    let msg='';
+    if(el.type==='checkbox'){if(!el.checked)msg=el.dataset.msg||'This field is required.'}
+    else{
+      const v=el.value.trim();
+      if(!v)msg=el.dataset.msg||`Please enter your ${el.dataset.label}.`;
+      else if(RULES[el.dataset.type]&&!RULES[el.dataset.type][0](el.value))msg=RULES[el.dataset.type][1];
+    }
+    if(msg){setErr(el,msg);if(!first)first=el}else clrErr(el);
+  });
+  if(alertEl)alertEl.classList.toggle('show',!!first);
+  if(first){
+    const g=grp(first);
+    g.scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(()=>first.focus({preventScroll:true}),350);
+  }
+  return !first;
+}
+document.addEventListener('input',e=>{if(e.target.matches('[data-req]'))clrErr(e.target)});
+document.addEventListener('change',e=>{if(e.target.matches('[data-req]'))clrErr(e.target)});
+
+/* Events */
+$('#to2').onclick=()=>go(2);
+$('#to3').onclick=()=>go(3);
+$$('[data-back]').forEach(b=>b.onclick=e=>{e.preventDefault();go(+b.dataset.back)});
+$$('.auth-tab').forEach(b=>b.onclick=()=>{
+  $$('.auth-tab').forEach(x=>x.classList.toggle('on',x===b));
+  $('#regForm').style.display=b.dataset.t==='reg'?'block':'none';
+  $('#logForm').style.display=b.dataset.t==='log'?'block':'none';
+});
+
+/* Eye icon toggle for password fields */
+$$('.pw-toggle').forEach(b=>{
+  b.onclick=()=>{
+    const input=document.getElementById(b.dataset.for);
+    if(!input)return;
+    const isPw=input.type==='password';
+    input.type=isPw?'text':'password';
+    const eyeShow=b.querySelector('.eye-show');
+    const eyeHide=b.querySelector('.eye-hide');
+    if(eyeShow&&eyeHide){
+      eyeShow.style.display=isPw?'none':'block';
+      eyeHide.style.display=isPw?'block':'none';
+    }
+    b.setAttribute('aria-label',isPw?'Hide password':'Show password');
+    b.setAttribute('title',isPw?'Hide password':'Show password');
+  };
+});
+
+$$('[data-social]').forEach(b=>b.onclick=()=>{
+  const n=b.dataset.social,lbl=b.querySelector('span');lbl.textContent='Connecting to '+n+'…';b.style.pointerEvents='none';
+  setTimeout(()=>{
+    lbl.textContent='Continue with '+n;b.style.pointerEvents='';
+    setUser({first:'Alex',last:'Morgan',email:'alex.morgan@'+(n==='Google'?'gmail.com':'icloud.com'),via:n,gender:'male'});
+    go(3);
+  },800);
+});
+$('#regForm').onsubmit=e=>{
+  e.preventDefault();
+  if(!validate($('#regForm'),$('#regForm .form-alert')))return;
+  const selGender = document.querySelector('input[name="chkGender"]:checked')?.value || 'female';
+  setUser({first:$('#rf').value.trim(),last:$('#rl').value.trim(),email:$('#re').value.trim(),gender:selGender});
+  go(3);
+};
+$('#logForm').onsubmit=e=>{
+  e.preventDefault();
+  if(!validate($('#logForm'),$('#logForm .form-alert')))return;
+  const em=$('#le').value.trim();
+  const existing = JSON.parse(localStorage.getItem('b36_user')||'null');
+  const first = em.split('@')[0].replace(/^./,c=>c.toUpperCase());
+  setUser({
+    first: existing?.first || first,
+    last: existing?.last || '',
+    email: em,
+    gender: existing?.gender || (window.B36HeaderAuth?.detectGender ? window.B36HeaderAuth.detectGender(first) : 'female')
+  });
+  go(3);
+};
+
+$('#country').onchange=()=>{$('#stateWrap').style.display=$('#country').value==='US'?'block':'none';renderSummary()};
+$('#state').onchange=renderSummary;$('#vat').oninput=renderSummary;
+
+function applyCoupon(){
+  const code=$('#cin').value.trim().toUpperCase(),m=$('#cmsg');
+  if(!code){m.className='cmsg no';m.textContent='Please enter a discount code.';return}
+  if(!COUPONS[code]){m.className='cmsg no';m.textContent='Coupon "'+code+'" does not exist.';return}
+  S.coupon=code;m.className='cmsg ok';m.textContent='Coupon applied — '+COUPONS[code].label+'.';$('#cin').value='';renderSummary();
+}
+$('#capply').onclick=applyCoupon;$('#cin').onkeydown=e=>{if(e.key==='Enter')applyCoupon()};
+$('#rmCoupon').onclick=()=>{S.coupon=null;$('#cmsg').textContent='';renderSummary()};
+$$('.demo-codes code').forEach(c=>c.onclick=()=>{$('#cin').value=c.textContent;applyCoupon()});
+
+$$('.pay').forEach(p=>p.onclick=()=>{
+  S.pay=p.dataset.p;$$('.pay').forEach(x=>x.classList.toggle('sel',x===p));
+  $('#cardForm').style.display=S.pay==='card'?'block':'none';
+  $('#payNote').style.display=S.pay==='card'?'none':'block';
+});
+$('#cn').oninput=e=>e.target.value=e.target.value.replace(/\D/g,'').slice(0,16).replace(/(.{4})/g,'$1 ').trim();
+$('#ce').oninput=e=>{let v=e.target.value.replace(/\D/g,'').slice(0,4);if(v.length>2)v=v.slice(0,2)+' / '+v.slice(2);e.target.value=v};
+$('#cc').oninput=e=>e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);
+
+$('#place').onclick=()=>{
+  if(!validate($('#payBody'),$('#payAlert')))return;
+  const b=$('#place');b.disabled=true;b.textContent='Processing payment…';
+  setTimeout(()=>{finish();b.disabled=false;b.innerHTML='Place order · <span id="placeAmt"></span>';renderSummary()},1400);
+};
+
+function finish(){
+  const c=calc(),n='B36-'+Math.floor(100000+Math.random()*900000),now=new Date(),next=new Date(now);
+  S.plan==='month'?next.setMonth(next.getMonth()+1):next.setFullYear(next.getFullYear()+1);
+  $('#dName').textContent=S.user?S.user.first:'member';
+  $('#dMail').textContent=S.user?S.user.email:'';
+  let rows=`<div class="ln"><span>${c.p.name}</span><span>${money(c.base)}</span></div>`;
+  if(c.disc)rows+=`<div class="ln disc"><span>Discount (${S.coupon})</span><span>−${money(c.disc)}</span></div>`;
+  rows+=`<div class="ln"><span>${c.name}${c.rate?' · '+pctTxt(c.rate):''}</span><span>${money(c.tax)}</span></div><div class="ln total"><span>Total Paid</span><span>${money(c.total)}</span></div>`;
+  $('#receipt').innerHTML=`<div class="rh"><div>Order<b>#${n}</b></div><div>Date<b>${now.toLocaleDateString()}</b></div><div>Next renewal<b>${next.toLocaleDateString()}</b></div></div><div class="rb">${rows}</div>`;
+  localStorage.setItem('b36_membership',JSON.stringify({plan:c.p.id,name:c.p.name,price:c.p.price,unit:c.p.unit,total:c.total,tax:c.tax,discount:c.disc,order:n,started:now.toISOString(),renews:next.toISOString(),status:'active'}));
+  go(4);
+}
+
+$('#stateWrap').style.display='block';
+setUser(S.user);
+renderPlans();
+renderSummary();
+})();
+</script>
+</body>
+</html>

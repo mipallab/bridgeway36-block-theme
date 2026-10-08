@@ -2144,43 +2144,34 @@
           certification pathway, and human-centered framework in the Bridgeway36 eLibrary.</p>
 
         <div class="membership-grid">
-          <!-- Package 1: $25 Yearly -->
           <div class="membership-plan">
-            <span class="plan-badge annual">ANNUAL ACCESS</span>
-            <h4>Annual Pass</h4>
-            <div class="price">$25 <span>/ year</span></div>
-            <p style="font-size: 13.5px; color: #50677a;">Complete personal access to the growing eLibrary with full
-              year updates (approx. $2.08/mo).</p>
+            <span class="plan-badge annual">FLEXIBLE</span>
+            <h4>Monthly</h4>
+            <div class="price">$25 <span>/ month</span></div>
+            <p style="font-size: 13.5px; color: #50677a;">Pay month to month. Cancel anytime.</p>
             <ul class="membership-features">
-              <li>Instant digital access to all 5 featured titles</li>
-              <li>Transition Readiness Index™ (TRI) assessment workbook</li>
+              <li>Unlimited reading of every title</li>
               <li>PDF &amp; ePub downloads for offline reading</li>
-              <li>All monthly new releases &amp; executive reports for 1 year</li>
-              <li>Standard reader community support</li>
+              <li>Reading journal &amp; streaks</li>
+              <li>Cancel anytime</li>
             </ul>
-            <button class="btn secondary" style="width:100%; margin-top: auto; padding: 13px;"
-              onclick="simulateJoin('Annual Pass ($25/year)')">Subscribe Yearly ($25)</button>
+            <button class="btn secondary" style="width:100%; margin-top: auto; padding: 13px;" onclick="simulateJoin('month')">Subscribe Monthly ($25)</button>
           </div>
 
-          <!-- Package 2: $100 Lifetime -->
           <div class="membership-plan featured">
-            <span class="plan-badge lifetime">BEST VALUE · LIFETIME</span>
-            <h4>Lifetime All-Access</h4>
-            <div class="price">$100 <span>/ lifetime</span></div>
-            <p style="font-size: 13.5px; color: #50677a;">One-time payment. Permanent lifetime ownership with zero
-              recurring fees or renewals ever.</p>
+            <span class="plan-badge lifetime">BEST VALUE &middot; SAVE 67%</span>
+            <h4>Annual</h4>
+            <div class="price">$100 <span>/ year</span></div>
+            <p style="font-size: 13.5px; color: #50677a;">Just $8.33/month. Save $200 a year.</p>
             <ul class="membership-features">
-              <li>Permanent lifetime access to entire Bridgeway36 library</li>
-              <li>Every future publication, whitepaper &amp; toolkit included</li>
-              <li>GenAI Certification Track &amp; Career Pivot Lab access</li>
-              <li>Priority access to quarterly author briefings &amp; webinars</li>
-              <li>Multi-device sync &amp; priority offline downloads</li>
+              <li>Everything in Monthly</li>
+              <li>Save 67% vs. paying monthly</li>
+              <li>Collector badges unlocked</li>
+              <li>Priority author briefings</li>
             </ul>
-            <button class="btn primary" style="width:100%; margin-top: auto; padding: 13px;"
-              onclick="simulateJoin('Lifetime All-Access ($100)')">Get Lifetime Access ($100)</button>
+            <button class="btn primary" style="width:100%; margin-top: auto; padding: 13px;" onclick="simulateJoin('year')">Subscribe Annually ($100)</button>
           </div>
         </div>
-
         <p style="font-size: 12px; text-align: center; color: #7c92a2; margin-top: 20px;">
           ✓ Instant digital access · 14-day satisfaction promise · Prototype checkout simulation
         </p>
@@ -2345,9 +2336,12 @@
       }, duration);
     }
 
-    function simulateJoin(planName) {
-      closeMembershipModal();
-      showToast('✓ ' + planName + ' selected! (Simulated Prototype Checkout)');
+    function simulateJoin(planKey) {
+      if (typeof closeMembershipModal === 'function') closeMembershipModal();
+      if (typeof showToast === 'function') showToast('\u2713 Opening secure membership checkout...');
+      setTimeout(function () {
+        window.location.href = 'membership-checkout.html?plan=' + (planKey === 'month' ? 'month' : 'year');
+      }, 350);
     }
 
     // Close Modals on ESC Key or Click Outside
@@ -2429,6 +2423,8 @@
     });
 
   </script>
+  <!-- Global Header Auth Profile Component -->
+  <script src="assets/js/b36-header-auth.js"></script>
 </body>
 
 </html>

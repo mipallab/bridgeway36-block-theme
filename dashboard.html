@@ -411,24 +411,34 @@
     .header-right {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
+    }
+    @media (min-width: 1200px) {
+      .header-right {
+        gap: 18px;
+      }
     }
 
     /* Header Search Box / Command Trigger */
     .header-search {
       position: relative;
-      width: 270px;
+      width: 320px;
       cursor: pointer;
+    }
+    @media (min-width: 1400px) {
+      .header-search {
+        width: 370px;
+      }
     }
 
     .header-search input {
       width: 100%;
-      height: 38px;
-      padding: 0 46px 0 36px;
+      height: 40px;
+      padding: 0 80px 0 42px;
       background: #f1f5f8;
       border: 1px solid #e2edf5;
       border-radius: var(--radius-pill);
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--text-main);
       outline: none;
       cursor: pointer;
@@ -439,40 +449,59 @@
     .header-search:hover input {
       background: #ffffff;
       border-color: #bcd0e0;
-      box-shadow: 0 2px 10px rgba(11, 58, 99, 0.08);
+      box-shadow: 0 3px 12px rgba(11, 58, 99, 0.09);
     }
 
     .header-search svg {
       position: absolute;
-      left: 12px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      width: 15px;
-      height: 15px;
+      width: 16px;
+      height: 16px;
       color: var(--text-light);
       pointer-events: none;
     }
 
     .search-kbd-hint {
       position: absolute;
-      right: 10px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 10.5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 11px;
       font-weight: 700;
-      color: #7b94a6;
+      color: #5d788e;
       background: #ffffff;
-      border: 1px solid #d8e5ef;
-      border-radius: 4px;
-      padding: 2px 6px;
+      border: 1px solid #d0e0eb;
+      border-radius: 6px;
+      padding: 3px 8px;
       line-height: 1;
       pointer-events: none;
+      letter-spacing: 0.4px;
+      box-shadow: 0 1px 3px rgba(11, 58, 99, 0.05);
       transition: all var(--transition);
+    }
+
+    .search-kbd-hint kbd {
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .search-kbd-hint .kbd-sep {
+      font-size: 10px;
+      color: #9cb0be;
+      margin: 0 1px;
     }
 
     .header-search:hover .search-kbd-hint {
       border-color: var(--navy);
       color: var(--navy);
+      box-shadow: 0 2px 6px rgba(11, 58, 99, 0.12);
     }
 
     /* Streak Pill */
@@ -514,13 +543,18 @@
 
     .notif-dot {
       position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 8px;
-      height: 8px;
+      top: 7px;
+      right: 7px;
+      width: 9px;
+      height: 9px;
       background: #e54848;
       border-radius: 50%;
       border: 2px solid var(--bg-card);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 0 0 2px rgba(229, 72, 72, 0.25);
+    }
+    .notif-dot.hidden {
+      display: none !important;
     }
 
     .user-avatar-btn {
@@ -537,6 +571,399 @@
       border: 2px solid var(--bg-card);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       cursor: pointer;
+    }
+
+    /* ==========================================================================
+       NOTIFICATION DRAWER & BACKDROP
+       ========================================================================== */
+    .notif-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 26, 45, 0.45);
+      backdrop-filter: blur(3px);
+      z-index: 9998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .notif-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .notif-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 420px;
+      max-width: 100vw;
+      background: #ffffff;
+      box-shadow: -10px 0 40px rgba(11, 58, 99, 0.18);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      box-sizing: border-box;
+    }
+    .notif-drawer.active {
+      transform: translateX(0);
+    }
+
+    .notif-drawer-header {
+      padding: 20px 22px 14px;
+      border-bottom: 1px solid #edf2f6;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .notif-header-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .notif-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .notif-title-wrap svg {
+      color: var(--navy);
+    }
+    .notif-title-wrap h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      font-family: inherit;
+      margin: 0;
+    }
+
+    .notif-unread-count-pill {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #eaf2f9;
+      color: var(--navy);
+      padding: 3px 9px;
+      border-radius: 99px;
+    }
+    .notif-unread-count-pill.empty {
+      background: #f1f5f8;
+      color: #7b94a6;
+    }
+
+    .notif-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .notif-action-icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid #e2edf5;
+      background: #f8fafc;
+      color: #50677a;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    .notif-action-icon-btn:hover {
+      background: #edf4fa;
+      border-color: #cbdde8;
+      color: var(--navy);
+    }
+
+    .notif-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #648197;
+      font-size: 22px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .notif-close-btn:hover {
+      background: #f1f5f8;
+      color: #0b3a63;
+    }
+
+    .notif-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .notif-tabs {
+      display: flex;
+      background: #f1f5f8;
+      padding: 3px;
+      border-radius: 8px;
+      gap: 2px;
+    }
+    .notif-tab {
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #50677a;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .notif-tab.active {
+      background: #ffffff;
+      color: var(--navy);
+      box-shadow: 0 1px 4px rgba(11, 58, 99, 0.08);
+    }
+
+    .notif-mark-read-btn {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1d7a4d;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+    .notif-mark-read-btn:hover {
+      background: #eaf7f0;
+    }
+
+    .notif-list-wrap {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #fafbfd;
+    }
+
+    .notif-item {
+      position: relative;
+      background: #ffffff;
+      border: 1.5px solid #e6edf2;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .notif-item:hover {
+      border-color: #cbdde8;
+      box-shadow: 0 4px 14px rgba(11, 58, 99, 0.06);
+      transform: translateY(-1px);
+    }
+    .notif-item.unread {
+      background: #f7fafc;
+      border-color: #cbdde8;
+      border-left: 4px solid var(--navy);
+    }
+
+    .notif-item-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+      background: #eef5fa;
+      color: var(--navy);
+    }
+    .notif-item-icon-wrap.streak {
+      background: #fff4e5;
+    }
+    .notif-item-icon-wrap.framework {
+      background: #eef9f2;
+    }
+    .notif-item-icon-wrap.membership {
+      background: #fbf5e6;
+    }
+
+    .notif-item-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notif-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+    .notif-item-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.35;
+    }
+    .notif-unread-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #0b3a63;
+      box-shadow: 0 0 0 2px rgba(11, 58, 99, 0.2);
+      flex-shrink: 0;
+    }
+
+    .notif-item-desc {
+      font-size: 12.5px;
+      color: #50677a;
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+
+    .notif-item-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .notif-item-time {
+      font-size: 11px;
+      font-weight: 600;
+      color: #8da2b2;
+    }
+
+    .notif-action-link {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--navy);
+      background: #eef5fa;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #d2e2ec;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .notif-action-link:hover {
+      background: var(--navy);
+      color: #ffffff;
+      border-color: var(--navy);
+    }
+
+    .notif-item-delete {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: #9cb0be;
+      font-size: 16px;
+      line-height: 1;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .notif-item:hover .notif-item-delete {
+      display: flex;
+    }
+    .notif-item-delete:hover {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .notif-empty-state {
+      padding: 48px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #648197;
+      margin: auto 0;
+    }
+    .notif-empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+    .notif-empty-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .notif-empty-desc {
+      font-size: 13px;
+      color: #7b94a6;
+      max-width: 240px;
+      line-height: 1.45;
+    }
+
+    .notif-drawer-footer {
+      padding: 14px 20px;
+      border-top: 1px solid #edf2f6;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .notif-footer-btn {
+      flex: 1;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--navy);
+      background: #eef5fa;
+      border: 1px solid #cbdde8;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .notif-footer-btn:hover {
+      background: #e2edf6;
+      border-color: #0b3a63;
+    }
+    .notif-clear-btn {
+      font-size: 12px;
+      font-weight: 600;
+      color: #7b94a6;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 6px;
+      transition: color 0.2s ease;
+    }
+    .notif-clear-btn:hover {
+      color: #c53030;
     }
 
     /* ==========================================================================
@@ -1370,81 +1797,51 @@
     }
 
     .spotlight-thumb {
-      width: 58px;
-      height: 38px;
-      border-radius: 7px;
+      width: 42px;
+      height: 58px;
+      border-radius: 6px;
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      padding-left: 9px;
+      justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
-      background-color: #171d2b;
+      box-shadow: 0 3px 8px rgba(11, 58, 99, 0.16);
+      background-color: #0b3a63;
+      border: 1px solid rgba(11, 58, 99, 0.12);
     }
 
-    .spotlight-thumb.theme-brown {
-      background-color: #2b1c15;
+    .spotlight-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    .spotlight-thumb.theme-navy {
-      background-color: #0f1c2d;
-    }
-
-    .spotlight-thumb.theme-slate {
-      background-color: #18202c;
-    }
-
-    .spotlight-thumb.theme-dark {
-      background-color: #161a22;
-    }
-
-    /* Red/Coral diagonal stripes matching reference screenshot */
-    .spotlight-thumb::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        120deg,
-        transparent 36%,
-        rgba(225, 29, 72, 0.9) 39%,
-        rgba(225, 29, 72, 0.9) 47%,
-        transparent 50%,
-        rgba(225, 29, 72, 0.9) 53%,
-        rgba(225, 29, 72, 0.9) 61%,
-        transparent 64%
-      );
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* Subtle fine horizontal scanline overlay */
-    .spotlight-thumb::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 255, 255, 0.05) 1px,
-        transparent 1px,
-        transparent 3px
-      );
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .spotlight-thumb-code {
-      position: relative;
-      z-index: 3;
-      font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
-      font-size: 11px;
-      font-weight: 800;
+    .spotlight-thumb-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
       color: #ffffff;
-      letter-spacing: -0.2px;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
-      line-height: 1;
+    }
+    .spotlight-thumb-fallback svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.9;
+    }
+    .spotlight-thumb-fallback span {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-top: 2px;
     }
 
     .spotlight-info {
@@ -1560,8 +1957,8 @@
         gap: 10px;
       }
       .spotlight-thumb {
-        width: 48px;
-        height: 34px;
+        width: 36px;
+        height: 50px;
       }
       .spotlight-footer {
         padding: 10px 14px;
@@ -2311,9 +2708,9 @@
     /* Pricing 3-Columns Grid */
     .membership-pricing-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 24px;
-      max-width: 1040px;
+      max-width: 860px;
       width: 100%;
       margin: 0 auto 20px;
       align-items: stretch;
@@ -3297,7 +3694,7 @@
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
           <input type="text" placeholder="Search publications..." readonly onclick="openSpotlightModal()" />
-          <span class="search-kbd-hint">⌘K</span>
+          <span class="search-kbd-hint" id="searchKbdHint"><kbd>Ctrl</kbd><span class="kbd-sep">+</span><kbd>K</kbd></span>
         </div>
 
         <!-- 1 Day Streak Badge (Screenshot Match) -->
@@ -3309,13 +3706,13 @@
         </div>
 
         <!-- Notification Bell -->
-        <button class="icon-btn" onclick="showToast('🔔 You have 2 new executive whitepapers ready in your library!')"
-          aria-label="Notifications">
+        <button class="icon-btn" id="notifBellBtn" onclick="toggleNotificationDrawer()"
+          aria-label="Open notifications" title="Notifications">
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
           </svg>
-          <span class="notif-dot"></span>
+          <span class="notif-dot" id="notifDot"></span>
         </button>
 
         <!-- User Profile Avatar -->
@@ -3411,7 +3808,7 @@
             <span style="font-size:12.5px; font-weight:700; color:var(--navy); margin-top:auto;">Explore 4 manuscripts →</span>
           </div>
 
-          <div class="track-card" onclick="openReaderModal('Python for Developers', 'assets/book cover/python.webp')">
+          <div class="track-card" onclick="openReaderModal('Mastering Systems Code', 'assets/book cover/Mastering Code.jpg')">
             <span class="track-badge">Pathway 02</span>
             <h4 class="track-title">Engineering Foundations &amp; Python ML</h4>
             <p class="track-desc">From data pipelines to neural weights: core architectures for technical leaders and systems architects.</p>
@@ -3599,102 +3996,44 @@
           </div>
           <h3 class="sub-status-title" id="subStatusTitle">No Active Membership Plan</h3>
           <p class="sub-status-desc" id="subStatusDesc">Join a plan to unlock all manuscripts and flipbook read features.</p>
+          <div id="subManage" style="display:none; margin-top:16px; gap:10px; flex-wrap:wrap;"></div>
         </div>
 
         <!-- 3 Pricing Tier Cards (Screenshot Exact Match) -->
         <div class="membership-pricing-grid">
-          <!-- Card 1: THE READER -->
+          <!-- Monthly -->
           <div class="pricing-card">
-            <span class="pricing-tier-tag">THE READER</span>
-            <h3 class="pricing-plan-title">Monthly Access</h3>
+            <span class="pricing-tier-tag">FLEXIBLE</span>
+            <h3 class="pricing-plan-title">Monthly Membership</h3>
             <div class="pricing-price-wrap">
-              <span class="pricing-price-num">$9.99</span>
+              <span class="pricing-price-num">$25</span>
               <span class="pricing-price-unit">/month</span>
             </div>
             <ul class="pricing-features-list">
-              <li class="pricing-feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Unlimited digital reading</span>
-              </li>
-              <li class="pricing-feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Real-time reading journal logs</span>
-              </li>
-              <li class="pricing-feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Saves streaks &amp; achievements</span>
-              </li>
+              <li class="pricing-feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Unlimited digital reading</span></li>
+              <li class="pricing-feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>PDF &amp; ePub downloads</span></li>
+              <li class="pricing-feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Reading journal, streaks &amp; achievements</span></li>
+              <li class="pricing-feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Cancel anytime</span></li>
             </ul>
-            <button class="pricing-action-btn btn-outline" onclick="openPlanConfirmation('Monthly Access', '$9.99 / month')">Select Plan</button>
+            <button class="pricing-action-btn btn-outline" id="planBtnMonth" onclick="goToCheckout('month')">Subscribe Monthly</button>
           </div>
 
-          <!-- Card 2: THE SCHOLAR (BEST VALUE) -->
+          <!-- Annual (best value) -->
           <div class="pricing-card featured">
             <div class="best-value-pill">BEST VALUE</div>
-            <span class="pricing-tier-tag">THE SCHOLAR</span>
-            <h3 class="pricing-plan-title">Yearly Membership</h3>
+            <span class="pricing-tier-tag">SAVE 67%</span>
+            <h3 class="pricing-plan-title">Annual Membership</h3>
             <div class="pricing-price-wrap">
-              <span class="pricing-price-num">$99.99</span>
+              <span class="pricing-price-num">$100</span>
               <span class="pricing-price-unit">/year</span>
             </div>
             <ul class="pricing-features-list">
-              <li class="pricing-feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Everything in Monthly</span>
-              </li>
-              <li class="pricing-feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Save ~30% annually</span>
-              </li>
-              <li class="pricing-feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Collector badges unlocked</span>
-              </li>
+              <li class="pricing-feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Everything in Monthly</span></li>
+              <li class="pricing-feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Just $8.33/month — save $200 a year</span></li>
+              <li class="pricing-feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Collector badges unlocked</span></li>
+              <li class="pricing-feature-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Priority author briefings</span></li>
             </ul>
-            <button class="pricing-action-btn btn-solid" onclick="openPlanConfirmation('Yearly Membership', '$99.99 / year')">Subscribe Yearly</button>
-          </div>
-
-          <!-- Card 3: THE COLLECTOR -->
-          <div class="pricing-card">
-            <span class="pricing-tier-tag">THE COLLECTOR</span>
-            <h3 class="pricing-plan-title">Lifetime Access</h3>
-            <div class="pricing-price-wrap">
-              <span class="pricing-price-num">$199.99</span>
-              <span class="pricing-price-unit">/one-time</span>
-            </div>
-            <ul class="pricing-features-list">
-              <li class="pricing-feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Unlimited permanent access</span>
-              </li>
-              <li class="pricing-feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>No recurring bills or fees</span>
-              </li>
-              <li class="pricing-feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>All future books included</span>
-              </li>
-            </ul>
-            <button class="pricing-action-btn btn-outline" onclick="openPlanConfirmation('Lifetime Access', '$199.99 one-time')">Unlock Lifetime</button>
+            <button class="pricing-action-btn btn-solid" id="planBtnYear" onclick="goToCheckout('year')">Subscribe Annually</button>
           </div>
         </div>
       </div>
@@ -4048,6 +4387,57 @@
   </div>
 
   <!-- ==========================================================================
+       NOTIFICATION DRAWER & BACKDROP
+       ========================================================================== -->
+  <div class="notif-backdrop" id="notifBackdrop" onclick="closeNotificationDrawer()"></div>
+  <aside class="notif-drawer" id="notifDrawer" aria-label="Notification center" role="dialog" aria-modal="true">
+    <div class="notif-drawer-header">
+      <div class="notif-header-title-row">
+        <div class="notif-title-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <h3>Notifications</h3>
+          <span class="notif-unread-count-pill" id="notifUnreadBadge">2 New</span>
+        </div>
+        <div class="notif-header-actions">
+          <button type="button" class="notif-action-icon-btn" id="notifSoundToggleBtn" onclick="toggleNotificationSound()" title="Notification sound is enabled" aria-label="Toggle sound">
+            <span id="notifSoundIcon">🔔</span>
+          </button>
+          <button type="button" class="notif-close-btn" onclick="closeNotificationDrawer()" aria-label="Close notification drawer">×</button>
+        </div>
+      </div>
+
+      <!-- Controls Row: Filter Tabs & Mark All Read -->
+      <div class="notif-controls-row">
+        <div class="notif-tabs" role="tablist">
+          <button type="button" class="notif-tab active" id="tabNotifAll" onclick="switchNotifTab('all')">All (<span id="notifTotalCount">4</span>)</button>
+          <button type="button" class="notif-tab" id="tabNotifUnread" onclick="switchNotifTab('unread')">Unread (<span id="notifUnreadCount">2</span>)</button>
+        </div>
+        <button type="button" class="notif-mark-read-btn" onclick="markAllNotificationsAsRead()" title="Mark all notifications as read">
+          ✓ Mark all read
+        </button>
+      </div>
+    </div>
+
+    <!-- Notification List Container -->
+    <div class="notif-list-wrap" id="notifListWrap">
+      <!-- Dynamically rendered notification items -->
+    </div>
+
+    <!-- Notification Drawer Footer -->
+    <div class="notif-drawer-footer">
+      <button type="button" class="notif-footer-btn" onclick="simulateIncomingNotification()">
+        <span>🔔 Send Test Alert (Play Sound)</span>
+      </button>
+      <button type="button" class="notif-clear-btn" onclick="clearAllNotifications()">
+        Clear all
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
        SPOTLIGHT SEARCH MODAL (Command Palette Matching Reference Image)
        ========================================================================== -->
   <div class="spotlight-overlay" id="spotlightModal" role="dialog" aria-modal="true" aria-labelledby="spotlightSearchInput" onclick="handleSpotlightBackdropClick(event)">
@@ -4065,7 +4455,7 @@
           type="text" 
           id="spotlightSearchInput" 
           class="spotlight-input" 
-          placeholder="Search courses, skills, or topics..." 
+          placeholder="Search books, publications, authors, or topics..." 
           autocomplete="off"
           spellcheck="false"
           oninput="handleSpotlightInput(this.value)"
@@ -4172,68 +4562,6 @@
   <script>
     // Library Data enriched with categories, levels, access, badges, and popular markers
     const dashBooks = [
-      // Top 5 Popular Items (Exact match with reference screenshot)
-      {
-        id: "py-dev",
-        title: "Python for Developers",
-        author: "Hannah Lee",
-        category: "Computer Science & Engineering",
-        level: "Beginner",
-        access: "$49",
-        badgeText: "py",
-        thumbTheme: "theme-brown",
-        popular: true,
-        image: "assets/book cover/Mastering Code.jpg"
-      },
-      {
-        id: "fullstack-web",
-        title: "Full Stack Web Development",
-        author: "Ashraful Haque",
-        category: "Computer Science & Engineering",
-        level: "Beginner",
-        access: "$79",
-        badgeText: "</>",
-        thumbTheme: "theme-navy",
-        popular: true,
-        image: "assets/book cover/Mastering Code.jpg"
-      },
-      {
-        id: "git-github",
-        title: "Git & GitHub for Professionals",
-        author: "Tomás Silva",
-        category: "Computer Science & Engineering",
-        level: "Beginner",
-        access: "Free",
-        badgeText: "git",
-        thumbTheme: "theme-brown",
-        popular: true,
-        image: "assets/book cover/Mastering Code.jpg"
-      },
-      {
-        id: "react-next",
-        title: "Modern React & Next.js",
-        author: "Daniel Okafor",
-        category: "Computer Science & Engineering",
-        level: "Intermediate",
-        access: "$69",
-        badgeText: "⚛",
-        thumbTheme: "theme-navy",
-        popular: true,
-        image: "assets/book cover/Mastering Code.jpg"
-      },
-      {
-        id: "tailwind-css",
-        title: "Tailwind CSS: Rapid UI Building",
-        author: "Daniel Okafor",
-        category: "Computer Science & Engineering",
-        level: "Beginner",
-        access: "Free",
-        badgeText: "~",
-        thumbTheme: "theme-navy",
-        popular: true,
-        image: "assets/book cover/Mastering Code.jpg"
-      },
-
       // Bridgeway36 Core Library Publications
       {
         id: "ai-shift",
@@ -4280,7 +4608,7 @@
         access: "$79",
         badgeText: "</>",
         thumbTheme: "theme-navy",
-        popular: false,
+        popular: true,
         image: "assets/book cover/Mastering Code.jpg"
       },
       {
@@ -4292,7 +4620,7 @@
         access: "Free",
         badgeText: "HIST",
         thumbTheme: "theme-brown",
-        popular: false,
+        popular: true,
         image: "assets/book cover/Voices of the Past.jpg"
       },
       {
@@ -4304,7 +4632,7 @@
         access: "Free",
         badgeText: "ARTS",
         thumbTheme: "theme-slate",
-        popular: false,
+        popular: true,
         image: "assets/book cover/The Visual Stage.jpg"
       },
       {
@@ -4316,7 +4644,7 @@
         access: "Free",
         badgeText: "CITY",
         thumbTheme: "theme-slate",
-        popular: false,
+        popular: true,
         image: "assets/book cover/the Little City That Went AI.png"
       },
       {
@@ -4328,7 +4656,7 @@
         access: "$59",
         badgeText: "BIZ",
         thumbTheme: "theme-brown",
-        popular: false,
+        popular: true,
         image: "assets/book cover/Bridgeway to Business.png"
       },
       {
@@ -4410,7 +4738,7 @@
     const savedBookmarks = new Set();
     const currentlyReadingBooks = new Set(["The AI Job Shift"]);
     let currentMembershipTier = null;
-    let selectedTierForConfirmation = { name: "Yearly Membership", price: "$99.99 / year" };
+    let selectedTierForConfirmation = { name: "Annual Membership", price: "$100 / year" };
     let earnedBadges = new Set(["Joined the Archive"]);
     let userXp = 50;
     let userLevel = 1;
@@ -4424,6 +4752,7 @@
       // Pre-initialize spotlight popular results
       handleSpotlightInput("");
       updateShelfCounters();
+      applyStoredMembership();
 
       // Check URL hash for direct tab navigation
       const hash = (window.location.hash || "").toLowerCase().replace('#', '');
@@ -4448,7 +4777,7 @@
       const counterText = document.getElementById("dashCounterText");
 
       // Core publications for dashboard catalog display
-      const gridSource = dashBooks.filter(b => !["py-dev", "fullstack-web", "git-github", "react-next", "tailwind-css"].includes(b.id));
+      const gridSource = dashBooks;
 
       const filtered = gridSource.filter(b => {
         const matchCat = (activeDashCategory === "All Library") || (b.category === activeDashCategory);
@@ -4749,7 +5078,68 @@
       showToast(`✓ Shelf "${name.trim()}" created successfully!`);
     }
 
-    // Membership Plan Flow
+    // Membership purchase flow integration (membership-checkout.html)
+    function getMembership() {
+      try { return JSON.parse(localStorage.getItem('b36_membership') || 'null'); } catch (e) { return null; }
+    }
+
+    function goToCheckout(plan) {
+      window.location.href = 'membership-checkout.html?plan=' + (plan === 'month' ? 'month' : 'year');
+    }
+
+    function cancelMembership() {
+      const m = getMembership();
+      if (!m) return;
+      if (!confirm('Cancel your ' + m.name + '? You keep access until the end of the current billing period.')) return;
+      m.status = 'canceled';
+      localStorage.setItem('b36_membership', JSON.stringify(m));
+      applyStoredMembership();
+      showToast('Your subscription was canceled. Access continues until ' + new Date(m.renews).toLocaleDateString() + '.');
+    }
+
+    function applyStoredMembership() {
+      const m = getMembership();
+      const badge = document.getElementById('subStatusBadge');
+      const badgeText = document.getElementById('subStatusBadgeText');
+      const title = document.getElementById('subStatusTitle');
+      const desc = document.getElementById('subStatusDesc');
+      const manage = document.getElementById('subManage');
+      const btnM = document.getElementById('planBtnMonth');
+      const btnY = document.getElementById('planBtnYear');
+      const reset = () => {
+        if (btnM) { btnM.textContent = 'Subscribe Monthly'; btnM.disabled = false; btnM.style.opacity = ''; }
+        if (btnY) { btnY.textContent = 'Subscribe Annually'; btnY.disabled = false; btnY.style.opacity = ''; }
+      };
+      reset();
+      if (!m) { if (manage) manage.style.display = 'none'; return; }
+      const active = m.status === 'active';
+      const renew = new Date(m.renews).toLocaleDateString();
+      if (badge && badgeText) {
+        badge.className = 'status-badge ' + (active ? 'active' : 'inactive');
+        badgeText.textContent = active ? 'ACTIVE' : 'CANCELED';
+      }
+      if (title) title.textContent = m.name + (active ? ' (Active Plan)' : ' (Canceled)');
+      if (desc) {
+        desc.textContent = active
+          ? '$' + Number(m.total).toFixed(2) + ' / ' + m.unit + ' \u00b7 Renews on ' + renew + ' \u00b7 Order #' + m.order
+          : 'Access continues until ' + renew + '. Resubscribe anytime to keep reading.';
+      }
+      if (manage) {
+        manage.style.display = 'flex';
+        manage.innerHTML = active
+          ? '<button class="pricing-action-btn btn-outline" style="width:auto;padding:10px 20px;" onclick="cancelMembership()">Cancel subscription</button>'
+          : '<button class="pricing-action-btn btn-solid" style="width:auto;padding:10px 20px;" onclick="goToCheckout(\'' + m.plan + '\')">Resubscribe</button>';
+      }
+      if (active) {
+        const cur = m.plan === 'month' ? btnM : btnY;
+        const oth = m.plan === 'month' ? btnY : btnM;
+        if (cur) { cur.textContent = 'Current Plan'; cur.disabled = true; cur.style.opacity = '.6'; }
+        if (oth) oth.textContent = m.plan === 'month' ? 'Switch to Annual' : 'Switch to Monthly';
+        currentMembershipTier = m.name;
+      }
+    }
+
+    // Membership Plan Flow (legacy in-dashboard confirmation)
     function openPlanConfirmation(planName, price) {
       selectedTierForConfirmation = { name: planName, price: price };
       const nameEl = document.getElementById("confirmPlanName");
@@ -4963,9 +5353,8 @@
       const label = document.getElementById("spotlightSectionLabel");
 
       if (!query) {
-        if (label) label.textContent = "Popular right now";
-        // Show the top 5 popular items (matches reference screenshot)
-        spotlightVisibleBooks = dashBooks.filter(b => b.popular).slice(0, 5);
+        if (label) label.textContent = "Popular publications in library";
+        spotlightVisibleBooks = dashBooks.filter(b => b.popular).slice(0, 6);
       } else {
         spotlightVisibleBooks = dashBooks.filter(b => {
           return (
@@ -4973,14 +5362,13 @@
             b.author.toLowerCase().includes(query) ||
             b.category.toLowerCase().includes(query) ||
             (b.level && b.level.toLowerCase().includes(query)) ||
-            (b.access && b.access.toLowerCase().includes(query)) ||
-            (b.badgeText && b.badgeText.toLowerCase().includes(query))
+            (b.access && b.access.toLowerCase().includes(query))
           );
         });
         if (label) {
           label.textContent = spotlightVisibleBooks.length > 0
-            ? `Results (${spotlightVisibleBooks.length})`
-            : `No results for "${val}"`;
+            ? `Publications (${spotlightVisibleBooks.length})`
+            : `No publications found for "${val}"`;
         }
       }
 
@@ -4995,8 +5383,8 @@
       if (spotlightVisibleBooks.length === 0) {
         container.innerHTML = `
           <div class="spotlight-empty-state">
-            <h4>No courses or publications found</h4>
-            <p>Try searching by course title, author name, or topic keyword.</p>
+            <h4>No books or publications found</h4>
+            <p>Try searching by book title, author name, or framework topic.</p>
           </div>
         `;
         return;
@@ -5004,9 +5392,10 @@
 
       container.innerHTML = spotlightVisibleBooks.map((book, idx) => {
         const isActive = idx === spotlightActiveIndex;
-        const themeClass = book.thumbTheme || "theme-navy";
-        const badge = book.badgeText || "</>";
-        const metaLine = `${book.author}, ${book.level || 'Beginner'}, ${book.access || 'Free'}`;
+        const metaLine = `By ${book.author} · ${book.category} · ${book.access || 'Member Edition'}`;
+        const thumbHtml = book.image 
+          ? `<img src="${book.image}" alt="${book.title}" loading="lazy" />` 
+          : `<div class="spotlight-thumb-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><span>eBook</span></div>`;
 
         return `
           <div 
@@ -5015,8 +5404,8 @@
             onclick="selectSpotlightBook('${book.id}')"
             onmouseenter="setSpotlightActiveIndex(${idx})"
           >
-            <div class="spotlight-thumb ${themeClass}">
-              <span class="spotlight-thumb-code">${badge}</span>
+            <div class="spotlight-thumb">
+              ${thumbHtml}
             </div>
             <div class="spotlight-info">
               <div class="spotlight-title">${book.title}</div>
@@ -5095,8 +5484,13 @@
         openSpotlightModal();
         return;
       }
-      // Escape closes active modals
+      // Escape closes active modals or drawers
       if (e.key === "Escape") {
+        const notifDrawer = document.getElementById("notifDrawer");
+        if (notifDrawer && notifDrawer.classList.contains("active")) {
+          closeNotificationDrawer();
+          return;
+        }
         const spotlightModal = document.getElementById("spotlightModal");
         if (spotlightModal && spotlightModal.classList.contains("active")) {
           closeSpotlightModal();
@@ -5113,13 +5507,393 @@
     // Toast
     function showToast(msg, duration = 3000) {
       const toast = document.getElementById("dashToast");
+      if (!toast) return;
       toast.textContent = msg;
       toast.classList.add("show");
       setTimeout(() => {
         toast.classList.remove("show");
       }, duration);
     }
+
+    // ==========================================================================
+    // NOTIFICATION DRAWER & WEB AUDIO SOUND ENGINE
+    // ==========================================================================
+    const DEFAULT_NOTIFICATIONS = [
+      {
+        id: "notif_1",
+        title: "The AI Job Shift Available",
+        desc: "Dr. Aris Thorne's new executive playbook is now live with full reading access.",
+        type: "book",
+        time: "10m ago",
+        unread: true,
+        actionText: "Read Now →",
+        bookTitle: "The AI Job Shift"
+      },
+      {
+        id: "notif_2",
+        title: "1-Day Reading Streak Started! 🔥",
+        desc: "Great job! You logged 22 minutes of focused reading today. Read tomorrow to advance to Level 2.",
+        type: "streak",
+        time: "1h ago",
+        unread: true,
+        actionText: "View Streak →",
+        navTab: "Achievements"
+      },
+      {
+        id: "notif_3",
+        title: "Transition Readiness Index (PDF)",
+        desc: "Your high-resolution PDF framework download is generated and ready for offline executive review.",
+        type: "framework",
+        time: "3h ago",
+        unread: false,
+        actionText: "Download PDF",
+        downloadTitle: "Transition Readiness Index"
+      },
+      {
+        id: "notif_4",
+        title: "eLibrary Membership Active",
+        desc: "Unlimited access unlocked for all 14 digital titles, audio summaries, and certificates.",
+        type: "membership",
+        time: "Yesterday",
+        unread: false,
+        actionText: "View Membership",
+        navTab: "Membership"
+      }
+    ];
+
+    let userNotifications = [];
+    let currentNotifFilter = "all";
+    let notifSoundActive = true;
+    let notifAudioContext = null;
+
+    function initNotificationSystem() {
+      try {
+        const stored = localStorage.getItem("b36_notifications");
+        if (stored) {
+          userNotifications = JSON.parse(stored);
+        } else {
+          userNotifications = JSON.parse(JSON.stringify(DEFAULT_NOTIFICATIONS));
+          saveNotifications();
+        }
+      } catch (e) {
+        userNotifications = JSON.parse(JSON.stringify(DEFAULT_NOTIFICATIONS));
+      }
+
+      // Restore sound setting
+      const soundPref = localStorage.getItem("b36_notif_sound");
+      if (soundPref !== null) {
+        notifSoundActive = soundPref === "true";
+      }
+      updateSoundIcon();
+      updateNotifBadge();
+
+      // Platform-aware keyboard shortcut badge formatting (Ctrl + K on PC, ⌘ K on Mac)
+      const hint = document.getElementById("searchKbdHint");
+      if (hint) {
+        const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+        hint.innerHTML = isMac 
+          ? '<kbd>⌘</kbd><span class="kbd-sep" style="margin:0 2px"> </span><kbd>K</kbd>' 
+          : '<kbd>Ctrl</kbd><span class="kbd-sep">+</span><kbd>K</kbd>';
+      }
+    }
+
+    function saveNotifications() {
+      try {
+        localStorage.setItem("b36_notifications", JSON.stringify(userNotifications));
+      } catch (e) { }
+      updateNotifBadge();
+    }
+
+    function playNotificationChime() {
+      if (!notifSoundActive) return;
+      try {
+        const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtxClass) return;
+        if (!notifAudioContext) notifAudioContext = new AudioCtxClass();
+        if (notifAudioContext.state === "suspended") {
+          notifAudioContext.resume();
+        }
+
+        const t = notifAudioContext.currentTime;
+
+        // Tone 1: D5 (587.33 Hz)
+        const osc1 = notifAudioContext.createOscillator();
+        const gain1 = notifAudioContext.createGain();
+        osc1.type = "sine";
+        osc1.frequency.setValueAtTime(587.33, t);
+        gain1.gain.setValueAtTime(0, t);
+        gain1.gain.linearRampToValueAtTime(0.24, t + 0.02);
+        gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+        osc1.connect(gain1);
+        gain1.connect(notifAudioContext.destination);
+        osc1.start(t);
+        osc1.stop(t + 0.23);
+
+        // Tone 2: A5 (880.00 Hz) - warm, resonant chime
+        const osc2 = notifAudioContext.createOscillator();
+        const gain2 = notifAudioContext.createGain();
+        osc2.type = "sine";
+        osc2.frequency.setValueAtTime(880.00, t + 0.09);
+        gain2.gain.setValueAtTime(0, t + 0.09);
+        gain2.gain.linearRampToValueAtTime(0.30, t + 0.12);
+        gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.48);
+        osc2.connect(gain2);
+        gain2.connect(notifAudioContext.destination);
+        osc2.start(t + 0.09);
+        osc2.stop(t + 0.50);
+      } catch (err) {
+        console.warn("Audio chime notice:", err);
+      }
+    }
+
+    function toggleNotificationSound() {
+      notifSoundActive = !notifSoundActive;
+      localStorage.setItem("b36_notif_sound", String(notifSoundActive));
+      updateSoundIcon();
+      if (notifSoundActive) {
+        playNotificationChime();
+        showToast("🔔 Notification sound turned ON.");
+      } else {
+        showToast("🔕 Notification sound MUTED.");
+      }
+    }
+
+    function updateSoundIcon() {
+      const icon = document.getElementById("notifSoundIcon");
+      const btn = document.getElementById("notifSoundToggleBtn");
+      if (icon) icon.textContent = notifSoundActive ? "🔔" : "🔕";
+      if (btn) btn.title = notifSoundActive ? "Sound enabled (Click to mute)" : "Sound muted (Click to enable)";
+    }
+
+    function updateNotifBadge() {
+      const unreadCount = userNotifications.filter(n => n.unread).length;
+      const totalCount = userNotifications.length;
+
+      const unreadEl = document.getElementById("notifUnreadCount");
+      const totalEl = document.getElementById("notifTotalCount");
+      const badgeEl = document.getElementById("notifUnreadBadge");
+      const dotEl = document.getElementById("notifDot");
+      const bellBtn = document.getElementById("notifBellBtn");
+
+      if (unreadEl) unreadEl.textContent = unreadCount;
+      if (totalEl) totalEl.textContent = totalCount;
+
+      if (badgeEl) {
+        if (unreadCount > 0) {
+          badgeEl.textContent = `${unreadCount} New`;
+          badgeEl.classList.remove("empty");
+        } else {
+          badgeEl.textContent = "All Read";
+          badgeEl.classList.add("empty");
+        }
+      }
+
+      if (dotEl) {
+        if (unreadCount > 0) {
+          dotEl.classList.remove("hidden");
+        } else {
+          dotEl.classList.add("hidden");
+        }
+      }
+
+      if (bellBtn) {
+        bellBtn.title = unreadCount > 0 ? `Notifications (${unreadCount} unread)` : "Notifications (All read)";
+      }
+    }
+
+    function toggleNotificationDrawer() {
+      const drawer = document.getElementById("notifDrawer");
+      if (!drawer) return;
+      if (drawer.classList.contains("active")) {
+        closeNotificationDrawer();
+      } else {
+        openNotificationDrawer();
+      }
+    }
+
+    function openNotificationDrawer() {
+      const drawer = document.getElementById("notifDrawer");
+      const backdrop = document.getElementById("notifBackdrop");
+      if (!drawer) return;
+      renderNotificationList();
+      drawer.classList.add("active");
+      if (backdrop) backdrop.classList.add("active");
+    }
+
+    function closeNotificationDrawer() {
+      const drawer = document.getElementById("notifDrawer");
+      const backdrop = document.getElementById("notifBackdrop");
+      if (drawer) drawer.classList.remove("active");
+      if (backdrop) backdrop.classList.remove("active");
+    }
+
+    function switchNotifTab(tab) {
+      currentNotifFilter = tab;
+      document.getElementById("tabNotifAll")?.classList.toggle("active", tab === "all");
+      document.getElementById("tabNotifUnread")?.classList.toggle("active", tab === "unread");
+      renderNotificationList();
+    }
+
+    function getNotifIconHtml(type) {
+      if (type === "streak") return `<div class="notif-item-icon-wrap streak">🔥</div>`;
+      if (type === "framework") return `<div class="notif-item-icon-wrap framework">⚡</div>`;
+      if (type === "membership") return `<div class="notif-item-icon-wrap membership">🏆</div>`;
+      return `<div class="notif-item-icon-wrap">📖</div>`;
+    }
+
+    function renderNotificationList() {
+      const listWrap = document.getElementById("notifListWrap");
+      if (!listWrap) return;
+
+      const items = currentNotifFilter === "unread" 
+        ? userNotifications.filter(n => n.unread) 
+        : userNotifications;
+
+      if (items.length === 0) {
+        listWrap.innerHTML = `
+          <div class="notif-empty-state">
+            <div class="notif-empty-icon">☕</div>
+            <div class="notif-empty-title">${currentNotifFilter === 'unread' ? 'No unread notifications' : 'No notifications yet'}</div>
+            <div class="notif-empty-desc">${currentNotifFilter === 'unread' ? 'You are all caught up on your executive briefings and reading milestones!' : 'Check back later for new book releases and certified frameworks.'}</div>
+          </div>
+        `;
+        return;
+      }
+
+      listWrap.innerHTML = items.map(n => `
+        <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="handleNotifClick('${n.id}')">
+          <button type="button" class="notif-item-delete" onclick="deleteNotification('${n.id}', event)" title="Dismiss notification" aria-label="Dismiss">×</button>
+          ${getNotifIconHtml(n.type)}
+          <div class="notif-item-body">
+            <div class="notif-item-header">
+              <span class="notif-item-title">${n.title}</span>
+              ${n.unread ? '<span class="notif-unread-dot" title="Unread"></span>' : ''}
+            </div>
+            <div class="notif-item-desc">${n.desc}</div>
+            <div class="notif-item-footer">
+              <span class="notif-item-time">${n.time}</span>
+              ${n.actionText ? `<span class="notif-action-link" onclick="event.stopPropagation(); handleNotifAction('${n.id}')">${n.actionText}</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function handleNotifClick(id) {
+      const notif = userNotifications.find(n => n.id === id);
+      if (notif && notif.unread) {
+        notif.unread = false;
+        saveNotifications();
+        renderNotificationList();
+      }
+    }
+
+    function handleNotifAction(id) {
+      const notif = userNotifications.find(n => n.id === id);
+      if (!notif) return;
+      notif.unread = false;
+      saveNotifications();
+      renderNotificationList();
+      closeNotificationDrawer();
+
+      if (notif.bookTitle) {
+        const book = dashBooks.find(b => b.title === notif.bookTitle);
+        openReaderModal(notif.bookTitle, book ? book.image : '');
+      } else if (notif.downloadTitle) {
+        simulateDownload(notif.downloadTitle);
+      } else if (notif.navTab) {
+        switchNavTab(notif.navTab, document.querySelector(`.nav-link[data-tooltip='${notif.navTab}']`));
+      }
+    }
+
+    function markAllNotificationsAsRead() {
+      let changed = false;
+      userNotifications.forEach(n => {
+        if (n.unread) {
+          n.unread = false;
+          changed = true;
+        }
+      });
+      if (changed) {
+        saveNotifications();
+        renderNotificationList();
+        showToast("✓ All notifications marked as read.");
+      } else {
+        showToast("All notifications are already read.");
+      }
+    }
+
+    function deleteNotification(id, e) {
+      if (e) e.stopPropagation();
+      userNotifications = userNotifications.filter(n => n.id !== id);
+      saveNotifications();
+      renderNotificationList();
+      showToast("Notification dismissed.");
+    }
+
+    function clearAllNotifications() {
+      if (userNotifications.length === 0) return;
+      userNotifications = [];
+      saveNotifications();
+      renderNotificationList();
+      showToast("✓ All notifications cleared.");
+    }
+
+    function simulateIncomingNotification() {
+      playNotificationChime();
+      const sampleTitles = [
+        {
+          title: "New AI Framework Published",
+          desc: "Executive Framework 2026: Generative Transition Index has just been released.",
+          type: "framework",
+          actionText: "Download PDF",
+          downloadTitle: "Generative Transition Index"
+        },
+        {
+          title: "Reading Goal Achieved! 🎯",
+          desc: "You completed 30 minutes of deep study this session. 50 bonus XP earned.",
+          type: "streak",
+          actionText: "View Journal →",
+          navTab: "Reading Journal"
+        },
+        {
+          title: "Leadership Briefing Ready",
+          desc: "Quarterly AI Career Transformation executive summary is now available.",
+          type: "book",
+          actionText: "Read Briefing →",
+          bookTitle: "The AI Job Shift"
+        }
+      ];
+
+      const item = sampleTitles[Math.floor(Math.random() * sampleTitles.length)];
+      const newNotif = {
+        id: "notif_" + Date.now(),
+        title: item.title,
+        desc: item.desc,
+        type: item.type,
+        time: "Just now",
+        unread: true,
+        actionText: item.actionText,
+        bookTitle: item.bookTitle,
+        downloadTitle: item.downloadTitle,
+        navTab: item.navTab
+      };
+
+      userNotifications.unshift(newNotif);
+      saveNotifications();
+      renderNotificationList();
+      showToast(`🔔 New notification: ${item.title}`);
+    }
+
+    // Initialize notification system on load
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initNotificationSystem);
+    } else {
+      initNotificationSystem();
+    }
   </script>
+  <!-- Global Header Auth Profile Component -->
+  <script src="assets/js/b36-header-auth.js"></script>
 </body>
 
 </html>
